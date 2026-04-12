@@ -95,6 +95,7 @@
             overflow: hidden;
             height: 400px;
             transition: transform 0.4s ease;
+            cursor: pointer;
         }
         .place-card:hover { transform: scale(1.02); }
         .place-overlay {
@@ -129,9 +130,28 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        
+        .toast-msg {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1B3022;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 200;
+            display: none;
+        }
+        
+        .prose-content { line-height: 1.8; color: #4b5563; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
+
+    <div id="toast" class="toast-msg">Success!</div>
 
     <!-- Persistent Header Navigation -->
     <nav class="nav-blur sticky top-0 z-50 border-b border-gray-100">
@@ -153,7 +173,6 @@
                 </div>
             </div>
 
-            <!-- Bottom Row: Persistent Links -->
             <div class="flex items-center justify-center gap-6 sm:gap-12 overflow-x-auto no-scrollbar py-3 border-t border-gray-50">
                 <button onclick="showView('home')" id="nav-home" class="nav-btn-active text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-emerald-600 transition pb-1">Shop</button>
                 <button onclick="scrollToSection('places')" id="nav-places" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-emerald-600 transition pb-1">Places</button>
@@ -165,7 +184,6 @@
 
     <!-- MAIN HOME VIEW -->
     <div id="homeView" class="view-section active">
-        <!-- Hero -->
         <header class="hero-banner min-h-[450px] flex items-center justify-center text-center px-4 relative">
             <div class="max-w-4xl fade-in">
                 <span class="text-amber-400 font-bold text-[10px] uppercase tracking-[0.4em] mb-4 block">Crafting Adventure in Laos</span>
@@ -178,7 +196,6 @@
             </div>
         </header>
 
-        <!-- Catalog Section -->
         <section id="catalog" class="max-w-7xl mx-auto px-4 sm:px-8 py-16 w-full">
             <div class="flex flex-col lg:flex-row justify-between items-end mb-12 gap-8">
                 <div class="w-full lg:w-2/3">
@@ -208,55 +225,14 @@
 
             <!-- Places Section -->
             <div id="places" class="mb-24 py-16 border-t border-gray-100 text-center md:text-left">
-                <h2 class="section-title text-3xl font-black tracking-tight uppercase">Places for Camping</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="place-card">
-                        <img src="https://i.postimg.cc/FKL5Q4JW/489751506-1424454392283349-8154752889413656228-n.jpg" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500">
-                        <div class="place-overlay">
-                            <span class="text-emerald-400 font-bold text-[9px] uppercase tracking-widest mb-1">Luang Prabang</span>
-                            <h3 class="text-white font-black text-2xl uppercase">Phou Khoun</h3>
-                        </div>
-                    </div>
-                    <div class="place-card">
-                        <img src="https://i.postimg.cc/qv0hwyZz/471874894-1103166361597493-1459129778683580847-n.jpg" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500">
-                        <div class="place-overlay">
-                            <span class="text-emerald-400 font-bold text-[9px] uppercase tracking-widest mb-1">Vientiane</span>
-                            <h3 class="text-white font-black text-2xl uppercase">Nam Ngum</h3>
-                        </div>
-                    </div>
-                    <div class="place-card">
-                        <img src="https://i.postimg.cc/HLsDXqV6/470820202-1095258122388317-6701559630283280350-n.jpg" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500">
-                        <div class="place-overlay">
-                            <span class="text-emerald-400 font-bold text-[9px] uppercase tracking-widest mb-1">Champasak</span>
-                            <h3 class="text-white font-black text-2xl uppercase">Paksong Highlands</h3>
-                        </div>
-                    </div>
-                </div>
+                <h2 class="section-title text-3xl font-black tracking-tight uppercase">Best Camping Spots in Laos</h2>
+                <div id="placesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
             </div>
-            
+
             <!-- Knowledge Section -->
             <div id="knowledge" class="mb-24 py-16 border-t border-gray-100">
                 <h2 class="section-title text-3xl font-black tracking-tight uppercase">Camping Knowledge</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <div class="flex gap-6 p-6 bg-white rounded-[32px] border border-gray-50 hover:shadow-xl transition">
-                        <div class="w-20 h-20 bg-emerald-50 rounded-2xl flex-shrink-0 flex items-center justify-center text-[#1B3022]">
-                            <i class="fa-solid fa-cloud-showers-heavy text-2xl"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-black text-base uppercase mb-2">Monsoon Survival</h4>
-                            <p class="text-gray-400 text-xs">How to handle Lao tropical storms.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-6 p-6 bg-white rounded-[32px] border border-gray-50 hover:shadow-xl transition">
-                        <div class="w-20 h-20 bg-emerald-50 rounded-2xl flex-shrink-0 flex items-center justify-center text-[#1B3022]">
-                            <i class="fa-solid fa-coffee text-2xl"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-black text-base uppercase mb-2">Wild Coffee Guide</h4>
-                            <p class="text-gray-400 text-xs">The art of camp espresso.</p>
-                        </div>
-                    </div>
-                </div>
+                <div id="knowledgeGrid" class="grid grid-cols-1 md:grid-cols-2 gap-12"></div>
             </div>
         </section>
     </div>
@@ -265,6 +241,24 @@
     <div id="blogView" class="view-section max-w-7xl mx-auto px-4 sm:px-8 py-20">
         <h2 class="section-title text-4xl font-black tracking-tight uppercase">Adventure Journal</h2>
         <div id="blogGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-12"></div>
+    </div>
+
+    <!-- Reader Modal -->
+    <div id="blogModal" style="display: none;" class="fixed inset-0 z-[110] bg-black/90 backdrop-blur-xl items-center justify-center p-4" onclick="if(event.target === this) closeBlogModal()">
+        <div class="bg-white rounded-[32px] max-w-4xl w-full overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]">
+            <button onclick="closeBlogModal()" class="absolute top-6 right-6 text-gray-400 hover:text-black z-20 bg-white/80 w-10 h-10 rounded-full flex items-center justify-center shadow-md"><i class="fa-solid fa-xmark"></i></button>
+            <div class="overflow-y-auto h-full">
+                <div class="h-80 w-full overflow-hidden">
+                    <img id="blogModalImage" src="" class="w-full h-full object-cover">
+                </div>
+                <div class="p-10 md:p-16">
+                    <span id="blogModalMeta" class="text-emerald-600 text-[11px] font-extrabold uppercase tracking-[0.4em] mb-4 block"></span>
+                    <h2 id="blogModalTitle" class="text-3xl md:text-5xl font-black text-[#1B3022] tracking-tighter leading-tight mb-8"></h2>
+                    <div class="h-1 w-12 bg-emerald-600 mb-10 rounded-full"></div>
+                    <div id="blogModalContent" class="prose prose-lg max-w-none prose-content whitespace-pre-line text-gray-600"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Product Details Modal -->
@@ -287,34 +281,28 @@
                 <div class="h-1 w-12 bg-emerald-600 mb-8 rounded-full"></div>
                 <div class="prose prose-sm text-gray-500 mb-10"><p id="modalDescription" class="whitespace-pre-line leading-relaxed text-sm"></p></div>
                 <div class="mt-auto flex flex-col gap-4">
-                    <button id="addToCartBtn" class="bg-[#1B3022] text-white py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-emerald-900 transition shadow-xl">Add to Cart</button>
+                    <button id="addToCartBtn" class="bg-[#1B3022] text-white py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-emerald-900 transition">Add to Cart</button>
                     <a id="whatsappBtn" href="#" target="_blank" class="bg-[#25D366] text-white py-5 rounded-2xl font-black flex items-center justify-center gap-4 shadow-xl uppercase tracking-widest text-xs hover:brightness-110 transition">WhatsApp Inquiry</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Admin Tools -->
-    <div id="passwordModal" style="display: none;" class="fixed inset-0 z-[130] bg-black/80 backdrop-blur-md items-center justify-center p-4">
-        <div class="bg-white rounded-[32px] max-w-sm w-full p-10 shadow-2xl text-center">
-            <h3 class="text-xl font-black mb-8 uppercase tracking-tight">Admin Vault</h3>
-            <input type="password" id="adminPassInput" placeholder="Password" class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-100 focus:ring-2 focus:ring-emerald-500 mb-8 outline-none text-center">
-            <button onclick="checkAdminPassword()" class="bg-[#1B3022] text-white w-full py-4 rounded-xl font-bold uppercase tracking-widest text-[11px]">Login</button>
-            <button onclick="closePasswordModal()" class="mt-4 text-gray-400 uppercase tracking-widest text-[9px]">Cancel</button>
-        </div>
-    </div>
-
-    <!-- Admin Panel Modal -->
+    <!-- Management Console -->
     <div id="adminModal" style="display: none;" class="fixed inset-0 z-[120] bg-black/80 backdrop-blur-md items-center justify-center p-4" onclick="if(event.target === this) toggleAdminModal()">
-        <div class="bg-white rounded-[32px] max-w-3xl w-full p-8 sm:p-12 shadow-2xl overflow-y-auto max-h-[90vh]">
+        <div class="bg-white rounded-[32px] max-w-4xl w-full p-8 sm:p-12 shadow-2xl overflow-y-auto max-h-[90vh]">
             <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-black uppercase tracking-tight">Management</h2>
+                <h2 class="text-2xl font-black uppercase tracking-tight">Management Console</h2>
                 <button onclick="toggleAdminModal()" class="text-gray-400 hover:text-black"><i class="fa-solid fa-xmark text-2xl"></i></button>
             </div>
-            <div class="flex gap-4 mb-8">
-                <button onclick="switchAdminTab('products')" id="tabBtn-products" class="flex-1 py-3 rounded-xl font-bold text-xs uppercase tracking-widest bg-[#1B3022] text-white">Products</button>
-                <button onclick="switchAdminTab('blogs')" id="tabBtn-blogs" class="flex-1 py-3 rounded-xl font-bold text-xs uppercase tracking-widest bg-gray-100 text-gray-400">Blog Posts</button>
+            
+            <div class="flex gap-2 mb-8 overflow-x-auto no-scrollbar border-b">
+                <button onclick="switchAdminTab('products')" id="tabBtn-products" class="px-6 py-3 rounded-t-xl font-bold text-[10px] uppercase tracking-widest bg-[#1B3022] text-white">Products</button>
+                <button onclick="switchAdminTab('blogs')" id="tabBtn-blogs" class="px-6 py-3 rounded-t-xl font-bold text-[10px] uppercase tracking-widest bg-gray-50 text-gray-400">Blogs</button>
+                <button onclick="switchAdminTab('places')" id="tabBtn-places" class="px-6 py-3 rounded-t-xl font-bold text-[10px] uppercase tracking-widest bg-gray-50 text-gray-400">Places</button>
+                <button onclick="switchAdminTab('knowledge')" id="tabBtn-knowledge" class="px-6 py-3 rounded-t-xl font-bold text-[10px] uppercase tracking-widest bg-gray-50 text-gray-400">Knowledge</button>
             </div>
+
             <form id="adminForm" class="space-y-6 admin-tab" data-tab="products">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <input type="text" name="name" placeholder="Name" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
@@ -331,30 +319,59 @@
                     <option value="trekking_poles">Poles / ໄມ້ເທົ້າ</option>
                     <option value="shoes">Shoes / ເກີບ</option>
                     <option value="cloth">Cloth / ເຄື່ອງນຸ່ງ</option>
+                    <option value="powerbank">Power / ແບັດ</option>
+                    <option value="Glasses">Glasses / ແວ່ນຕາ</option>
                     <option value="survival">Survival / ເອົາຕົວລອດ</option>
                 </select>
                 <input type="url" name="image" placeholder="Image URL" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
                 <textarea name="description" placeholder="Description" required class="w-full p-4 h-32 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
                 <button type="submit" class="w-full bg-[#1B3022] text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Save Product</button>
             </form>
+
             <form id="blogForm" class="space-y-6 hidden admin-tab" data-tab="blogs">
-                <input type="text" name="title" placeholder="Title" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
-                <input type="url" name="image" placeholder="Image URL" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                <input type="text" name="title" placeholder="Blog Title" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                <input type="url" name="image" placeholder="Cover Image URL" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
                 <div class="grid grid-cols-2 gap-4">
-                    <input type="text" name="category" placeholder="Cat (e.g. Field Test)" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
-                    <input type="text" name="date" placeholder="April 2026" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                    <input type="text" name="category" placeholder="Category (e.g. Field Test)" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                    <input type="text" name="date" placeholder="Date (e.g. April 2026)" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
                 </div>
-                <textarea name="summary" placeholder="Summary" required class="w-full p-4 h-24 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
+                <textarea name="summary" placeholder="Summary (shows in preview)" required class="w-full p-4 h-24 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
                 <textarea name="content" placeholder="Full Content" required class="w-full p-4 h-48 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
                 <button type="submit" class="w-full bg-emerald-600 text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Publish Post</button>
             </form>
+
+            <form id="placeForm" class="space-y-6 hidden admin-tab" data-tab="places">
+                <input type="text" name="title" placeholder="Place Name" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                <input type="text" name="location" placeholder="Province/Region" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                <input type="url" name="image" placeholder="Image URL" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                <textarea name="content" placeholder="Details and Tips for this spot..." required class="w-full p-4 h-48 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
+                <button type="submit" class="w-full bg-blue-600 text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Add Camping Spot</button>
+            </form>
+
+            <form id="knowledgeForm" class="space-y-6 hidden admin-tab" data-tab="knowledge">
+                <input type="text" name="title" placeholder="Topic Title" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                <input type="url" name="image" placeholder="Illustration Image URL" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                <textarea name="summary" placeholder="Short description for home page..." required class="w-full p-4 h-24 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
+                <textarea name="content" placeholder="Detailed survival/technical advice..." required class="w-full p-4 h-48 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
+                <button type="submit" class="w-full bg-amber-600 text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Publish Knowledge</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" style="display: none;" class="fixed inset-0 z-[130] bg-black/80 backdrop-blur-md items-center justify-center p-4">
+        <div class="bg-white rounded-[32px] max-w-sm w-full p-10 shadow-2xl text-center">
+            <h3 class="text-xl font-black mb-8 uppercase tracking-tight">Admin Vault</h3>
+            <input type="password" id="adminPassInput" placeholder="Password" class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-100 focus:ring-2 focus:ring-emerald-500 mb-8 outline-none text-center">
+            <button onclick="checkAdminPassword()" class="bg-[#1B3022] text-white w-full py-4 rounded-xl font-bold uppercase tracking-widest text-[11px]">Authenticate</button>
+            <button onclick="closePasswordModal()" class="mt-4 text-gray-400 uppercase tracking-widest text-[9px]">Cancel</button>
         </div>
     </div>
 
     <!-- Cart Sidebar -->
     <div id="cartModal" style="display: none;" class="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm items-center justify-end" onclick="if(event.target === this) closeCart()">
         <div class="bg-white h-full max-w-md w-full shadow-2xl flex flex-col fade-in">
-            <div class="p-8 border-b flex justify-between items-center"><h2 class="text-xl font-black uppercase tracking-tight">Cart / ກະຕ່າ</h2><button onclick="closeCart()" class="text-gray-400 hover:text-black"><i class="fa-solid fa-xmark text-2xl"></i></button></div>
+            <div class="p-8 border-b flex justify-between items-center"><h2 class="text-xl font-black uppercase tracking-tight text-[#1B3022]">Cart / ກະຕ່າ</h2><button onclick="closeCart()" class="text-gray-400 hover:text-black"><i class="fa-solid fa-xmark text-2xl"></i></button></div>
             <div id="cartItems" class="flex-grow overflow-y-auto p-8 space-y-6 bg-gray-50/50"></div>
             <div class="p-8 border-t bg-white">
                 <div class="flex justify-between items-center mb-8 font-black"><span>Total</span><span id="cartTotal">0 LAK</span></div>
@@ -379,12 +396,12 @@
         };
 
         const SYSTEM_PRODUCTS = [
-            { id: 'master-01', name: 'ເຕັ້ນ QUECHUA MH100 Fresh & Black (2 ຄົນ)', price: 1460000, category: 'tents', image: 'https://i.postimg.cc/qv0hwyZz/471874894-1103166361597493-1459129778683580847-n.jpg', description: '⛺ ເຕັ້ນ Fresh & Black: ນອນເຢັນ, ມືດ 99%, ກັນຝົນດີ. Fresh & Black Tent: Cool & 99% Dark, Waterproof.' },
+            { id: 'master-01', name: 'ເຕັ້ນ QUECHUA MH100 Fresh & Black (2 ຄົນ)', price: 1460000, category: 'tents', image: 'https://i.postimg.cc/qv0hwyZz/471874894-1103166361597493-1459129778683580847-n.jpg', description: '⛺ ເຕັ້ນ Fresh & Black: ນອນເຢັນ, ມືດ 99%, ກັນຝົນດີ.' },
             { id: 'master-02', name: 'ເຕັ້ນ QUECHUA MH100 (ສີເທົາ)', price: 1100000, category: 'tents', image: 'https://i.postimg.cc/YCzbNjFr/156657757-198686858712119-7425055041363166372-n.jpg', description: '⛺ ເຕັ້ນ MH100: ກາງງ່າຍ, ກັນຝົນ/ລົມດີ (130x210x107cm).' },
             { id: 'master-03', name: 'ເຕັ້ນກາງອັດຕະໂນມັດ Premium (3-4 ທ່ານ)', price: 885000, category: 'tents', image: 'https://i.postimg.cc/6pCRNRQF/124951381-118420500072089-6079077613874319164-n.jpg', description: 'Automatic pop-up mechanism for fast setup.' },
             { id: 'master-04', name: 'ເຕັ້ນກາງອັດຕະໂນມັດ (Pop-up)', price: 890000, category: 'tents', image: 'https://i.postimg.cc/7LQ62Yt4/481250252-1394483935280395-2343742065073889579-n.jpg', description: 'Automatic Pop-up Tent with durable fabric.' },
             { id: 'master-05', name: 'ເຕັ້ນສະປິງກາງອັດຕະໂນມັດ', price: 650000, category: 'tents', image: 'https://i.postimg.cc/NGWkqQ4R/127859284-131667258747413-3464652703126584755-n.jpg', description: 'Standard Automatic Spring Tent.' },
-            { id: 'master-06', name: 'ຜ້າກັ້ງກັນຝົນ Flysheet (3x3 ແມັດ)', price: 380000, category: 'tents', image: 'https://i.postimg.cc/4dqkTKK7/489751506-1424454392283349-8154752889413656228-n.jpg', description: 'Heavy duty waterproof flysheet. Includes 2 poles.' },
+            { id: 'master-06', name: 'ຜ້າກັ້ງກັນຝົນ Flysheet (3x3 ແມັດ)', price: 380000, category: 'tents', image: 'https://i.postimg.cc/4dqkTKK7/489751506-1424454392283349-8154752889413656228-n.jpg', description: 'Heavy duty waterproof flysheet. Includes poles and ropes.' },
             { id: 'master-07', name: 'ຜ້າຢາງຮອງເຕັ້ນ (Groundsheet)', price: 200000, category: 'tents', image: 'https://i.postimg.cc/fTzmhkdX/471871594-1103166028264193-3080110264274826660-n.jpg', description: 'Groundsheet 2.1m x 2m.' },
             { id: 'master-08', name: 'ສະໝໍບົກ (Tent Pegs 20cm)', price: 50000, category: 'tents', image: 'https://i.postimg.cc/B6PqPrzQ/472186338-1103166364930826-8197764758286830200-n.jpg', description: 'Heavy duty 20cm tent pegs.' },
             { id: 'master-09', name: 'ເຕົາແກັດພົກພາ AOTU', price: 285000, category: 'cooking', image: 'https://i.postimg.cc/HLsDXqV6/470820202-1095258122388317-6701559630283280350-n.jpg', description: 'Compact and reliable piezo ignition stove.' },
@@ -429,18 +446,37 @@
             { id: 'cloth-01', name: 'ເສື້ອກັນໜາວ Jeep Spirit', price: 360000, category: 'cloth', image: 'https://i.postimg.cc/Pf6VMy2k/Screenshot-2026-03-30-at-23-27-14.png', description: 'Authentic Jeep Spirit jacket.' },
             { id: 'cloth-02', name: 'ໂສ້ງຍ່າງປ່າ Outdoor Jeep Spirit', price: 695000, category: 'cloth', image: 'https://i.postimg.cc/SsL6vSWt/Screenshot-2026-03-30-at-23-42-25.png', description: 'Jeep Spirit Tactical Pants.' },
             { id: 'glass-01', name: 'ແວ່ນຕາກັນແດດ Tactical', price: 215000, category: 'Glasses', image: 'https://i.postimg.cc/fK0h3q0s/489751506-1424454392283349-8154752889413656228-n.jpg', description: 'Polarized sunglasses.' },
-            { id: 'glass-02', name: 'ແວ່ນຕາກັນແດດ Polarized ຕັດແສງ', price: 215000, category: 'Glasses', image: 'https://i.postimg.cc/WzpgwYVF/Screenshot-2026-04-02-at-20-11-39.png', description: '🕶️ ແວ່ນ Polarized ຕັດແສງ UV400.' },
-            { id: 'glass-03', name: 'ແວ່ນກັນແດດ Sports SP473', price: 75000, category: 'Glasses', image: 'https://i.postimg.cc/zBC4gvDn/Screenshot-2026-04-02-at-20-24-34.png', description: '🕶️ ແວ່ນ Sports Polarized.' },
-            { id: 'powerbank-01', name: 'Powerbank 20000mAh UGREEN', price: 1750000, category: 'powerbank', image: 'https://i.postimg.cc/rmXbyyps/Screenshot-2026-04-02-at-00-52-06.png', description: '⚡ UGREEN 20,000mAh PD 3.0.' }
+            { id: 'glass-02', name: 'ແວ່ນຕາກັນແດດ Polarized ຕັດແສງ', price: 215000, category: 'Glasses', image: 'https://i.postimg.cc/WzpgwYVF/Screenshot-2026-04-02-20-11-39.png', description: '🕶️ ແວ່ນ Polarized ຕັດແສງ UV400.' },
+            { id: 'glass-03', name: 'ແວ່ນກັນແດດ Sports SP473', price: 75000, category: 'Glasses', image: 'https://i.postimg.cc/zBC4gvDn/Screenshot-2026-04-02-20-24-34.png', description: '🕶️ ແວ່ນ Sports Polarized.' },
+            { id: 'powerbank-01', name: 'Powerbank 20000mAh UGREEN', price: 1750000, category: 'powerbank', image: 'https://i.postimg.cc/rmXbyyps/Screenshot-2026-04-02-00-52-06.png', description: '⚡ UGREEN 20,000mAh PD 3.0.' }
+        ];
+
+        const SYSTEM_BLOGS = [
+            { id: 'blog-01', title: 'Fresh & Black: Nam Ngum Stargazing', image: 'https://i.postimg.cc/qv0hwyZz/471874894-1103166361597493-1459129778683580847-n.jpg', category: 'Field Test', date: 'April 2026', summary: 'Testing how the MH100 Fresh & Black tent keeps internal temperatures 5°C cooler in the Lao sun.', content: 'The MH100 Fresh & Black technology is a game-changer for camping in Laos. We spent a weekend at Nam Ngum Lake to see if it really stays dark and cool.\n\nEven at 10:00 AM, the inside of the tent remained incredibly dark, allowing for a long morning sleep.' },
+            { id: 'blog-02', title: 'Wild Coffee Tech: Jungle Espresso', image: 'https://i.postimg.cc/zDbXHNr1/472106912-1101699191744210-325644103738198928-n-(1).jpg', category: 'Guide', date: 'March 2026', summary: 'Using the Moka Pot correctly on a portable gas stove during deep jungle treks.', content: 'Brewing espresso in the wild requires precision. Many campers burn their coffee by using too much heat on a portable stove.' }
+        ];
+
+        const SYSTEM_PLACES = [
+            { id: 'sys-place-01', title: 'Phou Khoun', location: 'Luang Prabang', image: 'https://i.postimg.cc/FKL5Q4JW/489751506-1424454392283349-8154752889413656228-n.jpg', summary: 'Camping above the sea of clouds.', content: 'Phou Khoun is a high-altitude crossroads famous for its sea of clouds. Cold temperatures year-round.' },
+            { id: 'sys-place-02', title: 'Nam Ngum View', location: 'Vientiane Province', image: 'https://i.postimg.cc/qv0hwyZz/471874894-1103166361597493-1459129778683580847-n.jpg', summary: 'Perfect riverside stargazing.', content: 'Nam Ngum reservoir offers peaceful lakeside camping with amazing stargazing opportunities.' },
+            { id: 'sys-place-03', title: 'Bolaven Plateau', location: 'Champasak', image: 'https://i.postimg.cc/HLsDXqV6/470820202-1095258122388317-6701559630283280350-n.jpg', summary: 'Cold weather & coffee farm trails.', content: 'Known for its high-altitude coffee farms and spectacular waterfalls. The coldest camping in Laos.' }
+        ];
+
+        const SYSTEM_KNOWLEDGE = [
+            { id: 'sys-know-01', title: 'Monsoon Survival', summary: 'Essential tips for staying dry during tropical storms.', icon: 'cloud-showers-heavy', image: 'https://i.postimg.cc/4dqkTKK7/489751506-1424454392283349-8154752889413656228-n.jpg', content: 'The Lao monsoon can be brutal. Survival depends on choosing high ground and using extra tarps.' },
+            { id: 'sys-know-02', title: 'Wild Coffee Guide', summary: 'The art of brewing perfect campfire espresso.', icon: 'mug-hot', image: 'https://i.postimg.cc/zDbXHNr1/472106912-1101699191744210-325644103738198928-n-(1).jpg', content: 'Brewing espresso in the wild requires a Moka Pot and manual grinder for the best flavor.' }
         ];
 
         let products = [...SYSTEM_PRODUCTS];
-        let blogs = [];
+        let blogs = [...SYSTEM_BLOGS];
+        let places = [...SYSTEM_PLACES];
+        let knowledge = [...SYSTEM_KNOWLEDGE];
         let cart = [];
         let currentCat = 'all';
         let isAdmin = false;
-        let db, auth, productCol, blogCol, appId;
+        let db, auth, productCol, blogCol, placeCol, knowCol, appId;
 
+        // --- GLOBAL APP LOGIC ---
         window.showView = (view) => {
             document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
             document.getElementById(view + 'View').classList.add('active');
@@ -458,33 +494,95 @@
             }, 100);
         };
 
-        window.switchAdminTab = (tab) => {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
-            document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.remove('hidden');
-            document.querySelectorAll('[id^="tabBtn-"]').forEach(b => {
-                b.classList.remove('bg-[#1B3022]', 'text-white');
-                b.classList.add('bg-gray-100', 'text-gray-400');
-            });
-            const activeTabBtn = document.getElementById('tabBtn-' + tab);
-            activeTabBtn.classList.add('bg-[#1B3022]', 'text-white');
-            activeTabBtn.classList.remove('bg-gray-100', 'text-gray-400');
-        };
-
         window.openCart = () => { renderCart(); document.getElementById('cartModal').style.display = 'flex'; };
         window.closeCart = () => { document.getElementById('cartModal').style.display = 'none'; };
-        window.promptAdmin = () => { document.getElementById('passwordModal').style.display = 'flex'; };
+        
+        // ADMIN HIDDEN ACCESS LOGIC
+        let adminClickCount = 0;
+        let adminTimer;
+        window.promptAdmin = () => {
+            adminClickCount++;
+            clearTimeout(adminTimer);
+            if (adminClickCount >= 5) {
+                adminClickCount = 0;
+                document.getElementById('passwordModal').style.display = 'flex';
+            } else {
+                adminTimer = setTimeout(() => { adminClickCount = 0; }, 2000);
+            }
+        };
+
         window.closePasswordModal = () => { document.getElementById('passwordModal').style.display = 'none'; };
+        
         window.toggleAdminModal = () => { 
             const m = document.getElementById('adminModal');
             m.style.display = m.style.display === 'none' ? 'flex' : 'none';
         };
 
-        window.checkAdminPassword = () => {
-            const pass = document.getElementById('adminPassInput').value;
-            if (pass === "Mou54849393") { isAdmin = true; closePasswordModal(); toggleAdminModal(); renderBlogs(); applyFilters(); }
-            else { alert("Denied."); closePasswordModal(); }
+        window.switchAdminTab = (tab) => {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
+            document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.remove('hidden');
+            document.querySelectorAll('[id^="tabBtn-"]').forEach(b => {
+                b.classList.remove('bg-[#1B3022]', 'text-white');
+                b.classList.add('bg-gray-50', 'text-gray-400');
+            });
+            const activeTabBtn = document.getElementById('tabBtn-' + tab);
+            activeTabBtn.classList.add('bg-[#1B3022]', 'text-white');
         };
 
+        window.checkAdminPassword = () => {
+            const pass = document.getElementById('adminPassInput').value;
+            if (pass === "Mou54849393") { 
+                isAdmin = true; 
+                closePasswordModal(); 
+                toggleAdminModal();
+                showToast("Admin Authenticated");
+                applyFilters();
+                renderBlogs();
+                renderPlaces();
+                renderKnowledge();
+            } else { 
+                showToast("Access Denied");
+                closePasswordModal(); 
+            }
+        };
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 3000);
+        }
+
+        // --- INFO MODAL LOGIC ---
+        window.openInfoModal = (title, meta, content, image, id, type) => {
+            document.getElementById('blogModalImage').src = image;
+            document.getElementById('blogModalTitle').innerText = title;
+            document.getElementById('blogModalMeta').innerText = meta;
+            document.getElementById('blogModalContent').innerText = content;
+            
+            // Add Delete button in details if Admin
+            const contentArea = document.getElementById('blogModalContent');
+            const isSystem = id.startsWith('sys-');
+            if (isAdmin && !isSystem) {
+                const existingDel = document.getElementById('modal-inline-del');
+                if (existingDel) existingDel.remove();
+                
+                const delBtn = document.createElement('button');
+                delBtn.id = 'modal-inline-del';
+                delBtn.className = "mt-10 bg-red-50 text-red-500 px-6 py-3 rounded-xl font-bold uppercase text-[10px] tracking-widest";
+                delBtn.innerHTML = '<i class="fa-solid fa-trash mr-2"></i> Delete This Entry';
+                delBtn.onclick = () => {
+                    if (type === 'place') deletePlace(id);
+                    if (type === 'know') deleteKnow(id);
+                    closeBlogModal();
+                };
+                contentArea.appendChild(delBtn);
+            }
+            
+            document.getElementById('blogModal').style.display = 'flex';
+        };
+
+        // --- CART LOGIC ---
         window.addToCart = (productId) => {
             const p = products.find(x => x.id === productId);
             if (!p) return;
@@ -507,13 +605,17 @@
             const b = document.getElementById('cartCount');
             if (count > 0) { b.innerText = count; b.classList.remove('hidden'); }
             else b.classList.add('hidden');
-            localStorage.setItem('thesale3_cart_v7', JSON.stringify(cart));
+            localStorage.setItem('thesale3_cart_v8', JSON.stringify(cart));
         }
 
         function renderCart() {
             const container = document.getElementById('cartItems');
             const totalEl = document.getElementById('cartTotal');
-            if (cart.length === 0) { container.innerHTML = '<div class="text-center py-20 text-gray-400 text-[10px] uppercase">Empty</div>'; totalEl.innerText = '0 LAK'; return; }
+            if (cart.length === 0) { 
+                container.innerHTML = '<div class="text-center py-20 text-gray-400 text-xs uppercase">Empty</div>'; 
+                totalEl.innerText = '0 LAK'; 
+                return; 
+            }
             let total = 0;
             container.innerHTML = cart.map(item => {
                 total += item.price * item.quantity;
@@ -541,6 +643,7 @@
             window.open(`https://wa.me/8562054849393?text=${encodeURIComponent(msg)}`, '_blank');
         };
 
+        // --- FILTER & RENDER ---
         window.filterBy = (cat, btn) => {
             currentCat = cat;
             document.querySelectorAll('.category-pill').forEach(b => b.classList.remove('active'));
@@ -579,23 +682,84 @@
         function renderBlogs() {
             const grid = document.getElementById('blogGrid');
             if(!grid) return;
-            if(blogs.length === 0) { grid.innerHTML = '<div class="col-span-full py-20 text-center text-gray-400 uppercase tracking-widest text-[10px]">No posts</div>'; return; }
             grid.innerHTML = blogs.map(post => `
-                <article class="blog-card flex flex-col cursor-pointer fade-in">
+                <article class="blog-card flex flex-col cursor-pointer fade-in" onclick="openBlogDetails('${post.id}')">
                     <div class="h-60 overflow-hidden relative">
-                        <img src="${post.image}" class="w-full h-full object-cover">
-                        ${isAdmin ? `<button onclick="event.stopPropagation(); deleteBlog('${post.id}')" class="absolute top-4 right-4 bg-white/90 text-red-500 w-10 h-10 rounded-full shadow-lg"><i class="fa-solid fa-trash-can"></i></button>` : ''}
+                        <img src="${post.image}" class="w-full h-full object-cover hover:scale-105 transition duration-700">
+                        ${isAdmin ? `<button onclick="event.stopPropagation(); deleteBlog('${post.id}')" class="absolute top-4 right-4 bg-white/90 text-red-500 w-10 h-10 rounded-full shadow-lg hover:bg-red-500 hover:text-white transition"><i class="fa-solid fa-trash-can"></i></button>` : ''}
                     </div>
                     <div class="p-8">
                         <span class="text-[9px] font-bold text-emerald-600 uppercase mb-3 block">${post.category} • ${post.date}</span>
                         <h3 class="font-black text-xl mb-4 leading-tight">${post.title}</h3>
                         <p class="text-gray-400 text-sm line-clamp-3 mb-6">${post.summary}</p>
-                        <span class="text-[10px] font-bold uppercase text-emerald-600 flex items-center gap-2">Read <i class="fa-solid fa-arrow-right-long"></i></span>
+                        <span class="text-[10px] font-bold uppercase text-emerald-600 flex items-center gap-2">Read Article <i class="fa-solid fa-arrow-right-long"></i></span>
                     </div>
                 </article>`).join('');
         }
 
-        window.deleteBlog = async (id) => { if (confirm("Delete?")) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blogs', id)); };
+        function renderPlaces() {
+            const grid = document.getElementById('placesGrid');
+            if(!grid) return;
+            grid.innerHTML = places.map(p => `
+                <div class="place-card fade-in" onclick="openInfoModal('${p.title}', '${p.location}', '${p.content}', '${p.image}', '${p.id}', 'place')">
+                    <img src="${p.image}" class="w-full h-full object-cover transition duration-500 hover:scale-105">
+                    <div class="place-overlay">
+                        <span class="text-emerald-400 font-bold text-[9px] uppercase tracking-widest mb-1">${p.location}</span>
+                        <h3 class="text-white font-black text-2xl uppercase">${p.title}</h3>
+                        <p class="text-gray-300 text-xs mt-2 uppercase">${p.summary}</p>
+                    </div>
+                </div>`).join('');
+        }
+
+        function renderKnowledge() {
+            const grid = document.getElementById('knowledgeGrid');
+            if(!grid) return;
+            grid.innerHTML = knowledge.map(k => `
+                <div class="flex gap-6 p-6 bg-white rounded-[32px] border border-gray-50 hover:shadow-xl transition cursor-pointer fade-in" 
+                     onclick="openInfoModal('${k.title}', 'Camping Knowledge', '${k.content}', '${k.image}', '${k.id}', 'know')">
+                    <div class="w-20 h-20 bg-emerald-50 rounded-2xl flex-shrink-0 flex items-center justify-center text-[#1B3022]">
+                        <i class="fa-solid fa-${k.icon || 'book-open'} text-2xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-black text-base uppercase mb-2">${k.title}</h4>
+                        <p class="text-gray-400 text-xs leading-relaxed">${k.summary}</p>
+                    </div>
+                </div>`).join('');
+        }
+
+        // --- DETAILS ---
+        window.openBlogDetails = (id) => {
+            const post = blogs.find(b => b.id === id);
+            if (!post) return;
+            openInfoModal(post.title, `${post.category} • ${post.date}`, post.content, post.image, post.id, 'blog');
+        };
+
+        window.closeBlogModal = () => { document.getElementById('blogModal').style.display = 'none'; };
+
+        // --- DELETES ---
+        window.deleteBlog = async (id) => { 
+            if (!confirm("Delete this blog post?")) return;
+            const isSystem = id.startsWith('blog-');
+            if (isSystem) blogs = blogs.filter(b => b.id !== id);
+            else await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blogs', id));
+            showToast("Blog Deleted");
+        };
+
+        window.deletePlace = async (id) => {
+            if (!confirm("Delete this camping spot?")) return;
+            const isSystem = id.startsWith('sys-');
+            if (isSystem) places = places.filter(p => p.id !== id);
+            else await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'places', id));
+            showToast("Place Deleted");
+        };
+
+        window.deleteKnow = async (id) => {
+            if (!confirm("Delete this knowledge entry?")) return;
+            const isSystem = id.startsWith('sys-');
+            if (isSystem) knowledge = knowledge.filter(k => k.id !== id);
+            else await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'knowledge', id));
+            showToast("Knowledge Deleted");
+        };
 
         window.openDetails = (id) => {
             const p = products.find(x => x.id === id);
@@ -605,59 +769,111 @@
             document.getElementById('modalCategory').innerText = catMap[p.category] || p.category;
             document.getElementById('modalPrice').innerText = `${Number(p.price).toLocaleString()} LAK`;
             document.getElementById('modalDescription').innerText = p.description;
+            
             const delBtn = document.getElementById('adminDeleteBtn');
-            if (isAdmin && !id.startsWith('master-') && !id.startsWith('shoe-') && !id.startsWith('cloth-') && !id.startsWith('glass-') && !id.startsWith('powerbank-')) {
+            const isSystem = p.id.startsWith('master-') || p.id.startsWith('shoe-') || p.id.startsWith('cloth-') || p.id.startsWith('glass-') || p.id.startsWith('powerbank-');
+            if (isAdmin && !isSystem) {
                 delBtn.classList.remove('hidden');
-                delBtn.onclick = async () => { if (confirm("Delete?")) { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'products', id)); closeModals(); } };
+                delBtn.onclick = async () => { 
+                    if (confirm("Delete this product?")) { 
+                        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'products', id)); 
+                        closeModals(); 
+                        showToast("Product Deleted");
+                    } 
+                };
             } else { delBtn.classList.add('hidden'); }
-            document.getElementById('whatsappBtn').href = `https://wa.me/8562054849393?text=${encodeURIComponent("Intersted: " + p.name)}`;
+
+            document.getElementById('whatsappBtn').href = `https://wa.me/8562054849393?text=${encodeURIComponent("Interested: " + p.name)}`;
             const addBtn = document.getElementById('addToCartBtn');
             addBtn.onclick = () => { addToCart(p.id); addBtn.innerText = 'Added!'; setTimeout(() => addBtn.innerText = 'Add to Cart', 1500); };
             document.getElementById('modal').style.display = 'flex';
         };
         
         window.closeModals = () => { document.getElementById('modal').style.display = 'none'; };
-        window.closeCart = () => { document.getElementById('cartModal').style.display = 'none'; };
 
+        // --- FIREBASE INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', async () => {
-            const sc = localStorage.getItem('thesale3_cart_v7');
+            const sc = localStorage.getItem('thesale3_cart_v8');
             if (sc) { cart = JSON.parse(sc); updateCartUI(); }
+            
+            renderPlaces();
+            renderKnowledge();
             applyFilters();
+            renderBlogs();
+
+            // Form Handlers
+            document.getElementById('adminForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const fd = new FormData(e.target);
+                const nP = { name: fd.get('name'), price: Number(fd.get('price')), category: fd.get('category'), image: fd.get('image'), description: fd.get('description'), createdAt: new Date().toISOString() };
+                await addDoc(productCol, nP); 
+                e.target.reset(); toggleAdminModal(); showToast("Product Saved!");
+            });
+
+            document.getElementById('blogForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const fd = new FormData(e.target);
+                const nB = { title: fd.get('title'), image: fd.get('image'), category: fd.get('category'), date: fd.get('date'), summary: fd.get('summary'), content: fd.get('content'), createdAt: new Date().toISOString() };
+                await addDoc(blogCol, nB); 
+                e.target.reset(); toggleAdminModal(); showView('blog'); showToast("Blog Published!");
+            });
+
+            document.getElementById('placeForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const fd = new FormData(e.target);
+                const nPL = { title: fd.get('title'), location: fd.get('location'), image: fd.get('image'), summary: fd.get('content').substring(0, 60) + '...', content: fd.get('content'), createdAt: new Date().toISOString() };
+                await addDoc(placeCol, nPL);
+                e.target.reset(); toggleAdminModal(); showToast("Spot Added!");
+            });
+
+            document.getElementById('knowledgeForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const fd = new FormData(e.target);
+                const nK = { title: fd.get('title'), image: fd.get('image'), summary: fd.get('summary'), content: fd.get('content'), icon: 'book-open', createdAt: new Date().toISOString() };
+                await addDoc(knowCol, nK);
+                e.target.reset(); toggleAdminModal(); showToast("Knowledge Published!");
+            });
+
             try {
-                const configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
-                if (!configStr) return;
-                const firebaseConfig = JSON.parse(configStr);
+                let configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
+                const firebaseConfig = configStr ? JSON.parse(configStr) : null;
+                if (!firebaseConfig) return;
+
                 appId = typeof __app_id !== 'undefined' ? __app_id : 'thesale3-camping';
                 const app = initializeApp(firebaseConfig);
                 auth = getAuth(app); db = getFirestore(app);
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
-                else await signInAnonymously(auth);
+
+                const initAuth = async () => {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
+                    else await signInAnonymously(auth);
+                };
+                await initAuth();
+
                 onAuthStateChanged(auth, (u) => {
                     if (u) {
                         productCol = collection(db, 'artifacts', appId, 'public', 'data', 'products');
-                        onSnapshot(productCol, (snap) => {
+                        onSnapshot(productCol, snap => {
                             const dbP = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                            const sIds = SYSTEM_PRODUCTS.map(p => p.id);
-                            products = [...SYSTEM_PRODUCTS, ...dbP.filter(p => !sIds.includes(p.id))];
-                            applyFilters();
+                            products = [...SYSTEM_PRODUCTS, ...dbP]; applyFilters();
                         });
+
                         blogCol = collection(db, 'artifacts', appId, 'public', 'data', 'blogs');
-                        onSnapshot(blogCol, (snap) => { blogs = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderBlogs(); });
+                        onSnapshot(blogCol, snap => { 
+                            blogs = [...SYSTEM_BLOGS, ...snap.docs.map(d => ({ id: d.id, ...d.data() }))]; renderBlogs(); 
+                        });
+
+                        placeCol = collection(db, 'artifacts', appId, 'public', 'data', 'places');
+                        onSnapshot(placeCol, snap => {
+                            places = [...SYSTEM_PLACES, ...snap.docs.map(d => ({ id: d.id, ...d.data() }))]; renderPlaces();
+                        });
+
+                        knowCol = collection(db, 'artifacts', appId, 'public', 'data', 'knowledge');
+                        onSnapshot(knowCol, snap => {
+                            knowledge = [...SYSTEM_KNOWLEDGE, ...snap.docs.map(d => ({ id: d.id, ...d.data() }))]; renderKnowledge();
+                        });
                     }
                 });
-                document.getElementById('adminForm').addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const fd = new FormData(e.target);
-                    const nP = { name: fd.get('name'), price: Number(fd.get('price')), category: fd.get('category'), image: fd.get('image'), description: fd.get('description'), createdAt: new Date().toISOString() };
-                    await addDoc(productCol, nP); e.target.reset(); toggleAdminModal();
-                });
-                document.getElementById('blogForm').addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const fd = new FormData(e.target);
-                    const nB = { title: fd.get('title'), image: fd.get('image'), category: fd.get('category'), date: fd.get('date'), summary: fd.get('summary'), content: fd.get('content'), createdAt: new Date().toISOString() };
-                    await addDoc(blogCol, nB); e.target.reset(); toggleAdminModal(); showView('blog');
-                });
-            } catch (err) { console.warn("Firebase limited."); }
+            } catch (err) { console.error("Database failed:", err); }
         });
     </script>
 </body>
