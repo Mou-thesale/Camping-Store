@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>TheSale3 Camping | Premium Outdoor Gear Laos</title>
+    <meta name="description" content="Premium outdoor equipment for the Lao adventurer. Shop portable stoves, tents, coffee gear, and furniture. Quality tested for Laos terrain. Contact +8562054849393.">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="TheSale3 Camping Store | Premium Gear">
+    <meta property="og:description" content="Premium outdoor equipment for the Lao adventurer. Click to browse our catalog.">
+    <meta property="og:image" content="https://i.postimg.cc/FKL5Q4JW/489751506-1424454392283349-8154752889413656228-n.jpg">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --forest-green: #1B3022;
+            --emerald-accent: #059669;
+            --amber-accent: #D97706;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #f8f9f8; 
+            color: #1a1a1a; 
+            scroll-behavior: smooth;
+        }
+
+        .hero-banner { 
+            background: linear-gradient(rgba(27, 48, 34, 0.7), rgba(27, 48, 34, 0.5)), url('https://i.postimg.cc/FKL5Q4JW/489751506-1424454392283349-8154752889413656228-n.jpg'); 
+            background-size: cover; 
+            background-position: center; 
+        }
+
+        .nav-blur { 
+            background: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+        }
+
+        .product-card { 
+            background: #ffffff; 
+            border: 1px solid #e5e7eb; 
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+            border-radius: 16px; 
+            overflow: hidden;
+        }
+
+        .product-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 30px 40px -15px rgba(27, 48, 34, 0.15); 
+            border-color: var(--emerald-accent);
+        }
+
+        .category-pill { 
+            transition: all 0.3s ease; 
+            white-space: nowrap; 
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-pill.active { 
+            background-color: var(--forest-green); 
+            color: white; 
+            box-shadow: 0 4px 12px rgba(27, 48, 34, 0.2);
+            border-color: var(--forest-green);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--emerald-accent);
+        }
+
+        .place-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            height: 400px;
+            transition: transform 0.4s ease;
+        }
+        .place-card:hover { transform: scale(1.02); }
+        .place-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent 70%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 24px;
+            border: 1px solid #f0f0f0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .blog-card:hover {
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.05);
+            border-color: var(--emerald-accent);
+        }
+
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        .nav-btn-active {
+            color: var(--emerald-accent) !important;
+            border-bottom: 2px solid var(--emerald-accent);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Persistent Header Navigation -->
+    <nav class="nav-blur sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8">
+            <div class="flex justify-between items-center h-16 sm:h-20">
+                <div class="flex flex-col cursor-pointer" onclick="showView('home')">
+                    <span class="font-extrabold text-xl sm:text-2xl leading-none tracking-tighter text-[#1B3022] uppercase">THESALE3</span>
+                    <span class="text-[9px] sm:text-[10px] font-bold text-emerald-600 tracking-[0.25em] uppercase mt-1">Outdoor Equipment</span>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <button onclick="openCart()" class="relative group p-2 bg-gray-50 rounded-full hover:bg-emerald-50 transition shadow-sm">
+                        <i class="fa-solid fa-basket-shopping text-lg sm:text-xl text-gray-800 group-hover:text-emerald-600"></i>
+                        <span id="cartCount" class="absolute -top-1 -right-1 bg-amber-500 text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full border-2 border-white hidden">0</span>
+                    </button>
+                    <a href="https://wa.me/8562054849393" target="_blank" class="hidden sm:flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-md">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- Bottom Row: Persistent Links -->
+            <div class="flex items-center justify-center gap-6 sm:gap-12 overflow-x-auto no-scrollbar py-3 border-t border-gray-50">
+                <button onclick="showView('home')" id="nav-home" class="nav-btn-active text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-emerald-600 transition pb-1">Shop</button>
+                <button onclick="scrollToSection('places')" id="nav-places" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-emerald-600 transition pb-1">Places</button>
+                <button onclick="scrollToSection('knowledge')" id="nav-knowledge" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-emerald-600 transition pb-1">Knowledge</button>
+                <button onclick="showView('blog')" id="nav-blog" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-emerald-600 transition pb-1">Blog</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN HOME VIEW -->
+    <div id="homeView" class="view-section active">
+        <!-- Hero -->
+        <header class="hero-banner min-h-[450px] flex items-center justify-center text-center px-4 relative">
+            <div class="max-w-4xl fade-in">
+                <span class="text-amber-400 font-bold text-[10px] uppercase tracking-[0.4em] mb-4 block">Crafting Adventure in Laos</span>
+                <h1 class="text-4xl sm:text-7xl font-black text-white mb-6 tracking-tight leading-[1.1]">Where Nature Meets <br><span class="text-emerald-400">Premium Gear.</span></h1>
+                <p class="text-gray-200 text-xs sm:text-lg mb-10 font-medium max-w-xl mx-auto leading-relaxed uppercase tracking-widest">Equipping you for the Bolaven peaks and Vang Vieng valleys.</p>
+                <div class="flex gap-4 justify-center">
+                    <button onclick="scrollToSection('catalog')" class="bg-emerald-600 text-white px-6 sm:px-10 py-3 sm:py-4 rounded-full font-bold text-[10px] sm:text-[11px] uppercase tracking-[0.2em] hover:bg-emerald-700 transition shadow-xl">Shop Gear</button>
+                    <button onclick="scrollToSection('places')" class="bg-white/10 backdrop-blur-md text-white border border-white/20 px-6 sm:px-10 py-3 sm:py-4 rounded-full font-bold text-[10px] sm:text-[11px] uppercase tracking-[0.2em] hover:bg-white/20 transition">Explore</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Catalog Section -->
+        <section id="catalog" class="max-w-7xl mx-auto px-4 sm:px-8 py-16 w-full">
+            <div class="flex flex-col lg:flex-row justify-between items-end mb-12 gap-8">
+                <div class="w-full lg:w-2/3">
+                    <h2 class="section-title text-3xl font-black tracking-tight uppercase">Premium Catalog</h2>
+                    <div id="categoryContainer" class="flex gap-3 overflow-x-auto no-scrollbar pb-4">
+                        <button onclick="filterBy('all', this)" class="category-pill active bg-white border border-gray-100 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest shadow-sm"><i class="fa-solid fa-border-all"></i> All</button>
+                        <button onclick="filterBy('tents', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-tent"></i> Tents</button>
+                        <button onclick="filterBy('cooking', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-fire-burner"></i> Cooking</button>
+                        <button onclick="filterBy('coffee', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-mug-hot"></i> Coffee</button>
+                        <button onclick="filterBy('lighting', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-lightbulb"></i> Lighting</button>
+                        <button onclick="filterBy('sleeping_gear', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-bed"></i> Sleeping</button>
+                        <button onclick="filterBy('furniture', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-chair"></i> Furniture</button>
+                        <button onclick="filterBy('backpack', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-backpack"></i> Backpack</button>
+                        <button onclick="filterBy('shoes', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-shoe-prints"></i> Shoes</button>
+                        <button onclick="filterBy('cloth', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-shirt"></i> Clothing</button>
+                        <button onclick="filterBy('Glasses', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-glasses"></i> Glasses</button>
+                        <button onclick="filterBy('powerbank', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-battery-full"></i> Power</button>
+                        <button onclick="filterBy('survival', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-kit-medical"></i> Survival</button>
+                    </div>
+                </div>
+                <div class="relative w-full lg:w-80">
+                    <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="searchInput" oninput="searchItems()" placeholder="Search gear..." class="w-full pl-14 pr-6 py-4 rounded-2xl bg-white border-none shadow-sm ring-1 ring-gray-100 focus:ring-2 focus:ring-emerald-500 transition outline-none text-sm">
+                </div>
+            </div>
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-20"></div>
+
+            <!-- Places Section -->
+            <div id="places" class="mb-24 py-16 border-t border-gray-100 text-center md:text-left">
+                <h2 class="section-title text-3xl font-black tracking-tight uppercase">Places for Camping</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="place-card">
+                        <img src="https://i.postimg.cc/FKL5Q4JW/489751506-1424454392283349-8154752889413656228-n.jpg" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500">
+                        <div class="place-overlay">
+                            <span class="text-emerald-400 font-bold text-[9px] uppercase tracking-widest mb-1">Luang Prabang</span>
+                            <h3 class="text-white font-black text-2xl uppercase">Phou Khoun</h3>
+                        </div>
+                    </div>
+                    <div class="place-card">
+                        <img src="https://i.postimg.cc/qv0hwyZz/471874894-1103166361597493-1459129778683580847-n.jpg" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500">
+                        <div class="place-overlay">
+                            <span class="text-emerald-400 font-bold text-[9px] uppercase tracking-widest mb-1">Vientiane</span>
+                            <h3 class="text-white font-black text-2xl uppercase">Nam Ngum</h3>
+                        </div>
+                    </div>
+                    <div class="place-card">
+                        <img src="https://i.postimg.cc/HLsDXqV6/470820202-1095258122388317-6701559630283280350-n.jpg" class="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500">
+                        <div class="place-overlay">
+                            <span class="text-emerald-400 font-bold text-[9px] uppercase tracking-widest mb-1">Champasak</span>
+                            <h3 class="text-white font-black text-2xl uppercase">Paksong Highlands</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Knowledge Section -->
+            <div id="knowledge" class="mb-24 py-16 border-t border-gray-100">
+                <h2 class="section-title text-3xl font-black tracking-tight uppercase">Camping Knowledge</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="flex gap-6 p-6 bg-white rounded-[32px] border border-gray-50 hover:shadow-xl transition">
+                        <div class="w-20 h-20 bg-emerald-50 rounded-2xl flex-shrink-0 flex items-center justify-center text-[#1B3022]">
+                            <i class="fa-solid fa-cloud-showers-heavy text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-black text-base uppercase mb-2">Monsoon Survival</h4>
+                            <p class="text-gray-400 text-xs">How to handle Lao tropical storms.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6 p-6 bg-white rounded-[32px] border border-gray-50 hover:shadow-xl transition">
+                        <div class="w-20 h-20 bg-emerald-50 rounded-2xl flex-shrink-0 flex items-center justify-center text-[#1B3022]">
+                            <i class="fa-solid fa-coffee text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-black text-base uppercase mb-2">Wild Coffee Guide</h4>
+                            <p class="text-gray-400 text-xs">The art of camp espresso.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- BLOG VIEW -->
+    <div id="blogView" class="view-section max-w-7xl mx-auto px-4 sm:px-8 py-20">
+        <h2 class="section-title text-4xl font-black tracking-tight uppercase">Adventure Journal</h2>
+        <div id="blogGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-12"></div>
+    </div>
+
+    <!-- Product Details Modal -->
+    <div id="modal" style="display: none;" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl items-center justify-center p-4" onclick="if(event.target === this) closeModals()">
+        <div class="bg-white rounded-[32px] max-w-6xl w-full overflow-hidden shadow-2xl relative flex flex-col md:flex-row max-h-[90vh]">
+            <button onclick="closeModals()" class="absolute top-6 right-6 text-gray-400 hover:text-black z-20 bg-white w-10 h-10 rounded-full flex items-center justify-center shadow-md"><i class="fa-solid fa-xmark"></i></button>
+            <div class="md:w-3/5 bg-gray-50 flex flex-col h-full overflow-hidden border-r">
+                <div class="flex-grow flex items-center justify-center overflow-hidden min-h-[400px] bg-gray-100">
+                    <img id="modalImage" src="" alt="" class="w-full h-full object-contain p-8">
+                </div>
+                <div id="modalThumbnails" class="p-6 flex gap-4 overflow-x-auto no-scrollbar bg-white/50 backdrop-blur-sm"></div>
+            </div>
+            <div class="p-10 md:p-16 md:w-2/5 flex flex-col overflow-y-auto bg-white">
+                <span id="modalCategory" class="text-emerald-600 text-[11px] font-extrabold uppercase tracking-[0.4em] mb-4"></span>
+                <div class="flex justify-between items-start mb-2">
+                    <h2 id="modalTitle" class="text-2xl sm:text-3xl font-black text-[#1B3022] tracking-tighter leading-tight"></h2>
+                    <button id="adminDeleteBtn" class="text-red-500 hover:text-red-700 hidden" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                </div>
+                <p id="modalPrice" class="text-2xl font-bold text-amber-600 mb-8"></p>
+                <div class="h-1 w-12 bg-emerald-600 mb-8 rounded-full"></div>
+                <div class="prose prose-sm text-gray-500 mb-10"><p id="modalDescription" class="whitespace-pre-line leading-relaxed text-sm"></p></div>
+                <div class="mt-auto flex flex-col gap-4">
+                    <button id="addToCartBtn" class="bg-[#1B3022] text-white py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-emerald-900 transition shadow-xl">Add to Cart</button>
+                    <a id="whatsappBtn" href="#" target="_blank" class="bg-[#25D366] text-white py-5 rounded-2xl font-black flex items-center justify-center gap-4 shadow-xl uppercase tracking-widest text-xs hover:brightness-110 transition">WhatsApp Inquiry</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Tools -->
+    <div id="passwordModal" style="display: none;" class="fixed inset-0 z-[130] bg-black/80 backdrop-blur-md items-center justify-center p-4">
+        <div class="bg-white rounded-[32px] max-w-sm w-full p-10 shadow-2xl text-center">
+            <h3 class="text-xl font-black mb-8 uppercase tracking-tight">Admin Vault</h3>
+            <input type="password" id="adminPassInput" placeholder="Password" class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-100 focus:ring-2 focus:ring-emerald-500 mb-8 outline-none text-center">
+            <button onclick="checkAdminPassword()" class="bg-[#1B3022] text-white w-full py-4 rounded-xl font-bold uppercase tracking-widest text-[11px]">Login</button>
+            <button onclick="closePasswordModal()" class="mt-4 text-gray-400 uppercase tracking-widest text-[9px]">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Admin Panel Modal -->
+    <div id="adminModal" style="display: none;" class="fixed inset-0 z-[120] bg-black/80 backdrop-blur-md items-center justify-center p-4" onclick="if(event.target === this) toggleAdminModal()">
+        <div class="bg-white rounded-[32px] max-w-3xl w-full p-8 sm:p-12 shadow-2xl overflow-y-auto max-h-[90vh]">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-black uppercase tracking-tight">Management</h2>
+                <button onclick="toggleAdminModal()" class="text-gray-400 hover:text-black"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            </div>
+            <div class="flex gap-4 mb-8">
+                <button onclick="switchAdminTab('products')" id="tabBtn-products" class="flex-1 py-3 rounded-xl font-bold text-xs uppercase tracking-widest bg-[#1B3022] text-white">Products</button>
+                <button onclick="switchAdminTab('blogs')" id="tabBtn-blogs" class="flex-1 py-3 rounded-xl font-bold text-xs uppercase tracking-widest bg-gray-100 text-gray-400">Blog Posts</button>
+            </div>
+            <form id="adminForm" class="space-y-6 admin-tab" data-tab="products">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <input type="text" name="name" placeholder="Name" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                    <input type="number" name="price" placeholder="Price (LAK)" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                </div>
+                <select name="category" class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                    <option value="tents">Tents / ເຕັ້ນ</option>
+                    <option value="cooking">Cooking / ເຄື່ອງຄົວ</option>
+                    <option value="coffee">Coffee / ກາເຟ</option>
+                    <option value="lighting">Lighting / ໄຟ</option>
+                    <option value="sleeping_gear">Sleeping / ເຄື່ອງນອນ</option>
+                    <option value="furniture">Furniture / ເຟີນີເຈີ</option>
+                    <option value="backpack">Backpack / ກະເປົ໋າ</option>
+                    <option value="trekking_poles">Poles / ໄມ້ເທົ້າ</option>
+                    <option value="shoes">Shoes / ເກີບ</option>
+                    <option value="cloth">Cloth / ເຄື່ອງນຸ່ງ</option>
+                    <option value="survival">Survival / ເອົາຕົວລອດ</option>
+                </select>
+                <input type="url" name="image" placeholder="Image URL" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                <textarea name="description" placeholder="Description" required class="w-full p-4 h-32 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
+                <button type="submit" class="w-full bg-[#1B3022] text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Save Product</button>
+            </form>
+            <form id="blogForm" class="space-y-6 hidden admin-tab" data-tab="blogs">
+                <input type="text" name="title" placeholder="Title" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                <input type="url" name="image" placeholder="Image URL" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" name="category" placeholder="Cat (e.g. Field Test)" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                    <input type="text" name="date" placeholder="April 2026" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                </div>
+                <textarea name="summary" placeholder="Summary" required class="w-full p-4 h-24 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
+                <textarea name="content" placeholder="Full Content" required class="w-full p-4 h-48 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
+                <button type="submit" class="w-full bg-emerald-600 text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Publish Post</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div id="cartModal" style="display: none;" class="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm items-center justify-end" onclick="if(event.target === this) closeCart()">
+        <div class="bg-white h-full max-w-md w-full shadow-2xl flex flex-col fade-in">
+            <div class="p-8 border-b flex justify-between items-center"><h2 class="text-xl font-black uppercase tracking-tight">Cart / ກະຕ່າ</h2><button onclick="closeCart()" class="text-gray-400 hover:text-black"><i class="fa-solid fa-xmark text-2xl"></i></button></div>
+            <div id="cartItems" class="flex-grow overflow-y-auto p-8 space-y-6 bg-gray-50/50"></div>
+            <div class="p-8 border-t bg-white">
+                <div class="flex justify-between items-center mb-8 font-black"><span>Total</span><span id="cartTotal">0 LAK</span></div>
+                <button onclick="sendOrderWhatsApp()" class="w-full bg-[#25D366] text-white py-5 rounded-2xl font-black uppercase tracking-widest shadow-xl">Order via WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-white border-t py-20 px-4 text-center mt-auto">
+        <span class="font-black text-2xl tracking-tighter text-[#1B3022] uppercase">THESALE3</span>
+        <p class="text-[10px] text-gray-300 uppercase tracking-[0.3em] mt-4 mb-4">&copy; 2026 PREMIUM GEAR LAOS.</p>
+        <button onclick="promptAdmin()" class="opacity-10 hover:opacity-100 transition text-[9px] uppercase tracking-widest text-gray-400">Admin</button>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const catMap = {
+            'all': 'All Gear / ທັງໝົດ', 'tents': 'Tents / ເຕັ້ນ', 'cooking': 'Cooking / ເຄື່ອງຄົວ', 'coffee': 'Coffee / ກາເຟ', 'lighting': 'Lighting / ໄຟ', 'sleeping_gear': 'Sleeping / ເຄື່ອງນອນ', 'furniture': 'Furniture / ເຟີນີເຈີ', 'backpack': 'Backpack / ກະເປົ໋າ', 'trekking_poles': 'Poles / ໄມ້ເທົ້າ', 'shoes': 'Shoes / ເກີບ', 'cloth': 'Cloth / ເຄື່ອງນຸ່ງ', 'survival': 'Survival / ເອົາຕົວລອດ', 'powerbank': 'Power / ແບັດ', 'Glasses': 'Glasses / ແວ່ນຕາ'
+        };
+
+        const SYSTEM_PRODUCTS = [
+            { id: 'master-01', name: 'ເຕັ້ນ QUECHUA MH100 Fresh & Black (2 ຄົນ)', price: 1460000, category: 'tents', image: 'https://i.postimg.cc/qv0hwyZz/471874894-1103166361597493-1459129778683580847-n.jpg', description: '⛺ ເຕັ້ນ Fresh & Black: ນອນເຢັນ, ມືດ 99%, ກັນຝົນດີ. Fresh & Black Tent: Cool & 99% Dark, Waterproof.' },
+            { id: 'master-02', name: 'ເຕັ້ນ QUECHUA MH100 (ສີເທົາ)', price: 1100000, category: 'tents', image: 'https://i.postimg.cc/YCzbNjFr/156657757-198686858712119-7425055041363166372-n.jpg', description: '⛺ ເຕັ້ນ MH100: ກາງງ່າຍ, ກັນຝົນ/ລົມດີ (130x210x107cm).' },
+            { id: 'master-03', name: 'ເຕັ້ນກາງອັດຕະໂນມັດ Premium (3-4 ທ່ານ)', price: 885000, category: 'tents', image: 'https://i.postimg.cc/6pCRNRQF/124951381-118420500072089-6079077613874319164-n.jpg', description: 'Automatic pop-up mechanism for fast setup.' },
+            { id: 'master-04', name: 'ເຕັ້ນກາງອັດຕະໂນມັດ (Pop-up)', price: 890000, category: 'tents', image: 'https://i.postimg.cc/7LQ62Yt4/481250252-1394483935280395-2343742065073889579-n.jpg', description: 'Automatic Pop-up Tent with durable fabric.' },
+            { id: 'master-05', name: 'ເຕັ້ນສະປິງກາງອັດຕະໂນມັດ', price: 650000, category: 'tents', image: 'https://i.postimg.cc/NGWkqQ4R/127859284-131667258747413-3464652703126584755-n.jpg', description: 'Standard Automatic Spring Tent.' },
+            { id: 'master-06', name: 'ຜ້າກັ້ງກັນຝົນ Flysheet (3x3 ແມັດ)', price: 380000, category: 'tents', image: 'https://i.postimg.cc/4dqkTKK7/489751506-1424454392283349-8154752889413656228-n.jpg', description: 'Heavy duty waterproof flysheet. Includes 2 poles.' },
+            { id: 'master-07', name: 'ຜ້າຢາງຮອງເຕັ້ນ (Groundsheet)', price: 200000, category: 'tents', image: 'https://i.postimg.cc/fTzmhkdX/471871594-1103166028264193-3080110264274826660-n.jpg', description: 'Groundsheet 2.1m x 2m.' },
+            { id: 'master-08', name: 'ສະໝໍບົກ (Tent Pegs 20cm)', price: 50000, category: 'tents', image: 'https://i.postimg.cc/B6PqPrzQ/472186338-1103166364930826-8197764758286830200-n.jpg', description: 'Heavy duty 20cm tent pegs.' },
+            { id: 'master-09', name: 'ເຕົາແກັດພົກພາ AOTU', price: 285000, category: 'cooking', image: 'https://i.postimg.cc/HLsDXqV6/470820202-1095258122388317-6701559630283280350-n.jpg', description: 'Compact and reliable piezo ignition stove.' },
+            { id: 'master-10', name: 'ການ້ຳ (Outdoor Kettle 800ml)', price: 240000, category: 'cooking', image: 'https://i.postimg.cc/SxcCCPwR/124985548-118420480072091-5504697490990489685-n.jpg', description: '800ml aluminum kettle, lightweight for trekking.' },
+            { id: 'master-11', name: 'ເຫຼັກຢຶດຂາຕັ້ງສາມຂາ', price: 160000, category: 'cooking', image: 'https://i.postimg.cc/XqZyJ1fj/470195754-1095096232404506-5723296061682898594-n.jpg', description: 'Tripod bracket for campfire cooking.' },
+            { id: 'master-12', name: 'ຊຸດໝໍ້ສຳລັບ 3 ຫາ 4 ຄົນ (DS-308)', price: 430000, category: 'cooking', image: 'https://i.postimg.cc/bw8m2q4T/150739603-186271443286994-1875422230249930637-n.jpg', description: 'DS-308 Cooking Set for group camping.' },
+            { id: 'master-12small', name: 'ຊຸດໝໍ້ສຳລັບ 1 ຫາ 2 ຄົນ (SY200)', price: 265000, category: 'cooking', image: 'https://i.postimg.cc/sgMq0fcf/Screenshot-2026-03-25-at-18-58-10.png', description: 'SY200 Cooking Set.' },
+            { id: 'master-13', name: 'ເຕົາແກັດນ້ອຍມີສາຍ', price: 200000, category: 'cooking', image: 'https://i.postimg.cc/kgvtYbwk/476775570-1132392825341513-296684994834635171-n.jpg', description: 'Hose stove for stable cooking.' },
+            { id: 'master-14', name: 'ເຕົາແກັດນ້ອຍມີອັນບັງລົມ', price: 180000, category: 'cooking', image: 'https://i.postimg.cc/mrd1BWvN/470235034-1091427629438033-3849741322793284301-n-(2).jpg', description: 'Windproof Stove.' },
+            { id: 'master-14.1', name: 'ເຕົາແກັດນ້ອຍມີອັນບັງລົມມີສາຍແກັດ', price: 225000, category: 'cooking', image: 'https://i.postimg.cc/g2Hh5pdV/Screenshot-2026-03-19-at-22-54-51.png', description: 'Advanced portable stove.' },
+            { id: 'master-15', name: 'ເຕົາແກັດ (Picnic Stove K-202)', price: 165000, category: 'cooking', image: 'https://i.postimg.cc/3RfYqSQJ/150468425-186271443286994-1875422230249930637-n.jpg', description: 'Small Picnic Stove.' },
+            { id: 'master-16', name: 'ໝໍ້ຂຽວທະຫານ', price: 300000, category: 'cooking', image: 'https://i.postimg.cc/63x4bQwN/470161529-1091427636104699-6870152323458159947-n-(1).jpg', description: 'Military Pot 1.8L.' },
+            { id: 'master-16.fork', name: 'ຊຸດບ່ວງ-ສ້ອມ 4-in-1 Selpa', price: 115000, category: 'cooking', image: 'https://i.postimg.cc/nh58jy7Q/Screenshot_2026_03_22_at_13_19_56.png', description: 'Multi-tool set.' },
+            { id: 'master-22Bucket', name: 'ຄຸພັບໄດ້ອະເນກປະສົງ (Collapsible Bucket)', price: 175000, category: 'cooking', image: 'https://i.postimg.cc/PrrpSfVF/Screenshot-2026-04-02-at-22-56-31.png', description: '15KG capacity PVC Collapsible Bucket.' },
+            { id: 'master-16.Surv', name: 'Survival Kit 18-in-1 Tactical Set', price: 475000, category: 'survival', image: 'https://i.postimg.cc/HnKKc5cP/Screenshot-2026-03-22-at-14-09-46.png', description: 'Complete emergency gear kit.' },
+            { id: 'master-17', name: 'ຈອກ Cool Camp (4 ໃບ)', price: 260000, category: 'coffee', image: 'https://i.postimg.cc/L5yDLPPw/202323323-277134600867344-8457321312918561749-n.jpg', description: 'Stainless steel cups.' },
+            { id: 'master-18', name: 'Espresso Maker (300ml)', price: 210000, category: 'coffee', image: 'https://i.postimg.cc/zDbXHNr1/472106912-1101699191744210-325644103738198928-n-(1).jpg', description: 'Aluminum Moka Pot for rich campfire espresso.' },
+            { id: 'master-18Frother', name: 'ໄມ້ຕີຟອງນົມໄຟຟ້າ', price: 125000, category: 'coffee', image: 'https://i.postimg.cc/J7gzfLT2/Screenshot_2026_03_27_at_21_28_56.png', description: 'Electric frother.' },
+            { id: 'master-19', name: 'ເຄື່ອງບົດກາເຟ (Coffee Grinder)', price: 195000, category: 'coffee', image: 'https://i.postimg.cc/vZNN0NDm/138558955_160501135864025_1071256138491929297_n.jpg', description: 'Manual grinder.' },
+            { id: 'master-20', name: 'ຕະກຽງ LED HOMFUL', price: 320000, category: 'lighting', image: 'https://i.postimg.cc/YS7Vz1V8/470138708-1091427639438032-4054288834215141234-n.jpg', description: 'Adjustable brightness LED lantern.' },
+            { id: 'master-21', name: 'ເສົາຫ້ອຍໂຄມໄຟ', price: 250000, category: 'lighting', image: 'https://i.postimg.cc/Mp0CfPHz/470580274-1094729429107853-518082534720816909-n.jpg', description: 'Adjustable stand.' },
+            { id: 'master-22', name: 'ເຫຼັກຫ້ອຍດອກໄຟ', price: 70000, category: 'lighting', image: 'https://i.postimg.cc/FKyCB7cG/471590824-1101698975077565-9125211727583692069-n.jpg', description: 'Lantern hook.' },
+            { id: 'master-22.1', name: 'ດອກໄຟນ້ອຍ (Small Lantern)', price: 200000, category: 'lighting', image: 'https://i.postimg.cc/nh0WJs5N/125376115_118420463405426_551614310193011105_n.jpg', description: 'USB small lantern.' },
+            { id: 'master-23', name: 'ເຊື່ອນອນ Naturehike Air', price: 600000, category: 'sleeping_gear', image: 'https://i.postimg.cc/C5cQ41XF/476403930-1129881948925934-1365118939146447544-n.jpg', description: 'Ultralight inflatable sleeping mat.' },
+            { id: 'master-24', name: 'ເຊື່ອນອນເປົ່າລົມອັດຕະໂນມັດ', price: 330000, category: 'sleeping_gear', image: 'https://i.postimg.cc/1RT3kQCz/Screenshot_2026_03_27_at_21_30_41.png', description: 'Self-inflatable mat.' },
+            { id: 'master-25', name: 'ຖົງນອນ MUZENT (5°C)', price: 420000, category: 'sleeping_gear', image: 'https://i.postimg.cc/SQH8nqJr/470732130-1095258142388315-6675372278210325168-n.jpg', description: 'Compact sleeping bag rated for 5 degrees.' },
+            { id: 'master-26', name: 'ຖົງນອນ Naturehike Premium', price: 550000, category: 'sleeping_gear', image: 'https://i.postimg.cc/28xJzH5Y/483101086-1400042418057880-8967539400801900911-n-(1).jpg', description: 'Premium bag.' },
+            { id: 'master-27', name: 'ຖົງນອນ ແບບພົກພາ', price: 225000, category: 'sleeping_gear', image: 'https://i.postimg.cc/T2bjqp8S/125315138-118420533405419-8079952364573550993-n.jpg', description: 'Portable bag.' },
+            { id: 'master-28', name: 'ໝອນນອນເປົ່າລົມ', price: 50000, category: 'sleeping_gear', image: 'https://i.postimg.cc/kgj91M3M/138786732-160501152530690-3533211310814187676-n.jpg', description: 'Inflatable pillow.' },
+            { id: 'master-29', name: 'ໂຕະແຄ້ມປິ້ງ Table M', price: 390000, category: 'furniture', image: 'https://i.postimg.cc/MG8JHcSH/470180269-1091456466101816-3503156836293091321-n.jpg', description: 'Aluminum Table.' },
+            { id: 'master-30', name: 'ຕັ່ງແແຄ້ມປີ້ງ ShineTrip', price: 285000, category: 'furniture', image: 'https://i.postimg.cc/0jSsW7Gc/470209749-1091969312717198-8585518212376997562-n.jpg', description: 'Folding chair.' },
+            { id: 'master-31', name: 'ກະເປົ໋າເປ້ 65L Camel', price: 1350000, category: 'backpack', image: 'https://i.postimg.cc/8P7KVyMZ/471164242-1095570065690456-156288641806394470-n-(1).jpg', description: 'Hiking Backpack with 65L capacity.' },
+            { id: 'master-32', name: 'ຜ້າກັນຝົນ Rain Cover', price: 70000, category: 'backpack', image: 'https://i.postimg.cc/ZKkc16FY/139180898-160501215864017-905798667929076806-n.jpg', description: 'Waterproof cover.' },
+            { id: 'master-33', name: 'ໄມ້ເທົ້າ Naturehike', price: 335000, category: 'trekking_poles', image: 'https://i.postimg.cc/8PgDFr4N/488790917-1423518039043651-721068063865014396-n-(1).jpg', description: 'Hiking Pole.' },
+            { id: 'master-34', name: 'ໄມ້ກັນເທົ້າ Standard', price: 140000, category: 'trekking_poles', image: 'https://i.postimg.cc/L65784Kh/189756927-258928419354629-5324966725450305500-n-(1).jpg', description: 'Adjustable pole.' },
+            { id: 'master-35', name: 'ກະເປົ໋າຫ້ອຍແອວ', price: 100000, category: 'backpack', image: 'https://i.postimg.cc/7PpfY6j0/476359221-1130686925512103-8223380318275171227-n.jpg', description: 'Waist Bag.' },
+            { id: 'shoe-01', name: 'ເກີບຍ່າງປ່າ DOLWIS', price: 285000, category: 'shoes', image: 'https://i.postimg.cc/sfBG9SLs/138610223-160501245864014-7027706613102300070-n.jpg', description: 'Waterproof hiking shoes.' },
+            { id: 'shoe-02', name: 'ເກີບ Camel Outdoor', price: 480000, category: 'shoes', image: 'https://i.postimg.cc/x8dRtdWr/156504538-198686892045449-5804187784067538216-n.jpg', description: 'Genuine Camel boots.' },
+            { id: 'shoe-03', name: 'ເກີບ Tactical OKIY', price: 430000, category: 'shoes', image: 'https://i.postimg.cc/9fMZ6kLR/138641699-160501209197351-6659600786465323988-n.jpg', description: 'High cut tactical boots.' },
+            { id: 'shoe-04', name: 'ເກີບລຸຍນ້ຳ Water Shoes', price: 245000, category: 'shoes', image: 'https://i.postimg.cc/mD8zH6C3/Screenshot-2026-03-19-at-23-11-13.jpg', description: 'Breathable water shoes.' },
+            { id: 'shoe-05', name: 'ເກີບແຕະຫຸ້ມຫົວ ໜັງແທ້', price: 295000, category: 'shoes', image: 'https://i.postimg.cc/7Z9Y3q1L/image-d2bf20.png', description: 'Brown Leather sandals.' },
+            { id: 'cloth-01', name: 'ເສື້ອກັນໜາວ Jeep Spirit', price: 360000, category: 'cloth', image: 'https://i.postimg.cc/Pf6VMy2k/Screenshot-2026-03-30-at-23-27-14.png', description: 'Authentic Jeep Spirit jacket.' },
+            { id: 'cloth-02', name: 'ໂສ້ງຍ່າງປ່າ Outdoor Jeep Spirit', price: 695000, category: 'cloth', image: 'https://i.postimg.cc/SsL6vSWt/Screenshot-2026-03-30-at-23-42-25.png', description: 'Jeep Spirit Tactical Pants.' },
+            { id: 'glass-01', name: 'ແວ່ນຕາກັນແດດ Tactical', price: 215000, category: 'Glasses', image: 'https://i.postimg.cc/fK0h3q0s/489751506-1424454392283349-8154752889413656228-n.jpg', description: 'Polarized sunglasses.' },
+            { id: 'glass-02', name: 'ແວ່ນຕາກັນແດດ Polarized ຕັດແສງ', price: 215000, category: 'Glasses', image: 'https://i.postimg.cc/WzpgwYVF/Screenshot-2026-04-02-at-20-11-39.png', description: '🕶️ ແວ່ນ Polarized ຕັດແສງ UV400.' },
+            { id: 'glass-03', name: 'ແວ່ນກັນແດດ Sports SP473', price: 75000, category: 'Glasses', image: 'https://i.postimg.cc/zBC4gvDn/Screenshot-2026-04-02-at-20-24-34.png', description: '🕶️ ແວ່ນ Sports Polarized.' },
+            { id: 'powerbank-01', name: 'Powerbank 20000mAh UGREEN', price: 1750000, category: 'powerbank', image: 'https://i.postimg.cc/rmXbyyps/Screenshot-2026-04-02-at-00-52-06.png', description: '⚡ UGREEN 20,000mAh PD 3.0.' }
+        ];
+
+        let products = [...SYSTEM_PRODUCTS];
+        let blogs = [];
+        let cart = [];
+        let currentCat = 'all';
+        let isAdmin = false;
+        let db, auth, productCol, blogCol, appId;
+
+        window.showView = (view) => {
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(view + 'View').classList.add('active');
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('nav-btn-active'));
+            const activeBtn = document.getElementById('nav-' + view);
+            if (activeBtn) activeBtn.classList.add('nav-btn-active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.scrollToSection = (id) => {
+            showView('home');
+            setTimeout(() => {
+                const el = document.getElementById(id);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        };
+
+        window.switchAdminTab = (tab) => {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
+            document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.remove('hidden');
+            document.querySelectorAll('[id^="tabBtn-"]').forEach(b => {
+                b.classList.remove('bg-[#1B3022]', 'text-white');
+                b.classList.add('bg-gray-100', 'text-gray-400');
+            });
+            const activeTabBtn = document.getElementById('tabBtn-' + tab);
+            activeTabBtn.classList.add('bg-[#1B3022]', 'text-white');
+            activeTabBtn.classList.remove('bg-gray-100', 'text-gray-400');
+        };
+
+        window.openCart = () => { renderCart(); document.getElementById('cartModal').style.display = 'flex'; };
+        window.closeCart = () => { document.getElementById('cartModal').style.display = 'none'; };
+        window.promptAdmin = () => { document.getElementById('passwordModal').style.display = 'flex'; };
+        window.closePasswordModal = () => { document.getElementById('passwordModal').style.display = 'none'; };
+        window.toggleAdminModal = () => { 
+            const m = document.getElementById('adminModal');
+            m.style.display = m.style.display === 'none' ? 'flex' : 'none';
+        };
+
+        window.checkAdminPassword = () => {
+            const pass = document.getElementById('adminPassInput').value;
+            if (pass === "Mou54849393") { isAdmin = true; closePasswordModal(); toggleAdminModal(); renderBlogs(); applyFilters(); }
+            else { alert("Denied."); closePasswordModal(); }
+        };
+
+        window.addToCart = (productId) => {
+            const p = products.find(x => x.id === productId);
+            if (!p) return;
+            const existing = cart.find(i => i.id === productId);
+            if (existing) existing.quantity += 1;
+            else cart.push({ ...p, quantity: 1 });
+            updateCartUI();
+        };
+
+        window.updateCartQuantity = (id, delta) => {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+            item.quantity += delta;
+            if (item.quantity <= 0) cart = cart.filter(i => i.id !== id);
+            updateCartUI(); renderCart();
+        };
+
+        function updateCartUI() {
+            const count = cart.reduce((s, i) => s + i.quantity, 0);
+            const b = document.getElementById('cartCount');
+            if (count > 0) { b.innerText = count; b.classList.remove('hidden'); }
+            else b.classList.add('hidden');
+            localStorage.setItem('thesale3_cart_v7', JSON.stringify(cart));
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cartItems');
+            const totalEl = document.getElementById('cartTotal');
+            if (cart.length === 0) { container.innerHTML = '<div class="text-center py-20 text-gray-400 text-[10px] uppercase">Empty</div>'; totalEl.innerText = '0 LAK'; return; }
+            let total = 0;
+            container.innerHTML = cart.map(item => {
+                total += item.price * item.quantity;
+                return `<div class="flex items-center gap-4 bg-white p-4 rounded-2xl border border-gray-100">
+                    <img src="${item.image}" class="w-16 h-16 object-cover rounded-xl">
+                    <div class="flex-grow">
+                        <h4 class="font-bold text-[10px] uppercase">${item.name}</h4>
+                        <p class="text-emerald-600 font-bold text-[10px]">${item.price.toLocaleString()} LAK</p>
+                    </div>
+                    <div class="flex items-center bg-gray-50 rounded-lg p-1">
+                        <button onclick="updateCartQuantity('${item.id}', -1)" class="w-6 h-6 flex items-center justify-center"><i class="fa-solid fa-minus text-[8px]"></i></button>
+                        <span class="w-8 text-center text-xs font-black">${item.quantity}</span>
+                        <button onclick="updateCartQuantity('${item.id}', 1)" class="w-6 h-6 flex items-center justify-center"><i class="fa-solid fa-plus text-[8px]"></i></button>
+                    </div>
+                </div>`;
+            }).join('');
+            totalEl.innerText = `${total.toLocaleString()} LAK`;
+        }
+
+        window.sendOrderWhatsApp = () => {
+            if (cart.length === 0) return;
+            let msg = "Sabaidee! Ordering:\n\n";
+            cart.forEach((i, idx) => msg += `• ${i.name} (x${i.quantity})\n`);
+            msg += `\nTotal: ${document.getElementById('cartTotal').innerText}`;
+            window.open(`https://wa.me/8562054849393?text=${encodeURIComponent(msg)}`, '_blank');
+        };
+
+        window.filterBy = (cat, btn) => {
+            currentCat = cat;
+            document.querySelectorAll('.category-pill').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
+        };
+
+        window.searchItems = () => applyFilters();
+
+        function applyFilters() {
+            const s = document.getElementById('searchInput').value.toLowerCase();
+            const f = products.filter(p => (currentCat === 'all' || p.category === currentCat) && p.name.toLowerCase().includes(s));
+            renderProducts(f);
+        }
+
+        function renderProducts(items) {
+            const grid = document.getElementById('productGrid');
+            if(!grid) return;
+            grid.innerHTML = items.map(p => `
+                <div class="product-card flex flex-col cursor-pointer fade-in" onclick="openDetails('${p.id}')">
+                    <div class="h-64 bg-gray-100 overflow-hidden relative">
+                        <img src="${p.image}" class="w-full h-full object-cover hover:scale-105 transition duration-700">
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <span class="text-[9px] font-bold text-emerald-600 uppercase tracking-widest mb-2">${catMap[p.category] || p.category}</span>
+                        <h3 class="font-black text-lg mb-2 text-[#1B3022] leading-tight">${p.name}</h3>
+                        <p class="text-base font-bold text-amber-600 mb-6">${Number(p.price).toLocaleString()} LAK</p>
+                        <div class="mt-auto pt-4 border-t border-gray-50 flex justify-between items-center">
+                            <span class="text-[9px] uppercase font-bold text-gray-400">View</span>
+                            <button onclick="event.stopPropagation(); addToCart('${p.id}')" class="bg-gray-100 p-2 rounded-lg hover:bg-emerald-600 hover:text-white transition"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>`).join('');
+        }
+
+        function renderBlogs() {
+            const grid = document.getElementById('blogGrid');
+            if(!grid) return;
+            if(blogs.length === 0) { grid.innerHTML = '<div class="col-span-full py-20 text-center text-gray-400 uppercase tracking-widest text-[10px]">No posts</div>'; return; }
+            grid.innerHTML = blogs.map(post => `
+                <article class="blog-card flex flex-col cursor-pointer fade-in">
+                    <div class="h-60 overflow-hidden relative">
+                        <img src="${post.image}" class="w-full h-full object-cover">
+                        ${isAdmin ? `<button onclick="event.stopPropagation(); deleteBlog('${post.id}')" class="absolute top-4 right-4 bg-white/90 text-red-500 w-10 h-10 rounded-full shadow-lg"><i class="fa-solid fa-trash-can"></i></button>` : ''}
+                    </div>
+                    <div class="p-8">
+                        <span class="text-[9px] font-bold text-emerald-600 uppercase mb-3 block">${post.category} • ${post.date}</span>
+                        <h3 class="font-black text-xl mb-4 leading-tight">${post.title}</h3>
+                        <p class="text-gray-400 text-sm line-clamp-3 mb-6">${post.summary}</p>
+                        <span class="text-[10px] font-bold uppercase text-emerald-600 flex items-center gap-2">Read <i class="fa-solid fa-arrow-right-long"></i></span>
+                    </div>
+                </article>`).join('');
+        }
+
+        window.deleteBlog = async (id) => { if (confirm("Delete?")) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blogs', id)); };
+
+        window.openDetails = (id) => {
+            const p = products.find(x => x.id === id);
+            if (!p) return;
+            document.getElementById('modalImage').src = p.image;
+            document.getElementById('modalTitle').innerText = p.name;
+            document.getElementById('modalCategory').innerText = catMap[p.category] || p.category;
+            document.getElementById('modalPrice').innerText = `${Number(p.price).toLocaleString()} LAK`;
+            document.getElementById('modalDescription').innerText = p.description;
+            const delBtn = document.getElementById('adminDeleteBtn');
+            if (isAdmin && !id.startsWith('master-') && !id.startsWith('shoe-') && !id.startsWith('cloth-') && !id.startsWith('glass-') && !id.startsWith('powerbank-')) {
+                delBtn.classList.remove('hidden');
+                delBtn.onclick = async () => { if (confirm("Delete?")) { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'products', id)); closeModals(); } };
+            } else { delBtn.classList.add('hidden'); }
+            document.getElementById('whatsappBtn').href = `https://wa.me/8562054849393?text=${encodeURIComponent("Intersted: " + p.name)}`;
+            const addBtn = document.getElementById('addToCartBtn');
+            addBtn.onclick = () => { addToCart(p.id); addBtn.innerText = 'Added!'; setTimeout(() => addBtn.innerText = 'Add to Cart', 1500); };
+            document.getElementById('modal').style.display = 'flex';
+        };
+        
+        window.closeModals = () => { document.getElementById('modal').style.display = 'none'; };
+        window.closeCart = () => { document.getElementById('cartModal').style.display = 'none'; };
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const sc = localStorage.getItem('thesale3_cart_v7');
+            if (sc) { cart = JSON.parse(sc); updateCartUI(); }
+            applyFilters();
+            try {
+                const configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
+                if (!configStr) return;
+                const firebaseConfig = JSON.parse(configStr);
+                appId = typeof __app_id !== 'undefined' ? __app_id : 'thesale3-camping';
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app); db = getFirestore(app);
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
+                else await signInAnonymously(auth);
+                onAuthStateChanged(auth, (u) => {
+                    if (u) {
+                        productCol = collection(db, 'artifacts', appId, 'public', 'data', 'products');
+                        onSnapshot(productCol, (snap) => {
+                            const dbP = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                            const sIds = SYSTEM_PRODUCTS.map(p => p.id);
+                            products = [...SYSTEM_PRODUCTS, ...dbP.filter(p => !sIds.includes(p.id))];
+                            applyFilters();
+                        });
+                        blogCol = collection(db, 'artifacts', appId, 'public', 'data', 'blogs');
+                        onSnapshot(blogCol, (snap) => { blogs = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderBlogs(); });
+                    }
+                });
+                document.getElementById('adminForm').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const fd = new FormData(e.target);
+                    const nP = { name: fd.get('name'), price: Number(fd.get('price')), category: fd.get('category'), image: fd.get('image'), description: fd.get('description'), createdAt: new Date().toISOString() };
+                    await addDoc(productCol, nP); e.target.reset(); toggleAdminModal();
+                });
+                document.getElementById('blogForm').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const fd = new FormData(e.target);
+                    const nB = { title: fd.get('title'), image: fd.get('image'), category: fd.get('category'), date: fd.get('date'), summary: fd.get('summary'), content: fd.get('content'), createdAt: new Date().toISOString() };
+                    await addDoc(blogCol, nB); e.target.reset(); toggleAdminModal(); showView('blog');
+                });
+            } catch (err) { console.warn("Firebase limited."); }
+        });
+    </script>
+</body>
+</html>
