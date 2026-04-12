@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lo">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Lao:wght@400;700&display=swap');
         
         :root {
             --forest-green: #1B3022;
@@ -24,7 +24,7 @@
         }
 
         body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
+            font-family: 'Plus Jakarta Sans', 'Noto Sans Lao', sans-serif; 
             background-color: #f8f9f8; 
             color: #1a1a1a; 
             scroll-behavior: smooth;
@@ -401,59 +401,80 @@
         };
 
         const SYSTEM_PRODUCTS = [
-            { id: 'master-01', name: 'ເຕັ້ນ QUECHUA MH100 Fresh & Black (2 ຄົນ)', price: 1460000, category: 'tents', image: 'https://i.postimg.cc/qv0hwyZz/471874894-1103166361597493-1459129778683580847-n.jpg', description: '⛺ ເຕັ້ນ Fresh & Black: ນອນເຢັນ, ມືດ 99%, ກັນຝົນດີ.' },
-            { id: 'master-02', name: 'ເຕັ້ນ QUECHUA MH100 (ສີເທົາ)', price: 1100000, category: 'tents', image: 'https://i.postimg.cc/YCzbNjFr/156657757-198686858712119-7425055041363166372-n.jpg', description: '⛺ ເຕັ້ນ MH100: ກາງງ່າຍ, ກັນຝົນ/ລົມດີ (130x210x107cm).' },
-            { id: 'master-03', name: 'ເຕັ້ນກາງອັດຕະໂນມັດ Premium (3-4 ທ່ານ)', price: 885000, category: 'tents', image: 'https://i.postimg.cc/6pCRNRQF/124951381-118420500072089-6079077613874319164-n.jpg', description: 'Automatic pop-up mechanism for fast setup.' },
-            { id: 'master-04', name: 'ເຕັ້ນກາງອັດຕະໂນມັດ (Pop-up)', price: 890000, category: 'tents', image: 'https://i.postimg.cc/7LQ62Yt4/481250252-1394483935280395-2343742065073889579-n.jpg', description: 'Automatic Pop-up Tent with durable fabric.' },
+            // --- TENTS ---
+            { id: 'master-01', name: 'ເຕັ້ນ QUECHUA MH100 Fresh & Black (2 ຄົນ)', price: 1460000, category: 'tents', image: 'https://i.postimg.cc/qv0hwyZz/471874894-1103166361597493-1459129778683580847-n.jpg', description: 'ເຕັ້ນ QUECHUA MH100 Fresh & Black ສຳລັບ 2 ຄົນ.⛺ ເຕັ້ນ Fresh & Black: ນອນເຢັນ, ມືດ 99%, ກັນຝົນດີ, ກາງງ່າຍ (130x210x107cm), 3kg, ເກັບສະດວກ (58x16x16cm).Fresh & Black Tent: Cool & 99% Dark, Waterproof, Easy Setup (130x210x107cm), 3kg, Compact (58x16x16cm).' },
+            { id: 'master-02', name: 'ເຕັ້ນ QUECHUA MH100 (ສີເທົາ)', price: 1100000, category: 'tents', image: 'https://i.postimg.cc/YCzbNjFr/156657757-198686858712119-7425055041363166372-n.jpg', images: ['https://i.postimg.cc/YCzbNjFr/156657757-198686858712119-7425055041363166372-n.jpg', 'https://i.postimg.cc/nM8f7LYc/Screenshot-2026-01-14-at-18-55-51.png'], description: '⛺ ເຕັ້ນ MH100: ກາງງ່າຍ, ກັນຝົນ/ລົມດີ (130x210x107cm), ໜັກເບົາ 2.6kg, UPF 30, ເກັບສະດວກ (58x16x16cm).MH100 Tent: Easy Setup, Rain/Windproof (130x210x107cm), Lightweight 2.6kg, UPF 30, Compact (58x16x16cm).' },
+            { id: 'master-03', name: 'ເຕັ້ນກາງອັດຕະໂນມັດ Premium (3-4 ທ່ານ)', price: 885000, category: 'tents', image: 'https://i.postimg.cc/6pCRNRQF/124951381-118420500072089-6079077613874319164-n.jpg', description: 'Automatic pop-up mechanism.' },
+            { id: 'master-04', name: 'ເຕັ້ນກາງອັດຕະໂນມັດ (Pop-up)', price: 890000, category: 'tents', image: 'https://i.postimg.cc/7LQ62Yt4/481250252-1394483935280395-2343742065073889579-n.jpg', description: 'Automatic Pop-up Tent.' },
             { id: 'master-05', name: 'ເຕັ້ນສະປິງກາງອັດຕະໂນມັດ', price: 650000, category: 'tents', image: 'https://i.postimg.cc/NGWkqQ4R/127859284-131667258747413-3464652703126584755-n.jpg', description: 'Standard Automatic Spring Tent.' },
-            { id: 'master-06', name: 'ຜ້າກັ້ງກັນຝົນ Flysheet (3x3 ແມັດ)', price: 380000, category: 'tents', image: 'https://i.postimg.cc/4dqkTKK7/489751506-1424454392283349-8154752889413656228-n.jpg', description: 'Heavy duty waterproof flysheet. Includes poles and ropes.' },
+            { id: 'master-06', name: 'ຜ້າກັ້ງກັນຝົນ Flysheet (3x3 ແມັດ)', price: 380000, category: 'tents', image: 'https://i.postimg.cc/4dqkTKK7/489751506-1424454392283349-8154752889413656228-n.jpg', description: 'Flysheet 3x3m with 2 poles.' },
             { id: 'master-07', name: 'ຜ້າຢາງຮອງເຕັ້ນ (Groundsheet)', price: 200000, category: 'tents', image: 'https://i.postimg.cc/fTzmhkdX/471871594-1103166028264193-3080110264274826660-n.jpg', description: 'Groundsheet 2.1m x 2m.' },
             { id: 'master-08', name: 'ສະໝໍບົກ (Tent Pegs 20cm)', price: 50000, category: 'tents', image: 'https://i.postimg.cc/B6PqPrzQ/472186338-1103166364930826-8197764758286830200-n.jpg', description: 'Heavy duty 20cm tent pegs.' },
-            { id: 'master-09', name: 'ເຕົາແກັດພົກພາ AOTU', price: 285000, category: 'cooking', image: 'https://i.postimg.cc/HLsDXqV6/470820202-1095258122388317-6701559630283280350-n.jpg', description: 'Compact and reliable piezo ignition stove.' },
-            { id: 'master-10', name: 'ການ້ຳ (Outdoor Kettle 800ml)', price: 240000, category: 'cooking', image: 'https://i.postimg.cc/SxcCCPwR/124985548-118420480072091-5504697490990489685-n.jpg', description: '800ml aluminum kettle, lightweight for trekking.' },
-            { id: 'master-11', name: 'ເຫຼັກຢຶດຂາຕັ້ງສາມຂາ', price: 160000, category: 'cooking', image: 'https://i.postimg.cc/XqZyJ1fj/470195754-1095096232404506-5723296061682898594-n.jpg', description: 'Tripod bracket for campfire cooking.' },
-            { id: 'master-12', name: 'ຊຸດໝໍ້ສຳລັບ 3 ຫາ 4 ຄົນ (DS-308)', price: 430000, category: 'cooking', image: 'https://i.postimg.cc/bw8m2q4T/150739603-186271443286994-1875422230249930637-n.jpg', description: 'DS-308 Cooking Set for group camping.' },
+
+            // --- COOKING ---
+            { id: 'master-09', name: 'ເຕົາແກັດພົກພາ AOTU', price: 285000, category: 'cooking', image: 'https://i.postimg.cc/HLsDXqV6/470820202-1095258122388317-6701559630283280350-n.jpg', description: 'AOTU portable gas stove.' },
+            { id: 'master-10', name: 'ການ້ຳ (Outdoor Kettle 800ml)', price: 240000, category: 'cooking', image: 'https://i.postimg.cc/SxcCCPwR/124985548-118420480072091-5504697490990489685-n.jpg', description: '800ml aluminum kettle.' },
+            { id: 'master-11', name: 'ເຫຼັກຢຶດຂາຕັ້ງສາມຂາ', price: 160000, category: 'cooking', image: 'https://i.postimg.cc/XqZyJ1fj/470195754-1095096232404506-5723296061682898594-n.jpg', description: 'Tripod bracket.' },
+            { id: 'master-12', name: 'ຊຸດໝໍ້ສຳລັບ 3 ຫາ 4 ຄົນ (DS-308)', price: 430000, category: 'cooking', image: 'https://i.postimg.cc/bw8m2q4T/150739603-186271443286994-1875422230249930637-n.jpg', description: 'DS-308 Cooking Set.' },
             { id: 'master-12small', name: 'ຊຸດໝໍ້ສຳລັບ 1 ຫາ 2 ຄົນ (SY200)', price: 265000, category: 'cooking', image: 'https://i.postimg.cc/sgMq0fcf/Screenshot-2026-03-25-at-18-58-10.png', description: 'SY200 Cooking Set.' },
-            { id: 'master-13', name: 'ເຕົາແກັດນ້ອຍມີສາຍ', price: 200000, category: 'cooking', image: 'https://i.postimg.cc/kgvtYbwk/476775570-1132392825341513-296684994834635171-n.jpg', description: 'Hose stove for stable cooking.' },
+            { id: 'master-13', name: 'ເຕົາແກັດນ້ອຍມີສາຍ', price: 200000, category: 'cooking', image: 'https://i.postimg.cc/kgvtYbwk/476775570-1132392825341513-296684994834635171-n.jpg', description: 'Hose stove.' },
             { id: 'master-14', name: 'ເຕົາແກັດນ້ອຍມີອັນບັງລົມ', price: 180000, category: 'cooking', image: 'https://i.postimg.cc/mrd1BWvN/470235034-1091427629438033-3849741322793284301-n-(2).jpg', description: 'Windproof Stove.' },
             { id: 'master-14.1', name: 'ເຕົາແກັດນ້ອຍມີອັນບັງລົມມີສາຍແກັດ', price: 225000, category: 'cooking', image: 'https://i.postimg.cc/g2Hh5pdV/Screenshot-2026-03-19-at-22-54-51.png', description: 'Advanced portable stove.' },
             { id: 'master-15', name: 'ເຕົາແກັດ (Picnic Stove K-202)', price: 165000, category: 'cooking', image: 'https://i.postimg.cc/3RfYqSQJ/150468425-186271443286994-1875422230249930637-n.jpg', description: 'Small Picnic Stove.' },
             { id: 'master-16', name: 'ໝໍ້ຂຽວທະຫານ', price: 300000, category: 'cooking', image: 'https://i.postimg.cc/63x4bQwN/470161529-1091427636104699-6870152323458159947-n-(1).jpg', description: 'Military Pot 1.8L.' },
             { id: 'master-16.fork', name: 'ຊຸດບ່ວງ-ສ້ອມ 4-in-1 Selpa', price: 115000, category: 'cooking', image: 'https://i.postimg.cc/nh58jy7Q/Screenshot_2026_03_22_at_13_19_56.png', description: 'Multi-tool set.' },
-            { id: 'master-22Bucket', name: 'ຄຸພັບໄດ້ອະເນກປະສົງ (Collapsible Bucket)', price: 175000, category: 'cooking', image: 'https://i.postimg.cc/PrrpSfVF/Screenshot-2026-04-02-at-22-56-31.png', description: '15KG capacity PVC Collapsible Bucket.' },
-            { id: 'master-16.Surv', name: 'Survival Kit 18-in-1 Tactical Set', price: 475000, category: 'survival', image: 'https://i.postimg.cc/HnKKc5cP/Screenshot-2026-03-22-at-14-09-46.png', description: 'Complete emergency gear kit.' },
+            { id: 'master-22Bucket', name: 'ຄຸພັບໄດ້ອະເນກປະສົງ (Collapsible Bucket)', price: 175000, category: 'cooking', image: 'https://i.postimg.cc/PrrpSfVF/Screenshot-2026-04-02-at-22-56-31.png', description: 'ຄຸພັບໄດ້ຜ້າ PVC 500D ໜາ ຮັບນ້ຳໜັກໄດ້ 15KG. ພົກພາງ່າຍ, ກັນນ້ຳດີ. ເໝາະສຳລັບແຄ້ມປິ້ງ. | Durable 500D PVC Collapsible Bucket, 15KG capacity. Portable and waterproof, perfect for camping gear.' },
+
+            // --- SURVIVAL ---
+            { id: 'master-16.Survival Kit', name: 'Survival Kit 18-in-1 Tactical Set', price: 475000, category: 'survival', image: 'https://i.postimg.cc/HnKKc5cP/Screenshot-2026-03-22-at-14-09-46.png', description: 'Emergency gear kit.' },
+
+            // --- COFFEE ---
             { id: 'master-17', name: 'ຈອກ Cool Camp (4 ໃບ)', price: 260000, category: 'coffee', image: 'https://i.postimg.cc/L5yDLPPw/202323323-277134600867344-8457321312918561749-n.jpg', description: 'Stainless steel cups.' },
-            { id: 'master-18', name: 'Espresso Maker (300ml)', price: 210000, category: 'coffee', image: 'https://i.postimg.cc/zDbXHNr1/472106912-1101699191744210-325644103738198928-n-(1).jpg', description: 'Aluminum Moka Pot for rich campfire espresso.' },
+            { id: 'master-18', name: 'Espresso Maker (300ml)', price: 210000, category: 'coffee', image: 'https://i.postimg.cc/zDbXHNr1/472106912-1101699191744210-325644103738198928-n-(1).jpg', description: 'Moka Pot.' },
             { id: 'master-18Frother', name: 'ໄມ້ຕີຟອງນົມໄຟຟ້າ', price: 125000, category: 'coffee', image: 'https://i.postimg.cc/J7gzfLT2/Screenshot_2026_03_27_at_21_28_56.png', description: 'Electric frother.' },
             { id: 'master-19', name: 'ເຄື່ອງບົດກາເຟ (Coffee Grinder)', price: 195000, category: 'coffee', image: 'https://i.postimg.cc/vZNN0NDm/138558955_160501135864025_1071256138491929297_n.jpg', description: 'Manual grinder.' },
-            { id: 'master-20', name: 'ຕະກຽງ LED HOMFUL', price: 320000, category: 'lighting', image: 'https://i.postimg.cc/YS7Vz1V8/470138708-1091427639438032-4054288834215141234-n.jpg', description: 'Adjustable brightness LED lantern.' },
+
+            // --- LIGHTING ---
+            { id: 'master-20', name: 'ຕະກຽງ LED HOMFUL', price: 320000, category: 'lighting', image: 'https://i.postimg.cc/YS7Vz1V8/470138708-1091427639438032-4054288834215141234-n.jpg', description: 'Rechargeable lantern.' },
             { id: 'master-21', name: 'ເສົາຫ້ອຍໂຄມໄຟ', price: 250000, category: 'lighting', image: 'https://i.postimg.cc/Mp0CfPHz/470580274-1094729429107853-518082534720816909-n.jpg', description: 'Adjustable stand.' },
             { id: 'master-22', name: 'ເຫຼັກຫ້ອຍດອກໄຟ', price: 70000, category: 'lighting', image: 'https://i.postimg.cc/FKyCB7cG/471590824-1101698975077565-9125211727583692069-n.jpg', description: 'Lantern hook.' },
             { id: 'master-22.1', name: 'ດອກໄຟນ້ອຍ (Small Lantern)', price: 200000, category: 'lighting', image: 'https://i.postimg.cc/nh0WJs5N/125376115_118420463405426_551614310193011105_n.jpg', description: 'USB small lantern.' },
-            { id: 'master-23', name: 'ເຊື່ອນອນ Naturehike Air', price: 600000, category: 'sleeping_gear', image: 'https://i.postimg.cc/C5cQ41XF/476403930-1129881948925934-1365118939146447544-n.jpg', description: 'Ultralight inflatable sleeping mat.' },
-            { id: 'master-24', name: 'ເຊື່ອນອນເປົ່າລົມອັດຕະໂນມັດ', price: 330000, category: 'sleeping_gear', image: 'https://i.postimg.cc/1RT3kQCz/Screenshot_2026_03_27_at_21_30_41.png', description: 'Self-inflatable mat.' },
-            { id: 'master-25', name: 'ຖົງນອນ MUZENT (5°C)', price: 420000, category: 'sleeping_gear', image: 'https://i.postimg.cc/SQH8nqJr/470732130-1095258142388315-6675372278210325168-n.jpg', description: 'Compact sleeping bag rated for 5 degrees.' },
+
+            // --- SLEEPING ---
+            { id: 'master-23', name: 'ເຊື່ອນອນ Naturehike Air', price: 600000, category: 'sleeping_gear', image: 'https://i.postimg.cc/C5cQ41XF/476403930-1129881948925934-1365118939146447544-n.jpg', description: 'Ultralight mat.' },
+            { id: 'master-24', name: 'ເຊື່ອນອນເປົ່າລົມອັດຕະໂນມັດ', price: 330000, category: 'sleeping_gear', image: 'https://i.postimg.cc/1RT3kQCz/Screenshot_2026_03_27_at_21_30_41.png', description: 'Self-inflatable.' },
+            { id: 'master-25', name: 'ຖົງນອນ MUZENT (5°C)', price: 420000, category: 'sleeping_gear', image: 'https://i.postimg.cc/SQH8nqJr/470732130-1095258142388315-6675372278210325168-n.jpg', description: 'Sleeping bag.' },
             { id: 'master-26', name: 'ຖົງນອນ Naturehike Premium', price: 550000, category: 'sleeping_gear', image: 'https://i.postimg.cc/28xJzH5Y/483101086-1400042418057880-8967539400801900911-n-(1).jpg', description: 'Premium bag.' },
             { id: 'master-27', name: 'ຖົງນອນ ແບບພົກພາ', price: 225000, category: 'sleeping_gear', image: 'https://i.postimg.cc/T2bjqp8S/125315138-118420533405419-8079952364573550993-n.jpg', description: 'Portable bag.' },
             { id: 'master-28', name: 'ໝອນນອນເປົ່າລົມ', price: 50000, category: 'sleeping_gear', image: 'https://i.postimg.cc/kgj91M3M/138786732-160501152530690-3533211310814187676-n.jpg', description: 'Inflatable pillow.' },
+
+            // --- FURNITURE & OTHERS ---
             { id: 'master-29', name: 'ໂຕະແຄ້ມປິ້ງ Table M', price: 390000, category: 'furniture', image: 'https://i.postimg.cc/MG8JHcSH/470180269-1091456466101816-3503156836293091321-n.jpg', description: 'Aluminum Table.' },
             { id: 'master-30', name: 'ຕັ່ງແແຄ້ມປີ້ງ ShineTrip', price: 285000, category: 'furniture', image: 'https://i.postimg.cc/0jSsW7Gc/470209749-1091969312717198-8585518212376997562-n.jpg', description: 'Folding chair.' },
-            { id: 'master-31', name: 'ກະເປົ໋າເປ້ 65L Camel', price: 1350000, category: 'backpack', image: 'https://i.postimg.cc/8P7KVyMZ/471164242-1095570065690456-156288641806394470-n-(1).jpg', description: 'Hiking Backpack with 65L capacity.' },
+            { id: 'master-31', name: 'ກະເປົ໋າເປ້ 65L Camel', price: 1350000, category: 'backpack', image: 'https://i.postimg.cc/8P7KVyMZ/471164242-1095570065690456-156288641806394470-n-(1).jpg', description: 'Hiking Backpack.' },
             { id: 'master-32', name: 'ຜ້າກັນຝົນ Rain Cover', price: 70000, category: 'backpack', image: 'https://i.postimg.cc/ZKkc16FY/139180898-160501215864017-905798667929076806-n.jpg', description: 'Waterproof cover.' },
             { id: 'master-33', name: 'ໄມ້ເທົ້າ Naturehike', price: 335000, category: 'trekking_poles', image: 'https://i.postimg.cc/8PgDFr4N/488790917-1423518039043651-721068063865014396-n-(1).jpg', description: 'Hiking Pole.' },
             { id: 'master-34', name: 'ໄມ້ກັນເທົ້າ Standard', price: 140000, category: 'trekking_poles', image: 'https://i.postimg.cc/L65784Kh/189756927-258928419354629-5324966725450305500-n-(1).jpg', description: 'Adjustable pole.' },
             { id: 'master-35', name: 'ກະເປົ໋າຫ້ອຍແອວ', price: 100000, category: 'backpack', image: 'https://i.postimg.cc/7PpfY6j0/476359221-1130686925512103-8223380318275171227-n.jpg', description: 'Waist Bag.' },
-            { id: 'shoe-01', name: 'ເກີບຍ່າງປ່າ DOLWIS', price: 285000, category: 'shoes', image: 'https://i.postimg.cc/sfBG9SLs/138610223-160501245864014-7027706613102300070-n.jpg', description: 'Waterproof hiking shoes.' },
-            { id: 'shoe-02', name: 'ເກີບ Camel Outdoor', price: 480000, category: 'shoes', image: 'https://i.postimg.cc/x8dRtdWr/156504538-198686892045449-5804187784067538216-n.jpg', description: 'Genuine Camel boots.' },
+
+            // --- SHOES ---
+            { id: 'shoe-01', name: 'ເກີບຍ່າງປ່າ DOLWIS', price: 285000, category: 'shoes', image: 'https://i.postimg.cc/sfBG9SLs/138610223-160501245864014-7027706613102300070-n.jpg', description: 'Water Hiking Shoes.' },
+            { id: 'shoe-02', name: 'ເກີບ Camel Outdoor', price: 480000, category: 'shoes', image: 'https://i.postimg.cc/x8dRtdWr/156504538-198686892045449-5804187784067538216-n.jpg', description: 'Genuine Camel shoes.' },
             { id: 'shoe-03', name: 'ເກີບ Tactical OKIY', price: 430000, category: 'shoes', image: 'https://i.postimg.cc/9fMZ6kLR/138641699-160501209197351-6659600786465323988-n.jpg', description: 'High cut tactical boots.' },
             { id: 'shoe-04', name: 'ເກີບລຸຍນ້ຳ Water Shoes', price: 245000, category: 'shoes', image: 'https://i.postimg.cc/mD8zH6C3/Screenshot-2026-03-19-at-23-11-13.jpg', description: 'Breathable water shoes.' },
             { id: 'shoe-05', name: 'ເກີບແຕະຫຸ້ມຫົວ ໜັງແທ້', price: 295000, category: 'shoes', image: 'https://i.postimg.cc/7Z9Y3q1L/image-d2bf20.png', description: 'Brown Leather sandals.' },
-            { id: 'cloth-01', name: 'ເສື້ອກັນໜາວ Jeep Spirit', price: 360000, category: 'cloth', image: 'https://i.postimg.cc/Pf6VMy2k/Screenshot-2026-03-30-at-23-27-14.png', description: 'Authentic Jeep Spirit jacket.' },
-            { id: 'cloth-02', name: 'ໂສ້ງຍ່າງປ່າ Outdoor Jeep Spirit', price: 695000, category: 'cloth', image: 'https://i.postimg.cc/SsL6vSWt/Screenshot-2026-03-30-at-23-42-25.png', description: 'Jeep Spirit Tactical Pants.' },
+
+            // --- CLOTH ---
+            { id: 'cloth-01', name: 'ເສື້ອກັນໜາວ Jeep Spirit (Outdoor Jacket)', price: 360000, category: 'cloth', image: 'https://i.postimg.cc/Pf6VMy2k/Screenshot-2026-03-30-at-23-27-14.png', description: 'ເສື້ອ Outdoor Jeep Spirit ຂອງແທ້ 100% ກັນລົມ ແລະ ລະບາຍອາກາດດີ. ເໝາະສຳລັບກິດຈະກຳກາງແຈ້ງ ແລະ ແຄ້ມປິ້ງ. | 100% Original Jeep Spirit Outdoor Jacket. Windproof and breathable, perfect for outdoor adventures and camping.' },
+            { id: 'cloth-02', name: 'ໂສ້ງຍ່າງປ່າ Outdoor Jeep Spirit (Tactical Pants)', price: 695000, category: 'cloth', image: 'https://i.postimg.cc/SsL6vSWt/Screenshot-2026-03-30-at-23-42-25.png', description: ' ໂສ້ງຍ່າງປ່າ Outdoor Jeep Spirit ຂອງແທ້ 100% ເນື້ອຜ້າແຫ້ງໄວ ແລະ ທົນທານ. ມີຫຼາຍກະເປົາ ເໝາະສຳລັບຍ່າງປ່າ ແລະ ແຄ້ມປິ້ງ. | 100% Original Jeep Spirit Tactical Pants. Quick-dry and durable fabric with multi-pockets, perfect for hiking and camping.' },
+
+            // --- GLASSES ---
             { id: 'glass-01', name: 'ແວ່ນຕາກັນແດດ Tactical', price: 215000, category: 'Glasses', image: 'https://i.postimg.cc/fK0h3q0s/489751506-1424454392283349-8154752889413656228-n.jpg', description: 'Polarized sunglasses.' },
-            { id: 'glass-02', name: 'ແວ່ນຕາກັນແດດ Polarized ຕັດແສງ', price: 215000, category: 'Glasses', image: 'https://i.postimg.cc/WzpgwYVF/Screenshot-2026-04-02-20-11-39.png', description: '🕶️ ແວ່ນ Polarized ຕັດແສງ UV400.' },
-            { id: 'glass-03', name: 'ແວ່ນກັນແດດ Sports SP473', price: 75000, category: 'Glasses', image: 'https://i.postimg.cc/zBC4gvDn/Screenshot-2026-04-02-20-24-34.png', description: '🕶️ ແວ່ນ Sports Polarized.' },
-            { id: 'powerbank-01', name: 'Powerbank 20000mAh UGREEN', price: 1750000, category: 'powerbank', image: 'https://i.postimg.cc/rmXbyyps/Screenshot-2026-04-02-00-52-06.png', description: '⚡ UGREEN 20,000mAh PD 3.0.' }
+            { id: 'glass-02', name: 'ແວ່ນຕາກັນແດດ Polarized ຕັດແສງ', price: 215000, category: 'Glasses', image: 'https://i.postimg.cc/WzpgwYVF/Screenshot-2026-04-02-at-20-11-39.png', description: '🕶️ ແວ່ນ Tactical: ເລນ Polarized ຕັດແສງ, ກັນ UV400, ທົນທານ, ເໝາະສຳລັບຂັບຂີ່ ແລະ ກາງແຈ້ງ. / Polarized Tactical Sunglasses: UV400, Anti-glare, Durable, Perfect for Driving & Outdoors.' },
+            { id: 'glass-03', name: 'ແວ່ນກັນແດດ Sports SP473', price: 75000, category: 'Glasses', image: 'https://i.postimg.cc/zBC4gvDn/Screenshot-2026-04-02-at-20-24-34.png', description: '🕶️ ແວ່ນ Sports SP473: ເລນ Polarized ກັນ UV, ຕັດແສງ, ເໝາະສຳລັບຂັບຂີ່, ຕັ້ງແຄ້ມ ແລະ ກິລາ. / Sports Sunglasses SP473: Polarized UV Protection, Anti-glare, Ideal for Driving, Camping & Sports.' },
+            
+            // --- POWERBANK ---
+            { id: 'powerbank-01', name: 'Powerbank 20000mAh', price: 1750000, category: 'powerbank', image: 'https://i.postimg.cc/rmXbyyps/Screenshot-2026-04-02-at-00-52-06.png', description: '⚡ UGREEN 20,000mAh: ສາກໄວ PD 3.0, ມີ 3 ພອດ (USB-C x2, USB-A x1), ໜ້າຈໍ Digital, ພົກພາຂຶ້ນເຄື່ອງບິນໄດ້ ແລະ ຮັບປະກັນ 2 ປີ!UGREEN 20,000mAh Power Bank: PD 3.0 Super Fast Charge, 3 Ports, Digital Display, Airline Approved, and 2-Year Warranty.' }
         ];
 
         const SYSTEM_BLOGS = [
@@ -566,7 +587,7 @@
             document.getElementById('blogModalContent').innerText = content;
             
             const contentArea = document.getElementById('blogModalContent');
-            const isSystem = id.startsWith('sys-');
+            const isSystem = id.startsWith('sys-') || id.startsWith('blog-');
             
             const existingDel = document.getElementById('modal-inline-del');
             if (existingDel) existingDel.remove();
@@ -618,7 +639,7 @@
             const container = document.getElementById('cartItems');
             const totalEl = document.getElementById('cartTotal');
             if (cart.length === 0) { 
-                container.innerHTML = '<div class="text-center py-20 text-gray-400 text-xs uppercase">Empty</div>'; 
+                container.innerHTML = '<div class="text-center py-20 text-gray-400 text-xs uppercase">ກະຕ່າວ່າງເປົ່າ / Empty</div>'; 
                 totalEl.innerText = '0 LAK'; 
                 return; 
             }
@@ -678,7 +699,7 @@
                         <h3 class="font-black text-lg mb-2 text-[#1B3022] leading-tight">${p.name}</h3>
                         <p class="text-base font-bold text-amber-600 mb-6">${Number(p.price).toLocaleString()} LAK</p>
                         <div class="mt-auto pt-4 border-t border-gray-50 flex justify-between items-center">
-                            <span class="text-[9px] uppercase font-bold text-gray-400">View</span>
+                            <span class="text-[9px] uppercase font-bold text-gray-400">ເບິ່ງລາຍລະອຽດ / View</span>
                             <button onclick="event.stopPropagation(); addToCart('${p.id}')" class="bg-gray-100 p-2 rounded-lg hover:bg-emerald-600 hover:text-white transition"><i class="fa-solid fa-plus"></i></button>
                         </div>
                     </div>
@@ -692,13 +713,13 @@
                 <article class="blog-card flex flex-col cursor-pointer fade-in" onclick="openBlogDetails('${post.id}')">
                     <div class="h-60 overflow-hidden relative">
                         <img src="${post.image}" class="w-full h-full object-cover hover:scale-105 transition duration-700">
-                        ${isAdmin ? `<button onclick="event.stopPropagation(); deleteBlog('${post.id}')" class="absolute top-4 right-4 bg-white/90 text-red-500 w-10 h-10 rounded-full shadow-lg hover:bg-red-500 hover:text-white transition"><i class="fa-solid fa-trash-can"></i></button>` : ''}
+                        ${isAdmin && !post.id.startsWith('blog-') ? `<button onclick="event.stopPropagation(); deleteBlog('${post.id}')" class="absolute top-4 right-4 bg-white/90 text-red-500 w-10 h-10 rounded-full shadow-lg hover:bg-red-500 hover:text-white transition"><i class="fa-solid fa-trash-can"></i></button>` : ''}
                     </div>
                     <div class="p-8">
                         <span class="text-[9px] font-bold text-emerald-600 uppercase mb-3 block">${post.category} • ${post.date}</span>
                         <h3 class="font-black text-xl mb-4 leading-tight">${post.title}</h3>
                         <p class="text-gray-400 text-sm line-clamp-3 mb-6">${post.summary}</p>
-                        <span class="text-[10px] font-bold uppercase text-emerald-600 flex items-center gap-2">Read Article <i class="fa-solid fa-arrow-right-long"></i></span>
+                        <span class="text-[10px] font-bold uppercase text-emerald-600 flex items-center gap-2">ອ່ານຕໍ່ / Read Article <i class="fa-solid fa-arrow-right-long"></i></span>
                     </div>
                 </article>`).join('');
         }
@@ -744,31 +765,25 @@
 
         // --- DELETES ---
         window.deleteBlog = async (id) => { 
-            if (!confirm("Delete this blog post?")) return;
-            const isSystem = id.startsWith('blog-');
+            if (!confirm("ລົບໂພສນີ້ແທ້ບໍ່? / Delete blog?")) return;
             try {
-                if (isSystem) blogs = blogs.filter(b => b.id !== id);
-                else await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blogs', id));
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blogs', id));
                 showToast("Blog Deleted");
             } catch(e) { showToast("Error deleting blog"); }
         };
 
         window.deletePlace = async (id) => {
-            if (!confirm("Delete this camping spot?")) return;
-            const isSystem = id.startsWith('sys-');
+            if (!confirm("ລົບສະຖານທີ່ນີ້ແທ້ບໍ່? / Delete place?")) return;
             try {
-                if (isSystem) places = places.filter(p => p.id !== id);
-                else await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'places', id));
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'places', id));
                 showToast("Place Deleted");
             } catch(e) { showToast("Error deleting place"); }
         };
 
         window.deleteKnow = async (id) => {
-            if (!confirm("Delete this knowledge entry?")) return;
-            const isSystem = id.startsWith('sys-');
+            if (!confirm("ລົບຄວາມຮູ້ນີ້ແທ້ບໍ່? / Delete knowledge?")) return;
             try {
-                if (isSystem) knowledge = knowledge.filter(k => k.id !== id);
-                else await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'knowledge', id));
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'knowledge', id));
                 showToast("Knowledge Deleted");
             } catch(e) { showToast("Error deleting knowledge"); }
         };
@@ -787,7 +802,7 @@
             if (isAdmin && !isSystem) {
                 delBtn.classList.remove('hidden');
                 delBtn.onclick = async () => { 
-                    if (confirm("Delete this product?")) { 
+                    if (confirm("ລົບສິນຄ້ານີ້ແທ້ບໍ່? / Delete product?")) { 
                         try {
                             await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'products', id)); 
                             closeModals(); 
@@ -797,7 +812,7 @@
                 };
             } else { delBtn.classList.add('hidden'); }
 
-            document.getElementById('whatsappBtn').href = `https://wa.me/8562054849393?text=${encodeURIComponent("Interested: " + p.name)}`;
+            document.getElementById('whatsappBtn').href = `https://wa.me/8562054849393?text=${encodeURIComponent("ສົນໃຈສິນຄ້າ: " + p.name)}`;
             const addBtn = document.getElementById('addToCartBtn');
             addBtn.onclick = () => { addToCart(p.id); addBtn.innerText = 'Added!'; setTimeout(() => addBtn.innerText = 'Add to Cart', 1500); };
             document.getElementById('modal').style.display = 'flex';
@@ -815,64 +830,69 @@
             applyFilters();
             renderBlogs();
 
-            // Set up all Admin Form Handlers with Safety Guards
-            const setupForms = () => {
+            try {
+                let configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
+                const firebaseConfig = configStr ? JSON.parse(configStr) : null;
+                if (!firebaseConfig) {
+                    console.warn("Firebase config missing. Running in local-only mode.");
+                    return;
+                }
+
+                appId = typeof __app_id !== 'undefined' ? __app_id : 'thesale3-camping';
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app); 
+                db = getFirestore(app);
+
+                // CRITICAL FIX: Initialize collection refs immediately after db is ready
+                productCol = collection(db, 'artifacts', appId, 'public', 'data', 'products');
+                blogCol = collection(db, 'artifacts', appId, 'public', 'data', 'blogs');
+                placeCol = collection(db, 'artifacts', appId, 'public', 'data', 'places');
+                knowCol = collection(db, 'artifacts', appId, 'public', 'data', 'knowledge');
+
+                // Setup Admin Form Handlers
                 document.getElementById('adminForm').onsubmit = async (e) => {
                     e.preventDefault();
-                    if (!productCol) { showToast("Store initializing... please wait."); return; }
+                    if (!productCol) { showToast("ກຳລັງເຊື່ອມຕໍ່ຖານຂໍ້ມູນ... / Initializing..."); return; }
+                    const btn = e.target.querySelector('.submit-btn');
+                    btn.disabled = true; btn.innerText = "ກຳລັງບັນທຶກ... / Saving...";
                     const fd = new FormData(e.target);
                     const nP = { name: fd.get('name'), price: Number(fd.get('price')), category: fd.get('category'), image: fd.get('image'), description: fd.get('description'), createdAt: new Date().toISOString() };
                     try {
                         await addDoc(productCol, nP); 
-                        e.target.reset(); toggleAdminModal(); showToast("Product Saved!");
-                    } catch(err) { showToast("Connection error. Try again."); }
+                        e.target.reset(); toggleAdminModal(); showToast("ບັນທຶກສຳເລັດ! / Product Saved!");
+                    } catch(err) { showToast("ເກີດຂໍ້ຜິດພາດ: " + err.message); }
+                    btn.disabled = false; btn.innerText = "Save Product";
                 };
 
                 document.getElementById('blogForm').onsubmit = async (e) => {
                     e.preventDefault();
-                    if (!blogCol) { showToast("Blog initializing... please wait."); return; }
+                    if (!blogCol) { showToast("ກຳລັງເຊື່ອມຕໍ່ຖານຂໍ້ມູນ... / Initializing..."); return; }
+                    const btn = e.target.querySelector('.submit-btn');
+                    btn.disabled = true;
                     const fd = new FormData(e.target);
                     const nB = { title: fd.get('title'), image: fd.get('image'), category: fd.get('category'), date: fd.get('date'), summary: fd.get('summary'), content: fd.get('content'), createdAt: new Date().toISOString() };
                     try {
                         await addDoc(blogCol, nB); 
                         e.target.reset(); toggleAdminModal(); showView('blog'); showToast("Blog Published!");
-                    } catch(err) { showToast("Connection error. Try again."); }
+                    } catch(err) { showToast("Error: " + err.message); }
+                    btn.disabled = false;
                 };
 
                 document.getElementById('placeForm').onsubmit = async (e) => {
                     e.preventDefault();
-                    if (!placeCol) { showToast("Map initializing... please wait."); return; }
                     const fd = new FormData(e.target);
                     const nPL = { title: fd.get('title'), location: fd.get('location'), image: fd.get('image'), summary: fd.get('content').substring(0, 60) + '...', content: fd.get('content'), createdAt: new Date().toISOString() };
-                    try {
-                        await addDoc(placeCol, nPL);
-                        e.target.reset(); toggleAdminModal(); showToast("Spot Added!");
-                    } catch(err) { showToast("Connection error. Try again."); }
+                    try { await addDoc(placeCol, nPL); e.target.reset(); toggleAdminModal(); showToast("Spot Added!"); } catch(err) { showToast("Error: " + err.message); }
                 };
 
                 document.getElementById('knowledgeForm').onsubmit = async (e) => {
                     e.preventDefault();
-                    if (!knowCol) { showToast("Knowledge bank initializing... please wait."); return; }
                     const fd = new FormData(e.target);
                     const nK = { title: fd.get('title'), image: fd.get('image'), summary: fd.get('summary'), content: fd.get('content'), icon: 'book-open', createdAt: new Date().toISOString() };
-                    try {
-                        await addDoc(knowCol, nK);
-                        e.target.reset(); toggleAdminModal(); showToast("Knowledge Published!");
-                    } catch(err) { showToast("Connection error. Try again."); }
+                    try { await addDoc(knowCol, nK); e.target.reset(); toggleAdminModal(); showToast("Knowledge Published!"); } catch(err) { showToast("Error: " + err.message); }
                 };
-            };
-            
-            setupForms();
 
-            try {
-                let configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
-                const firebaseConfig = configStr ? JSON.parse(configStr) : null;
-                if (!firebaseConfig) return;
-
-                appId = typeof __app_id !== 'undefined' ? __app_id : 'thesale3-camping';
-                const app = initializeApp(firebaseConfig);
-                auth = getAuth(app); db = getFirestore(app);
-
+                // Authenticate
                 const initAuth = async () => {
                     if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
                     else await signInAnonymously(auth);
@@ -881,8 +901,6 @@
 
                 onAuthStateChanged(auth, (u) => {
                     if (u) {
-                        // Initialize collection references as soon as we have a user
-                        productCol = collection(db, 'artifacts', appId, 'public', 'data', 'products');
                         onSnapshot(productCol, snap => {
                             const dbP = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                             const sIds = SYSTEM_PRODUCTS.map(p => p.id);
@@ -890,7 +908,6 @@
                             applyFilters();
                         });
 
-                        blogCol = collection(db, 'artifacts', appId, 'public', 'data', 'blogs');
                         onSnapshot(blogCol, snap => { 
                             const dbB = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                             const sIds = SYSTEM_BLOGS.map(b => b.id);
@@ -898,7 +915,6 @@
                             renderBlogs(); 
                         });
 
-                        placeCol = collection(db, 'artifacts', appId, 'public', 'data', 'places');
                         onSnapshot(placeCol, snap => {
                             const dbPl = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                             const sIds = SYSTEM_PLACES.map(p => p.id);
@@ -906,7 +922,6 @@
                             renderPlaces();
                         });
 
-                        knowCol = collection(db, 'artifacts', appId, 'public', 'data', 'knowledge');
                         onSnapshot(knowCol, snap => {
                             const dbK = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                             const sIds = SYSTEM_KNOWLEDGE.map(k => k.id);
