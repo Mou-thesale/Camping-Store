@@ -147,6 +147,11 @@
         }
         
         .prose-content { line-height: 1.8; color: #4b5563; }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -325,7 +330,7 @@
                 </select>
                 <input type="url" name="image" placeholder="Image URL" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
                 <textarea name="description" placeholder="Description" required class="w-full p-4 h-32 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
-                <button type="submit" class="w-full bg-[#1B3022] text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Save Product</button>
+                <button type="submit" class="submit-btn w-full bg-[#1B3022] text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Save Product</button>
             </form>
 
             <form id="blogForm" class="space-y-6 hidden admin-tab" data-tab="blogs">
@@ -337,7 +342,7 @@
                 </div>
                 <textarea name="summary" placeholder="Summary (shows in preview)" required class="w-full p-4 h-24 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
                 <textarea name="content" placeholder="Full Content" required class="w-full p-4 h-48 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
-                <button type="submit" class="w-full bg-emerald-600 text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Publish Post</button>
+                <button type="submit" class="submit-btn w-full bg-emerald-600 text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Publish Post</button>
             </form>
 
             <form id="placeForm" class="space-y-6 hidden admin-tab" data-tab="places">
@@ -345,7 +350,7 @@
                 <input type="text" name="location" placeholder="Province/Region" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
                 <input type="url" name="image" placeholder="Image URL" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
                 <textarea name="content" placeholder="Details and Tips for this spot..." required class="w-full p-4 h-48 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
-                <button type="submit" class="w-full bg-blue-600 text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Add Camping Spot</button>
+                <button type="submit" class="submit-btn w-full bg-blue-600 text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Add Camping Spot</button>
             </form>
 
             <form id="knowledgeForm" class="space-y-6 hidden admin-tab" data-tab="knowledge">
@@ -353,7 +358,7 @@
                 <input type="url" name="image" placeholder="Illustration Image URL" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
                 <textarea name="summary" placeholder="Short description for home page..." required class="w-full p-4 h-24 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
                 <textarea name="content" placeholder="Detailed survival/technical advice..." required class="w-full p-4 h-48 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
-                <button type="submit" class="w-full bg-amber-600 text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Publish Knowledge</button>
+                <button type="submit" class="submit-btn w-full bg-amber-600 text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Publish Knowledge</button>
             </form>
         </div>
     </div>
@@ -560,13 +565,13 @@
             document.getElementById('blogModalMeta').innerText = meta;
             document.getElementById('blogModalContent').innerText = content;
             
-            // Add Delete button in details if Admin
             const contentArea = document.getElementById('blogModalContent');
             const isSystem = id.startsWith('sys-');
+            
+            const existingDel = document.getElementById('modal-inline-del');
+            if (existingDel) existingDel.remove();
+
             if (isAdmin && !isSystem) {
-                const existingDel = document.getElementById('modal-inline-del');
-                if (existingDel) existingDel.remove();
-                
                 const delBtn = document.createElement('button');
                 delBtn.id = 'modal-inline-del';
                 delBtn.className = "mt-10 bg-red-50 text-red-500 px-6 py-3 rounded-xl font-bold uppercase text-[10px] tracking-widest";
@@ -574,6 +579,7 @@
                 delBtn.onclick = () => {
                     if (type === 'place') deletePlace(id);
                     if (type === 'know') deleteKnow(id);
+                    if (type === 'blog') deleteBlog(id);
                     closeBlogModal();
                 };
                 contentArea.appendChild(delBtn);
@@ -740,25 +746,31 @@
         window.deleteBlog = async (id) => { 
             if (!confirm("Delete this blog post?")) return;
             const isSystem = id.startsWith('blog-');
-            if (isSystem) blogs = blogs.filter(b => b.id !== id);
-            else await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blogs', id));
-            showToast("Blog Deleted");
+            try {
+                if (isSystem) blogs = blogs.filter(b => b.id !== id);
+                else await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blogs', id));
+                showToast("Blog Deleted");
+            } catch(e) { showToast("Error deleting blog"); }
         };
 
         window.deletePlace = async (id) => {
             if (!confirm("Delete this camping spot?")) return;
             const isSystem = id.startsWith('sys-');
-            if (isSystem) places = places.filter(p => p.id !== id);
-            else await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'places', id));
-            showToast("Place Deleted");
+            try {
+                if (isSystem) places = places.filter(p => p.id !== id);
+                else await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'places', id));
+                showToast("Place Deleted");
+            } catch(e) { showToast("Error deleting place"); }
         };
 
         window.deleteKnow = async (id) => {
             if (!confirm("Delete this knowledge entry?")) return;
             const isSystem = id.startsWith('sys-');
-            if (isSystem) knowledge = knowledge.filter(k => k.id !== id);
-            else await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'knowledge', id));
-            showToast("Knowledge Deleted");
+            try {
+                if (isSystem) knowledge = knowledge.filter(k => k.id !== id);
+                else await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'knowledge', id));
+                showToast("Knowledge Deleted");
+            } catch(e) { showToast("Error deleting knowledge"); }
         };
 
         window.openDetails = (id) => {
@@ -776,9 +788,11 @@
                 delBtn.classList.remove('hidden');
                 delBtn.onclick = async () => { 
                     if (confirm("Delete this product?")) { 
-                        await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'products', id)); 
-                        closeModals(); 
-                        showToast("Product Deleted");
+                        try {
+                            await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'products', id)); 
+                            closeModals(); 
+                            showToast("Product Deleted");
+                        } catch(e) { showToast("Error deleting product"); }
                     } 
                 };
             } else { delBtn.classList.add('hidden'); }
@@ -801,38 +815,54 @@
             applyFilters();
             renderBlogs();
 
-            // Form Handlers
-            document.getElementById('adminForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const fd = new FormData(e.target);
-                const nP = { name: fd.get('name'), price: Number(fd.get('price')), category: fd.get('category'), image: fd.get('image'), description: fd.get('description'), createdAt: new Date().toISOString() };
-                await addDoc(productCol, nP); 
-                e.target.reset(); toggleAdminModal(); showToast("Product Saved!");
-            });
+            // Set up all Admin Form Handlers with Safety Guards
+            const setupForms = () => {
+                document.getElementById('adminForm').onsubmit = async (e) => {
+                    e.preventDefault();
+                    if (!productCol) { showToast("Store initializing... please wait."); return; }
+                    const fd = new FormData(e.target);
+                    const nP = { name: fd.get('name'), price: Number(fd.get('price')), category: fd.get('category'), image: fd.get('image'), description: fd.get('description'), createdAt: new Date().toISOString() };
+                    try {
+                        await addDoc(productCol, nP); 
+                        e.target.reset(); toggleAdminModal(); showToast("Product Saved!");
+                    } catch(err) { showToast("Connection error. Try again."); }
+                };
 
-            document.getElementById('blogForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const fd = new FormData(e.target);
-                const nB = { title: fd.get('title'), image: fd.get('image'), category: fd.get('category'), date: fd.get('date'), summary: fd.get('summary'), content: fd.get('content'), createdAt: new Date().toISOString() };
-                await addDoc(blogCol, nB); 
-                e.target.reset(); toggleAdminModal(); showView('blog'); showToast("Blog Published!");
-            });
+                document.getElementById('blogForm').onsubmit = async (e) => {
+                    e.preventDefault();
+                    if (!blogCol) { showToast("Blog initializing... please wait."); return; }
+                    const fd = new FormData(e.target);
+                    const nB = { title: fd.get('title'), image: fd.get('image'), category: fd.get('category'), date: fd.get('date'), summary: fd.get('summary'), content: fd.get('content'), createdAt: new Date().toISOString() };
+                    try {
+                        await addDoc(blogCol, nB); 
+                        e.target.reset(); toggleAdminModal(); showView('blog'); showToast("Blog Published!");
+                    } catch(err) { showToast("Connection error. Try again."); }
+                };
 
-            document.getElementById('placeForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const fd = new FormData(e.target);
-                const nPL = { title: fd.get('title'), location: fd.get('location'), image: fd.get('image'), summary: fd.get('content').substring(0, 60) + '...', content: fd.get('content'), createdAt: new Date().toISOString() };
-                await addDoc(placeCol, nPL);
-                e.target.reset(); toggleAdminModal(); showToast("Spot Added!");
-            });
+                document.getElementById('placeForm').onsubmit = async (e) => {
+                    e.preventDefault();
+                    if (!placeCol) { showToast("Map initializing... please wait."); return; }
+                    const fd = new FormData(e.target);
+                    const nPL = { title: fd.get('title'), location: fd.get('location'), image: fd.get('image'), summary: fd.get('content').substring(0, 60) + '...', content: fd.get('content'), createdAt: new Date().toISOString() };
+                    try {
+                        await addDoc(placeCol, nPL);
+                        e.target.reset(); toggleAdminModal(); showToast("Spot Added!");
+                    } catch(err) { showToast("Connection error. Try again."); }
+                };
 
-            document.getElementById('knowledgeForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const fd = new FormData(e.target);
-                const nK = { title: fd.get('title'), image: fd.get('image'), summary: fd.get('summary'), content: fd.get('content'), icon: 'book-open', createdAt: new Date().toISOString() };
-                await addDoc(knowCol, nK);
-                e.target.reset(); toggleAdminModal(); showToast("Knowledge Published!");
-            });
+                document.getElementById('knowledgeForm').onsubmit = async (e) => {
+                    e.preventDefault();
+                    if (!knowCol) { showToast("Knowledge bank initializing... please wait."); return; }
+                    const fd = new FormData(e.target);
+                    const nK = { title: fd.get('title'), image: fd.get('image'), summary: fd.get('summary'), content: fd.get('content'), icon: 'book-open', createdAt: new Date().toISOString() };
+                    try {
+                        await addDoc(knowCol, nK);
+                        e.target.reset(); toggleAdminModal(); showToast("Knowledge Published!");
+                    } catch(err) { showToast("Connection error. Try again."); }
+                };
+            };
+            
+            setupForms();
 
             try {
                 let configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
@@ -851,25 +881,37 @@
 
                 onAuthStateChanged(auth, (u) => {
                     if (u) {
+                        // Initialize collection references as soon as we have a user
                         productCol = collection(db, 'artifacts', appId, 'public', 'data', 'products');
                         onSnapshot(productCol, snap => {
                             const dbP = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                            products = [...SYSTEM_PRODUCTS, ...dbP]; applyFilters();
+                            const sIds = SYSTEM_PRODUCTS.map(p => p.id);
+                            products = [...SYSTEM_PRODUCTS, ...dbP.filter(p => !sIds.includes(p.id))]; 
+                            applyFilters();
                         });
 
                         blogCol = collection(db, 'artifacts', appId, 'public', 'data', 'blogs');
                         onSnapshot(blogCol, snap => { 
-                            blogs = [...SYSTEM_BLOGS, ...snap.docs.map(d => ({ id: d.id, ...d.data() }))]; renderBlogs(); 
+                            const dbB = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                            const sIds = SYSTEM_BLOGS.map(b => b.id);
+                            blogs = [...SYSTEM_BLOGS, ...dbB.filter(b => !sIds.includes(b.id))]; 
+                            renderBlogs(); 
                         });
 
                         placeCol = collection(db, 'artifacts', appId, 'public', 'data', 'places');
                         onSnapshot(placeCol, snap => {
-                            places = [...SYSTEM_PLACES, ...snap.docs.map(d => ({ id: d.id, ...d.data() }))]; renderPlaces();
+                            const dbPl = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                            const sIds = SYSTEM_PLACES.map(p => p.id);
+                            places = [...SYSTEM_PLACES, ...dbPl.filter(p => !sIds.includes(p.id))]; 
+                            renderPlaces();
                         });
 
                         knowCol = collection(db, 'artifacts', appId, 'public', 'data', 'knowledge');
                         onSnapshot(knowCol, snap => {
-                            knowledge = [...SYSTEM_KNOWLEDGE, ...snap.docs.map(d => ({ id: d.id, ...d.data() }))]; renderKnowledge();
+                            const dbK = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                            const sIds = SYSTEM_KNOWLEDGE.map(k => k.id);
+                            knowledge = [...SYSTEM_KNOWLEDGE, ...dbK.filter(k => !sIds.includes(k.id))]; 
+                            renderKnowledge();
                         });
                     }
                 });
