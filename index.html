@@ -219,6 +219,7 @@
                         <button onclick="filterBy('Glasses', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-glasses"></i> Glasses</button>
                         <button onclick="filterBy('powerbank', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-battery-full"></i> Power</button>
                         <button onclick="filterBy('survival', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-kit-medical"></i> Survival</button>
+                        <button onclick="filterBy('gear', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-toolbox"></i> Gear</button>
                     </div>
                 </div>
                 <div class="relative w-full lg:w-80">
@@ -327,6 +328,7 @@
                     <option value="powerbank">Power / ແບັດ</option>
                     <option value="Glasses">Glasses / ແວ່ນຕາ</option>
                     <option value="survival">Survival / ເອົາຕົວລອດ</option>
+                    <option value="gear">Gear / ອຸປະກອນ</option>
                 </select>
                 <input type="url" name="image" placeholder="Image URL" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
                 <textarea name="description" placeholder="Description" required class="w-full p-4 h-32 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
@@ -397,7 +399,7 @@
         import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const catMap = {
-            'all': 'All Gear / ທັງໝົດ', 'tents': 'Tents / ເຕັ້ນ', 'cooking': 'Cooking / ເຄື່ອງຄົວ', 'coffee': 'Coffee / ກາເຟ', 'lighting': 'Lighting / ໄຟ', 'sleeping_gear': 'Sleeping / ເຄື່ອງນອນ', 'furniture': 'Furniture / ເຟີນີເຈີ', 'backpack': 'Backpack / ກະເປົ໋າ', 'trekking_poles': 'Poles / ໄມ້ເທົ້າ', 'shoes': 'Shoes / ເກີບ', 'cloth': 'Cloth / ເຄື່ອງນຸ່ງ', 'survival': 'Survival / ເອົາຕົວລອດ', 'powerbank': 'Power / ແບັດ', 'Glasses': 'Glasses / ແວ່ນຕາ'
+            'all': 'All Gear / ທັງໝົດ', 'tents': 'Tents / ເຕັ້ນ', 'cooking': 'Cooking / ເຄື່ອງຄົວ', 'coffee': 'Coffee / ກາເຟ', 'lighting': 'Lighting / ໄຟ', 'sleeping_gear': 'Sleeping / ເຄື່ອງນອນ', 'furniture': 'Furniture / ເຟີນີເຈີ', 'backpack': 'Backpack / ກະເປົ໋າ', 'trekking_poles': 'Poles / ໄມ້ເທົ້າ', 'shoes': 'Shoes / ເກີບ', 'cloth': 'Cloth / ເຄື່ອງນຸ່ງ', 'survival': 'Survival / ເອົາຕົວລອດ', 'powerbank': 'Power / ແບັດ', 'Glasses': 'Glasses / ແວ່ນຕາ', 'gear': 'Gear / ອຸປະກອນ'
         };
 
         const SYSTEM_PRODUCTS = [
@@ -423,7 +425,7 @@
             { id: 'master-15', name: 'ເຕົາແກັດ (Picnic Stove K-202)', price: 165000, category: 'cooking', image: 'https://i.postimg.cc/3RfYqSQJ/150468425-186271443286994-1875422230249930637-n.jpg', description: 'Small Picnic Stove.' },
             { id: 'master-16', name: 'ໝໍ້ຂຽວທະຫານ', price: 300000, category: 'cooking', image: 'https://i.postimg.cc/63x4bQwN/470161529-1091427636104699-6870152323458159947-n-(1).jpg', description: 'Military Pot 1.8L.' },
             { id: 'master-16.fork', name: 'ຊຸດບ່ວງ-ສ້ອມ 4-in-1 Selpa', price: 115000, category: 'cooking', image: 'https://i.postimg.cc/nh58jy7Q/Screenshot_2026_03_22_at_13_19_56.png', description: 'Multi-tool set.' },
-            { id: 'master-22Bucket', name: 'ຄຸພັບໄດ້ອະເນກປະສົງ (Collapsible Bucket)', price: 175000, category: 'cooking', image: 'https://i.postimg.cc/PrrpSfVF/Screenshot-2026-04-02-at-22-56-31.png', description: 'ຄຸພັບໄດ້ຜ້າ PVC 500D ໜາ ຮັບນ້ຳໜັກໄດ້ 15KG. ພົກພາງ່າຍ, ກັນນ້ຳດີ. ເໝາະສຳລັບແຄ້ມປິ້ງ. | Durable 500D PVC Collapsible Bucket, 15KG capacity. Portable and waterproof, perfect for camping gear.' },
+            { id: 'master-22Bucket', name: 'ຄຸພັບໄດ້ອະເນກປະສົງ (Collapsible Bucket)', price: 175000, category: 'gear', image: 'https://i.postimg.cc/PrrpSfVF/Screenshot-2026-04-02-at-22-56-31.png', description: 'ຄຸພັບໄດ້ຜ້າ PVC 500D ໜາ ຮັບນ້ຳໜັກໄດ້ 15KG. ພົກພາງ່າຍ, ກັນນ້ຳດີ. ເໝາະສຳລັບແຄ້ມປິ້ງ. | Durable 500D PVC Collapsible Bucket, 15KG capacity. Portable and waterproof, perfect for camping gear.' },
 
             // --- SURVIVAL ---
             { id: 'master-16.Survival Kit', name: 'Survival Kit 18-in-1 Tactical Set', price: 475000, category: 'survival', image: 'https://i.postimg.cc/HnKKc5cP/Screenshot-2026-03-22-at-14-09-46.png', description: 'Emergency gear kit.' },
@@ -834,7 +836,7 @@
                 let configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
                 const firebaseConfig = configStr ? JSON.parse(configStr) : null;
                 if (!firebaseConfig) {
-                    console.warn("Firebase config missing. Running in local-only mode.");
+                    console.warn("Firebase config missing.");
                     return;
                 }
 
@@ -843,7 +845,7 @@
                 auth = getAuth(app); 
                 db = getFirestore(app);
 
-                // CRITICAL FIX: Initialize collection refs immediately after db is ready
+                // Initialize collection refs immediately
                 productCol = collection(db, 'artifacts', appId, 'public', 'data', 'products');
                 blogCol = collection(db, 'artifacts', appId, 'public', 'data', 'blogs');
                 placeCol = collection(db, 'artifacts', appId, 'public', 'data', 'places');
@@ -852,21 +854,38 @@
                 // Setup Admin Form Handlers
                 document.getElementById('adminForm').onsubmit = async (e) => {
                     e.preventDefault();
-                    if (!productCol) { showToast("ກຳລັງເຊື່ອມຕໍ່ຖານຂໍ້ມູນ... / Initializing..."); return; }
+                    if (!auth.currentUser) { showToast("Connecting to server... / ຂໍອະໄພ, ຍັງບໍ່ທັນເຊື່ອມຕໍ່ໄດ້."); return; }
+                    
                     const btn = e.target.querySelector('.submit-btn');
-                    btn.disabled = true; btn.innerText = "ກຳລັງບັນທຶກ... / Saving...";
+                    btn.disabled = true; 
+                    btn.innerText = "Saving... / ກຳລັງບັນທຶກ...";
+                    
                     const fd = new FormData(e.target);
-                    const nP = { name: fd.get('name'), price: Number(fd.get('price')), category: fd.get('category'), image: fd.get('image'), description: fd.get('description'), createdAt: new Date().toISOString() };
+                    const nP = { 
+                        name: fd.get('name'), 
+                        price: Number(fd.get('price')), 
+                        category: fd.get('category'), 
+                        image: fd.get('image'), 
+                        description: fd.get('description'), 
+                        createdAt: new Date().toISOString() 
+                    };
+
                     try {
                         await addDoc(productCol, nP); 
-                        e.target.reset(); toggleAdminModal(); showToast("ບັນທຶກສຳເລັດ! / Product Saved!");
-                    } catch(err) { showToast("ເກີດຂໍ້ຜິດພາດ: " + err.message); }
-                    btn.disabled = false; btn.innerText = "Save Product";
+                        e.target.reset(); 
+                        toggleAdminModal(); 
+                        showToast("ບັນທຶກສຳເລັດ! / Product Saved!");
+                    } catch(err) { 
+                        showToast("Error: " + err.message); 
+                    } finally {
+                        btn.disabled = false; 
+                        btn.innerText = "Save Product";
+                    }
                 };
 
                 document.getElementById('blogForm').onsubmit = async (e) => {
                     e.preventDefault();
-                    if (!blogCol) { showToast("ກຳລັງເຊື່ອມຕໍ່ຖານຂໍ້ມູນ... / Initializing..."); return; }
+                    if (!auth.currentUser) { showToast("Initializing..."); return; }
                     const btn = e.target.querySelector('.submit-btn');
                     btn.disabled = true;
                     const fd = new FormData(e.target);
@@ -880,6 +899,7 @@
 
                 document.getElementById('placeForm').onsubmit = async (e) => {
                     e.preventDefault();
+                    if (!auth.currentUser) return;
                     const fd = new FormData(e.target);
                     const nPL = { title: fd.get('title'), location: fd.get('location'), image: fd.get('image'), summary: fd.get('content').substring(0, 60) + '...', content: fd.get('content'), createdAt: new Date().toISOString() };
                     try { await addDoc(placeCol, nPL); e.target.reset(); toggleAdminModal(); showToast("Spot Added!"); } catch(err) { showToast("Error: " + err.message); }
@@ -887,12 +907,13 @@
 
                 document.getElementById('knowledgeForm').onsubmit = async (e) => {
                     e.preventDefault();
+                    if (!auth.currentUser) return;
                     const fd = new FormData(e.target);
                     const nK = { title: fd.get('title'), image: fd.get('image'), summary: fd.get('summary'), content: fd.get('content'), icon: 'book-open', createdAt: new Date().toISOString() };
                     try { await addDoc(knowCol, nK); e.target.reset(); toggleAdminModal(); showToast("Knowledge Published!"); } catch(err) { showToast("Error: " + err.message); }
                 };
 
-                // Authenticate
+                // Authenticate and settle SDK
                 const initAuth = async () => {
                     if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
                     else await signInAnonymously(auth);
