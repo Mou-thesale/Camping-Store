@@ -7,11 +7,6 @@
     <title>TheSale3 Camping | Premium Outdoor Gear Laos</title>
     <meta name="description" content="Premium outdoor equipment for the Lao adventurer. Shop portable stoves, tents, coffee gear, and furniture. Quality tested for Laos terrain. Contact +8562054849393.">
     
-    <!-- Open Graph Tags -->
-    <meta property="og:title" content="TheSale3 Camping Store | Premium Gear">
-    <meta property="og:description" content="Premium outdoor equipment for the Lao adventurer. Click to browse our catalog.">
-    <meta property="og:image" content="https://i.postimg.cc/FKL5Q4JW/489751506-1424454392283349-8154752889413656228-n.jpg">
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -62,6 +57,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            border: 1px solid #f0f0f0;
         }
 
         .category-pill.active { 
@@ -89,37 +85,6 @@
             background: var(--emerald-accent);
         }
 
-        .place-card {
-            position: relative;
-            border-radius: 24px;
-            overflow: hidden;
-            height: 400px;
-            transition: transform 0.4s ease;
-            cursor: pointer;
-        }
-        .place-card:hover { transform: scale(1.02); }
-        .place-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent 70%);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 2rem;
-        }
-
-        .blog-card {
-            background: white;
-            border-radius: 24px;
-            border: 1px solid #f0f0f0;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .blog-card:hover {
-            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.05);
-            border-color: var(--emerald-accent);
-        }
-
         .view-section { display: none; }
         .view-section.active { display: block; }
 
@@ -144,21 +109,37 @@
             font-size: 14px;
             z-index: 200;
             display: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
-        
-        .prose-content { line-height: 1.8; color: #4b5563; }
         
         button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
+
+        #init-loader {
+            position: fixed;
+            inset: 0;
+            background: white;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
+    <!-- Database Connection Guard -->
+    <div id="init-loader">
+        <div class="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mb-4"></div>
+        <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">ກຳລັງໂຫຼດຂໍ້ມູນ / Restoring Catalog...</p>
+    </div>
+
     <div id="toast" class="toast-msg">Success!</div>
 
-    <!-- Persistent Header Navigation -->
+    <!-- Navigation -->
     <nav class="nav-blur sticky top-0 z-50 border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-8">
             <div class="flex justify-between items-center h-16 sm:h-20">
@@ -179,24 +160,24 @@
             </div>
 
             <div class="flex items-center justify-center gap-6 sm:gap-12 overflow-x-auto no-scrollbar py-3 border-t border-gray-50">
-                <button onclick="showView('home')" id="nav-home" class="nav-btn-active text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-emerald-600 transition pb-1">Shop</button>
-                <button onclick="scrollToSection('places')" id="nav-places" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-emerald-600 transition pb-1">Places</button>
-                <button onclick="scrollToSection('knowledge')" id="nav-knowledge" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-emerald-600 transition pb-1">Knowledge</button>
-                <button onclick="showView('blog')" id="nav-blog" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-emerald-600 transition pb-1">Blog</button>
+                <button onclick="showView('home')" id="nav-home" class="nav-btn-active text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-emerald-600 transition pb-1">Shop / ຮ້ານ</button>
+                <button onclick="scrollToSection('places')" id="nav-places" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-emerald-600 transition pb-1">Places / ສະຖານທີ່</button>
+                <button onclick="scrollToSection('knowledge')" id="nav-knowledge" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-emerald-600 transition pb-1">Knowledge / ຄວາມຮູ້</button>
+                <button onclick="showView('blog')" id="nav-blog" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-emerald-600 transition pb-1">Blog / ບົດຄວາມ</button>
             </div>
         </div>
     </nav>
 
-    <!-- MAIN HOME VIEW -->
+    <!-- Main View -->
     <div id="homeView" class="view-section active">
         <header class="hero-banner min-h-[450px] flex items-center justify-center text-center px-4 relative">
             <div class="max-w-4xl fade-in">
-                <span class="text-amber-400 font-bold text-[10px] uppercase tracking-[0.4em] mb-4 block">Crafting Adventure in Laos</span>
+                <span class="text-amber-400 font-bold text-[10px] uppercase tracking-[0.4em] mb-4 block">Adventure in Laos / ການຜະຈົນໄພໃນລາວ</span>
                 <h1 class="text-4xl sm:text-7xl font-black text-white mb-6 tracking-tight leading-[1.1]">Where Nature Meets <br><span class="text-emerald-400">Premium Gear.</span></h1>
                 <p class="text-gray-200 text-xs sm:text-lg mb-10 font-medium max-w-xl mx-auto leading-relaxed uppercase tracking-widest">Equipping you for the Bolaven peaks and Vang Vieng valleys.</p>
                 <div class="flex gap-4 justify-center">
-                    <button onclick="scrollToSection('catalog')" class="bg-emerald-600 text-white px-6 sm:px-10 py-3 sm:py-4 rounded-full font-bold text-[10px] sm:text-[11px] uppercase tracking-[0.2em] hover:bg-emerald-700 transition shadow-xl">Shop Gear</button>
-                    <button onclick="scrollToSection('places')" class="bg-white/10 backdrop-blur-md text-white border border-white/20 px-6 sm:px-10 py-3 sm:py-4 rounded-full font-bold text-[10px] sm:text-[11px] uppercase tracking-[0.2em] hover:bg-white/20 transition">Explore</button>
+                    <button onclick="scrollToSection('catalog')" class="bg-emerald-600 text-white px-6 sm:px-10 py-3 sm:py-4 rounded-full font-bold text-[10px] sm:text-[11px] uppercase tracking-[0.2em] hover:bg-emerald-700 transition shadow-xl">Shop Gear / ເລືອກຊື້</button>
+                    <button onclick="scrollToSection('places')" class="bg-white/10 backdrop-blur-md text-white border border-white/20 px-6 sm:px-10 py-3 sm:py-4 rounded-full font-bold text-[10px] sm:text-[11px] uppercase tracking-[0.2em] hover:bg-white/20 transition">Explore / ຄົ້ນຫາ</button>
                 </div>
             </div>
         </header>
@@ -204,117 +185,97 @@
         <section id="catalog" class="max-w-7xl mx-auto px-4 sm:px-8 py-16 w-full">
             <div class="flex flex-col lg:flex-row justify-between items-end mb-12 gap-8">
                 <div class="w-full lg:w-2/3">
-                    <h2 class="section-title text-3xl font-black tracking-tight uppercase">Premium Catalog</h2>
+                    <h2 class="section-title text-3xl font-black tracking-tight uppercase text-[#1B3022]">Product Catalog / ລາຍການສິນຄ້າ</h2>
                     <div id="categoryContainer" class="flex gap-3 overflow-x-auto no-scrollbar pb-4">
-                        <button onclick="filterBy('all', this)" class="category-pill active bg-white border border-gray-100 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest shadow-sm"><i class="fa-solid fa-border-all"></i> All</button>
-                        <button onclick="filterBy('tents', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-tent"></i> Tents</button>
-                        <button onclick="filterBy('cooking', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-fire-burner"></i> Cooking</button>
-                        <button onclick="filterBy('coffee', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-mug-hot"></i> Coffee</button>
-                        <button onclick="filterBy('lighting', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-lightbulb"></i> Lighting</button>
-                        <button onclick="filterBy('sleeping_gear', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-bed"></i> Sleeping</button>
-                        <button onclick="filterBy('furniture', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-chair"></i> Furniture</button>
-                        <button onclick="filterBy('backpack', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-backpack"></i> Backpack</button>
-                        <button onclick="filterBy('shoes', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-shoe-prints"></i> Shoes</button>
-                        <button onclick="filterBy('cloth', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-shirt"></i> Clothing</button>
-                        <button onclick="filterBy('Glasses', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-glasses"></i> Glasses</button>
-                        <button onclick="filterBy('powerbank', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-battery-full"></i> Power</button>
-                        <button onclick="filterBy('survival', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-kit-medical"></i> Survival</button>
-                        <button onclick="filterBy('gear', this)" class="category-pill bg-white border border-gray-100 text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600"><i class="fa-solid fa-toolbox"></i> Gear</button>
+                        <button onclick="filterBy('all', this)" class="category-pill active bg-white px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest shadow-sm">All Gear</button>
+                        <button onclick="filterBy('tents', this)" class="category-pill bg-white text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600">Tents / ເຕັ້ນ</button>
+                        <button onclick="filterBy('cooking', this)" class="category-pill bg-white text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600">Cooking / ເຄື່ອງຄົວ</button>
+                        <button onclick="filterBy('coffee', this)" class="category-pill bg-white text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600">Coffee / ກາເຟ</button>
+                        <button onclick="filterBy('lighting', this)" class="category-pill bg-white text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600">Lighting / ໄຟ</button>
+                        <button onclick="filterBy('sleeping_gear', this)" class="category-pill bg-white text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600">Sleeping / ເຄື່ອງນອນ</button>
+                        <button onclick="filterBy('furniture', this)" class="category-pill bg-white text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600">Furniture / ເຟີນີເຈີ</button>
+                        <button onclick="filterBy('backpack', this)" class="category-pill bg-white text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600">Backpacks / ກະເປົ໋າ</button>
+                        <button onclick="filterBy('shoes', this)" class="category-pill bg-white text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600">Shoes / ເກີບ</button>
+                        <button onclick="filterBy('cloth', this)" class="category-pill bg-white text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600">Clothing / ເຄື່ອງນຸ່ງ</button>
+                        <button onclick="filterBy('Glasses', this)" class="category-pill bg-white text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600">Glasses / ແວ່ນຕາ</button>
+                        <button onclick="filterBy('powerbank', this)" class="category-pill bg-white text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600">Power / ແບັດ</button>
+                        <button onclick="filterBy('survival', this)" class="category-pill bg-white text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600">Survival / ເອົາຕົວລອດ</button>
+                        <button onclick="filterBy('gear', this)" class="category-pill bg-white text-gray-500 px-6 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:border-emerald-600">Gear / ອຸປະກອນ</button>
                     </div>
                 </div>
                 <div class="relative w-full lg:w-80">
                     <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" id="searchInput" oninput="searchItems()" placeholder="Search gear..." class="w-full pl-14 pr-6 py-4 rounded-2xl bg-white border-none shadow-sm ring-1 ring-gray-100 focus:ring-2 focus:ring-emerald-500 transition outline-none text-sm">
+                    <input type="text" id="searchInput" oninput="searchItems()" placeholder="Search gear / ຄົ້ນຫາ..." class="w-full pl-14 pr-6 py-4 rounded-2xl bg-white border-none shadow-sm ring-1 ring-gray-100 focus:ring-2 focus:ring-emerald-500 transition outline-none text-sm">
                 </div>
             </div>
             <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-20"></div>
 
-            <!-- Places Section -->
             <div id="places" class="mb-24 py-16 border-t border-gray-100 text-center md:text-left">
-                <h2 class="section-title text-3xl font-black tracking-tight uppercase">Best Camping Spots in Laos</h2>
+                <h2 class="section-title text-3xl font-black tracking-tight uppercase text-[#1B3022]">Best Camping Spots in Laos / ສະຖານທີ່ແຄ້ມປິ້ງ</h2>
                 <div id="placesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
             </div>
 
-            <!-- Knowledge Section -->
             <div id="knowledge" class="mb-24 py-16 border-t border-gray-100">
-                <h2 class="section-title text-3xl font-black tracking-tight uppercase">Camping Knowledge</h2>
+                <h2 class="section-title text-3xl font-black tracking-tight uppercase text-[#1B3022]">Camping Knowledge / ຄວາມຮູ້ເລື່ອງແຄ້ມ</h2>
                 <div id="knowledgeGrid" class="grid grid-cols-1 md:grid-cols-2 gap-12"></div>
             </div>
         </section>
     </div>
 
-    <!-- BLOG VIEW -->
+    <!-- Blog View -->
     <div id="blogView" class="view-section max-w-7xl mx-auto px-4 sm:px-8 py-20">
-        <h2 class="section-title text-4xl font-black tracking-tight uppercase">Adventure Journal</h2>
+        <h2 class="section-title text-4xl font-black tracking-tight uppercase text-[#1B3022]">Adventure Journal / ບົດຄວາມການເດີນທາງ</h2>
         <div id="blogGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-12"></div>
     </div>
 
-    <!-- Reader Modal -->
-    <div id="blogModal" style="display: none;" class="fixed inset-0 z-[110] bg-black/90 backdrop-blur-xl items-center justify-center p-4" onclick="if(event.target === this) closeBlogModal()">
-        <div class="bg-white rounded-[32px] max-w-4xl w-full overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]">
-            <button onclick="closeBlogModal()" class="absolute top-6 right-6 text-gray-400 hover:text-black z-20 bg-white/80 w-10 h-10 rounded-full flex items-center justify-center shadow-md"><i class="fa-solid fa-xmark"></i></button>
-            <div class="overflow-y-auto h-full">
-                <div class="h-80 w-full overflow-hidden">
-                    <img id="blogModalImage" src="" class="w-full h-full object-cover">
-                </div>
-                <div class="p-10 md:p-16">
-                    <span id="blogModalMeta" class="text-emerald-600 text-[11px] font-extrabold uppercase tracking-[0.4em] mb-4 block"></span>
-                    <h2 id="blogModalTitle" class="text-3xl md:text-5xl font-black text-[#1B3022] tracking-tighter leading-tight mb-8"></h2>
-                    <div class="h-1 w-12 bg-emerald-600 mb-10 rounded-full"></div>
-                    <div id="blogModalContent" class="prose prose-lg max-w-none prose-content whitespace-pre-line text-gray-600"></div>
-                </div>
+    <!-- Modals -->
+    <div id="cartModal" style="display: none;" class="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm items-center justify-end" onclick="if(event.target === this) closeCart()">
+        <div class="bg-white h-full max-w-md w-full shadow-2xl flex flex-col fade-in">
+            <div class="p-8 border-b flex justify-between items-center"><h2 class="text-xl font-black uppercase tracking-tight text-[#1B3022]">Cart / ກະຕ່າ</h2><button onclick="closeCart()" class="text-gray-400 hover:text-black"><i class="fa-solid fa-xmark text-2xl"></i></button></div>
+            <div id="cartItems" class="flex-grow overflow-y-auto p-8 space-y-6 bg-gray-50/50"></div>
+            <div class="p-8 border-t bg-white">
+                <div class="flex justify-between items-center mb-8 font-black"><span>Total / ລວມ</span><span id="cartTotal">0 LAK</span></div>
+                <button onclick="sendOrderWhatsApp()" class="w-full bg-[#25D366] text-white py-5 rounded-2xl font-black uppercase tracking-widest shadow-xl">Order via WhatsApp</button>
             </div>
         </div>
     </div>
 
-    <!-- Product Details Modal -->
     <div id="modal" style="display: none;" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl items-center justify-center p-4" onclick="if(event.target === this) closeModals()">
         <div class="bg-white rounded-[32px] max-w-6xl w-full overflow-hidden shadow-2xl relative flex flex-col md:flex-row max-h-[90vh]">
             <button onclick="closeModals()" class="absolute top-6 right-6 text-gray-400 hover:text-black z-20 bg-white w-10 h-10 rounded-full flex items-center justify-center shadow-md"><i class="fa-solid fa-xmark"></i></button>
-            <div class="md:w-3/5 bg-gray-50 flex flex-col h-full overflow-hidden border-r">
-                <div class="flex-grow flex items-center justify-center overflow-hidden min-h-[400px] bg-gray-100">
-                    <img id="modalImage" src="" alt="" class="w-full h-full object-contain p-8">
-                </div>
-                <div id="modalThumbnails" class="p-6 flex gap-4 overflow-x-auto no-scrollbar bg-white/50 backdrop-blur-sm"></div>
+            <div class="md:w-3/5 bg-gray-100 flex items-center justify-center overflow-hidden border-r">
+                <img id="modalImage" src="" alt="" class="w-full h-full object-contain p-8">
             </div>
             <div class="p-10 md:p-16 md:w-2/5 flex flex-col overflow-y-auto bg-white">
                 <span id="modalCategory" class="text-emerald-600 text-[11px] font-extrabold uppercase tracking-[0.4em] mb-4"></span>
                 <div class="flex justify-between items-start mb-2">
                     <h2 id="modalTitle" class="text-2xl sm:text-3xl font-black text-[#1B3022] tracking-tighter leading-tight"></h2>
-                    <button id="adminDeleteBtn" class="text-red-500 hover:text-red-700 hidden" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                    <button id="adminDeleteBtn" class="text-red-500 hover:text-red-700 hidden"><i class="fa-solid fa-trash"></i></button>
                 </div>
                 <p id="modalPrice" class="text-2xl font-bold text-amber-600 mb-8"></p>
                 <div class="h-1 w-12 bg-emerald-600 mb-8 rounded-full"></div>
                 <div class="prose prose-sm text-gray-500 mb-10"><p id="modalDescription" class="whitespace-pre-line leading-relaxed text-sm"></p></div>
                 <div class="mt-auto flex flex-col gap-4">
-                    <button id="addToCartBtn" class="bg-[#1B3022] text-white py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-emerald-900 transition">Add to Cart</button>
-                    <a id="whatsappBtn" href="#" target="_blank" class="bg-[#25D366] text-white py-5 rounded-2xl font-black flex items-center justify-center gap-4 shadow-xl uppercase tracking-widest text-xs hover:brightness-110 transition">WhatsApp Inquiry</a>
+                    <button id="addToCartBtn" class="bg-[#1B3022] text-white py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-emerald-900 transition">Add to Cart / ໃສ່ກະຕ່າ</button>
+                    <a id="whatsappBtn" href="#" target="_blank" class="bg-[#25D366] text-white py-5 rounded-2xl font-black flex items-center justify-center gap-4 shadow-xl uppercase tracking-widest text-xs hover:brightness-110 transition">WhatsApp Inquiry / ສອບຖາມ</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Management Console -->
-    <div id="adminModal" style="display: none;" class="fixed inset-0 z-[120] bg-black/80 backdrop-blur-md items-center justify-center p-4" onclick="if(event.target === this) toggleAdminModal()">
-        <div class="bg-white rounded-[32px] max-w-4xl w-full p-8 sm:p-12 shadow-2xl overflow-y-auto max-h-[90vh]">
+    <!-- Admin Panel -->
+    <div id="adminModal" style="display: none;" class="fixed inset-0 z-[120] bg-black/80 backdrop-blur-md items-center justify-center p-4">
+        <div class="bg-white rounded-[32px] max-w-4xl w-full p-12 shadow-2xl overflow-y-auto max-h-[90vh]">
             <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-black uppercase tracking-tight">Management Console</h2>
+                <h2 class="text-2xl font-black uppercase tracking-tight">Admin Console / ຈັດການສິນຄ້າ</h2>
                 <button onclick="toggleAdminModal()" class="text-gray-400 hover:text-black"><i class="fa-solid fa-xmark text-2xl"></i></button>
             </div>
-            
-            <div class="flex gap-2 mb-8 overflow-x-auto no-scrollbar border-b">
-                <button onclick="switchAdminTab('products')" id="tabBtn-products" class="px-6 py-3 rounded-t-xl font-bold text-[10px] uppercase tracking-widest bg-[#1B3022] text-white">Products</button>
-                <button onclick="switchAdminTab('blogs')" id="tabBtn-blogs" class="px-6 py-3 rounded-t-xl font-bold text-[10px] uppercase tracking-widest bg-gray-50 text-gray-400">Blogs</button>
-                <button onclick="switchAdminTab('places')" id="tabBtn-places" class="px-6 py-3 rounded-t-xl font-bold text-[10px] uppercase tracking-widest bg-gray-50 text-gray-400">Places</button>
-                <button onclick="switchAdminTab('knowledge')" id="tabBtn-knowledge" class="px-6 py-3 rounded-t-xl font-bold text-[10px] uppercase tracking-widest bg-gray-50 text-gray-400">Knowledge</button>
-            </div>
-
-            <form id="adminForm" class="space-y-6 admin-tab" data-tab="products">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <input type="text" name="name" placeholder="Name" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
-                    <input type="number" name="price" placeholder="Price (LAK)" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+            <div id="adminFormContainer" class="space-y-6">
+                <div class="grid grid-cols-2 gap-6">
+                    <input type="text" id="pName" placeholder="Product Name / ຊື່ສິນຄ້າ" class="p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                    <input type="number" id="pPrice" placeholder="Price (LAK) / ລາຄາ" class="p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
                 </div>
-                <select name="category" class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                <select id="pCat" class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
                     <option value="tents">Tents / ເຕັ້ນ</option>
                     <option value="cooking">Cooking / ເຄື່ອງຄົວ</option>
                     <option value="coffee">Coffee / ກາເຟ</option>
@@ -322,75 +283,34 @@
                     <option value="sleeping_gear">Sleeping / ເຄື່ອງນອນ</option>
                     <option value="furniture">Furniture / ເຟີນີເຈີ</option>
                     <option value="backpack">Backpack / ກະເປົ໋າ</option>
-                    <option value="trekking_poles">Poles / ໄມ້ເທົ້າ</option>
                     <option value="shoes">Shoes / ເກີບ</option>
-                    <option value="cloth">Cloth / ເຄື່ອງນຸ່ງ</option>
+                    <option value="cloth">Clothing / ເຄື່ອງນຸ່ງ</option>
                     <option value="powerbank">Power / ແບັດ</option>
                     <option value="Glasses">Glasses / ແວ່ນຕາ</option>
                     <option value="survival">Survival / ເອົາຕົວລອດ</option>
                     <option value="gear">Gear / ອຸປະກອນ</option>
                 </select>
-                <input type="url" name="image" placeholder="Image URL" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
-                <textarea name="description" placeholder="Description" required class="w-full p-4 h-32 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
-                <button type="submit" class="submit-btn w-full bg-[#1B3022] text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Save Product</button>
-            </form>
-
-            <form id="blogForm" class="space-y-6 hidden admin-tab" data-tab="blogs">
-                <input type="text" name="title" placeholder="Blog Title" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
-                <input type="url" name="image" placeholder="Cover Image URL" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="text" name="category" placeholder="Category (e.g. Field Test)" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
-                    <input type="text" name="date" placeholder="Date (e.g. April 2026)" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
-                </div>
-                <textarea name="summary" placeholder="Summary (shows in preview)" required class="w-full p-4 h-24 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
-                <textarea name="content" placeholder="Full Content" required class="w-full p-4 h-48 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
-                <button type="submit" class="submit-btn w-full bg-emerald-600 text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Publish Post</button>
-            </form>
-
-            <form id="placeForm" class="space-y-6 hidden admin-tab" data-tab="places">
-                <input type="text" name="title" placeholder="Place Name" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
-                <input type="text" name="location" placeholder="Province/Region" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
-                <input type="url" name="image" placeholder="Image URL" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
-                <textarea name="content" placeholder="Details and Tips for this spot..." required class="w-full p-4 h-48 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
-                <button type="submit" class="submit-btn w-full bg-blue-600 text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Add Camping Spot</button>
-            </form>
-
-            <form id="knowledgeForm" class="space-y-6 hidden admin-tab" data-tab="knowledge">
-                <input type="text" name="title" placeholder="Topic Title" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
-                <input type="url" name="image" placeholder="Illustration Image URL" required class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
-                <textarea name="summary" placeholder="Short description for home page..." required class="w-full p-4 h-24 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
-                <textarea name="content" placeholder="Detailed survival/technical advice..." required class="w-full p-4 h-48 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
-                <button type="submit" class="submit-btn w-full bg-amber-600 text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Publish Knowledge</button>
-            </form>
+                <input type="url" id="pImage" placeholder="Image URL / ລິ້ງຮູບ" class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none">
+                <textarea id="pDesc" placeholder="Description / ລາຍລະອຽດ" class="w-full p-4 h-32 rounded-xl bg-gray-50 border-none ring-1 ring-gray-200 outline-none"></textarea>
+                <button type="button" onclick="handleManualSave()" id="saveProductBtn" class="w-full bg-[#1B3022] text-white py-5 rounded-xl font-black uppercase tracking-widest text-sm shadow-xl">Save Product / ບັນທຶກ</button>
+            </div>
         </div>
     </div>
 
     <!-- Password Modal -->
     <div id="passwordModal" style="display: none;" class="fixed inset-0 z-[130] bg-black/80 backdrop-blur-md items-center justify-center p-4">
         <div class="bg-white rounded-[32px] max-w-sm w-full p-10 shadow-2xl text-center">
-            <h3 class="text-xl font-black mb-8 uppercase tracking-tight">Admin Vault</h3>
-            <input type="password" id="adminPassInput" placeholder="Password" class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-100 focus:ring-2 focus:ring-emerald-500 mb-8 outline-none text-center">
+            <h3 class="text-xl font-black mb-8 uppercase tracking-tight">Admin Vault / ລະຫັດຜ່ານ</h3>
+            <input type="password" id="adminPassInput" placeholder="Password" class="w-full p-4 rounded-xl bg-gray-50 border-none ring-1 ring-gray-100 mb-8 text-center outline-none">
             <button onclick="checkAdminPassword()" class="bg-[#1B3022] text-white w-full py-4 rounded-xl font-bold uppercase tracking-widest text-[11px]">Authenticate</button>
             <button onclick="closePasswordModal()" class="mt-4 text-gray-400 uppercase tracking-widest text-[9px]">Cancel</button>
-        </div>
-    </div>
-
-    <!-- Cart Sidebar -->
-    <div id="cartModal" style="display: none;" class="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm items-center justify-end" onclick="if(event.target === this) closeCart()">
-        <div class="bg-white h-full max-w-md w-full shadow-2xl flex flex-col fade-in">
-            <div class="p-8 border-b flex justify-between items-center"><h2 class="text-xl font-black uppercase tracking-tight text-[#1B3022]">Cart / ກະຕ່າ</h2><button onclick="closeCart()" class="text-gray-400 hover:text-black"><i class="fa-solid fa-xmark text-2xl"></i></button></div>
-            <div id="cartItems" class="flex-grow overflow-y-auto p-8 space-y-6 bg-gray-50/50"></div>
-            <div class="p-8 border-t bg-white">
-                <div class="flex justify-between items-center mb-8 font-black"><span>Total</span><span id="cartTotal">0 LAK</span></div>
-                <button onclick="sendOrderWhatsApp()" class="w-full bg-[#25D366] text-white py-5 rounded-2xl font-black uppercase tracking-widest shadow-xl">Order via WhatsApp</button>
-            </div>
         </div>
     </div>
 
     <footer class="bg-white border-t py-20 px-4 text-center mt-auto">
         <span class="font-black text-2xl tracking-tighter text-[#1B3022] uppercase">THESALE3</span>
         <p class="text-[10px] text-gray-300 uppercase tracking-[0.3em] mt-4 mb-4">&copy; 2026 PREMIUM GEAR LAOS.</p>
-        <button onclick="promptAdmin()" class="opacity-10 hover:opacity-100 transition text-[9px] uppercase tracking-widest text-gray-400">Admin</button>
+        <button onclick="promptAdmin()" class="opacity-10 hover:opacity-100 transition text-[9px] uppercase tracking-widest text-gray-400">Admin / ຈັດການ</button>
     </footer>
 
     <script type="module">
@@ -476,35 +396,55 @@
             { id: 'glass-03', name: 'ແວ່ນກັນແດດ Sports SP473', price: 75000, category: 'Glasses', image: 'https://i.postimg.cc/zBC4gvDn/Screenshot-2026-04-02-at-20-24-34.png', description: '🕶️ ແວ່ນ Sports SP473: ເລນ Polarized ກັນ UV, ຕັດແສງ, ເໝາະສຳລັບຂັບຂີ່, ຕັ້ງແຄ້ມ ແລະ ກິລາ. / Sports Sunglasses SP473: Polarized UV Protection, Anti-glare, Ideal for Driving, Camping & Sports.' },
             
             // --- POWERBANK ---
-            { id: 'powerbank-01', name: 'Powerbank 20000mAh', price: 1750000, category: 'powerbank', image: 'https://i.postimg.cc/rmXbyyps/Screenshot-2026-04-02-at-00-52-06.png', description: '⚡ UGREEN 20,000mAh: ສາກໄວ PD 3.0, ມີ 3 ພອດ (USB-C x2, USB-A x1), ໜ້າຈໍ Digital, ພົກພາຂຶ້ນເຄື່ອງບິນໄດ້ ແລະ ຮັບປະກັນ 2 ປີ!UGREEN 20,000mAh Power Bank: PD 3.0 Super Fast Charge, 3 Ports, Digital Display, Airline Approved, and 2-Year Warranty.' }
-        ];
-
-        const SYSTEM_BLOGS = [
-            { id: 'blog-01', title: 'Fresh & Black: Nam Ngum Stargazing', image: 'https://i.postimg.cc/qv0hwyZz/471874894-1103166361597493-1459129778683580847-n.jpg', category: 'Field Test', date: 'April 2026', summary: 'Testing how the MH100 Fresh & Black tent keeps internal temperatures 5°C cooler in the Lao sun.', content: 'The MH100 Fresh & Black technology is a game-changer for camping in Laos. We spent a weekend at Nam Ngum Lake to see if it really stays dark and cool.\n\nEven at 10:00 AM, the inside of the tent remained incredibly dark, allowing for a long morning sleep.' },
-            { id: 'blog-02', title: 'Wild Coffee Tech: Jungle Espresso', image: 'https://i.postimg.cc/zDbXHNr1/472106912-1101699191744210-325644103738198928-n-(1).jpg', category: 'Guide', date: 'March 2026', summary: 'Using the Moka Pot correctly on a portable gas stove during deep jungle treks.', content: 'Brewing espresso in the wild requires precision. Many campers burn their coffee by using too much heat on a portable stove.' }
-        ];
-
-        const SYSTEM_PLACES = [
-            { id: 'sys-place-01', title: 'Phou Khoun', location: 'Luang Prabang', image: 'https://i.postimg.cc/FKL5Q4JW/489751506-1424454392283349-8154752889413656228-n.jpg', summary: 'Camping above the sea of clouds.', content: 'Phou Khoun is a high-altitude crossroads famous for its sea of clouds. Cold temperatures year-round.' },
-            { id: 'sys-place-02', title: 'Nam Ngum View', location: 'Vientiane Province', image: 'https://i.postimg.cc/qv0hwyZz/471874894-1103166361597493-1459129778683580847-n.jpg', summary: 'Perfect riverside stargazing.', content: 'Nam Ngum reservoir offers peaceful lakeside camping with amazing stargazing opportunities.' },
-            { id: 'sys-place-03', title: 'Bolaven Plateau', location: 'Champasak', image: 'https://i.postimg.cc/HLsDXqV6/470820202-1095258122388317-6701559630283280350-n.jpg', summary: 'Cold weather & coffee farm trails.', content: 'Known for its high-altitude coffee farms and spectacular waterfalls. The coldest camping in Laos.' }
-        ];
-
-        const SYSTEM_KNOWLEDGE = [
-            { id: 'sys-know-01', title: 'Monsoon Survival', summary: 'Essential tips for staying dry during tropical storms.', icon: 'cloud-showers-heavy', image: 'https://i.postimg.cc/4dqkTKK7/489751506-1424454392283349-8154752889413656228-n.jpg', content: 'The Lao monsoon can be brutal. Survival depends on choosing high ground and using extra tarps.' },
-            { id: 'sys-know-02', title: 'Wild Coffee Guide', summary: 'The art of brewing perfect campfire espresso.', icon: 'mug-hot', image: 'https://i.postimg.cc/zDbXHNr1/472106912-1101699191744210-325644103738198928-n-(1).jpg', content: 'Brewing espresso in the wild requires a Moka Pot and manual grinder for the best flavor.' }
+            { id: 'powerbank-01', name: 'Powerbank 20000mAh', price: 1750000, category: 'powerbank', image: 'https://i.postimg.cc/rmXbyyps/Screenshot-2026-04-02-at-00-52-06.png', description: '⚡ UGREEN 20,000mAh: ສາກໄວ PD 3.0, ມີ 3 ພອດ (USB-C x2, USB-A x1), ໜ້າຈໍ Digital, ພົກພາຂຶ້ນເຄື່ອງບິນໄດ້ ແລະ ຮັບປະກັນ 2 ປີ!UGREEN 20,000mAh Power Bank: PD 3.0 Super Fast Charge, 3 Ports, Digital Display, Airline Approved, and 2-Year Warranty.' },
+            { id: 'power-67w', name: 'UGREEN 67W 20,000mAh Power Bank', price: 1230000, category: 'powerbank', image: 'https://i.postimg.cc/ZYwbNSqK/Screenshot-2026-04-12-at-12-06-34.png', description: '⚡ UGREEN 67W: Built-in USB-C cable, Fast charge for Laptops/MacBooks, 20,000mAh, Airline Friendly. ສາກໄວພິເສດສຳລັບຄອມພິວເຕີພົກພາ.' }
         ];
 
         let products = [...SYSTEM_PRODUCTS];
-        let blogs = [...SYSTEM_BLOGS];
-        let places = [...SYSTEM_PLACES];
-        let knowledge = [...SYSTEM_KNOWLEDGE];
         let cart = [];
         let currentCat = 'all';
         let isAdmin = false;
-        let db, auth, productCol, blogCol, placeCol, knowCol, appId;
+        let db, auth, productCol, appId;
 
-        // --- GLOBAL APP LOGIC ---
+        const startApp = async () => {
+            const configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
+            if (!configStr) {
+                setTimeout(startApp, 100); 
+                return;
+            }
+
+            try {
+                const firebaseConfig = JSON.parse(configStr);
+                appId = typeof __app_id !== 'undefined' ? __app_id : 'thesale3-camping-permanent';
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app); 
+                db = getFirestore(app);
+                productCol = collection(db, 'artifacts', appId, 'public', 'data', 'products');
+
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                onAuthStateChanged(auth, (u) => {
+                    if (u) {
+                        onSnapshot(productCol, snap => {
+                            const dbP = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                            const sIds = SYSTEM_PRODUCTS.map(p => p.id);
+                            products = [...SYSTEM_PRODUCTS, ...dbP.filter(p => !sIds.includes(p.id))]; 
+                            applyFilters();
+                            document.getElementById('init-loader').style.display = 'none';
+                        });
+                    }
+                });
+            } catch (err) {
+                console.error("Firebase init failed:", err);
+                document.getElementById('init-loader').style.display = 'none';
+            }
+        };
+
+        // UI Handlers
         window.showView = (view) => {
             document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
             document.getElementById(view + 'View').classList.add('active');
@@ -522,157 +462,12 @@
             }, 100);
         };
 
-        window.openCart = () => { renderCart(); document.getElementById('cartModal').style.display = 'flex'; };
-        window.closeCart = () => { document.getElementById('cartModal').style.display = 'none'; };
-        
-        // ADMIN HIDDEN ACCESS LOGIC
-        let adminClickCount = 0;
-        let adminTimer;
-        window.promptAdmin = () => {
-            adminClickCount++;
-            clearTimeout(adminTimer);
-            if (adminClickCount >= 5) {
-                adminClickCount = 0;
-                document.getElementById('passwordModal').style.display = 'flex';
-            } else {
-                adminTimer = setTimeout(() => { adminClickCount = 0; }, 2000);
-            }
+        window.applyFilters = () => {
+            const s = document.getElementById('searchInput').value.toLowerCase();
+            const f = products.filter(p => (currentCat === 'all' || p.category === currentCat) && p.name.toLowerCase().includes(s));
+            renderProducts(f);
         };
 
-        window.closePasswordModal = () => { document.getElementById('passwordModal').style.display = 'none'; };
-        
-        window.toggleAdminModal = () => { 
-            const m = document.getElementById('adminModal');
-            m.style.display = m.style.display === 'none' ? 'flex' : 'none';
-        };
-
-        window.switchAdminTab = (tab) => {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.add('hidden'));
-            document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.remove('hidden');
-            document.querySelectorAll('[id^="tabBtn-"]').forEach(b => {
-                b.classList.remove('bg-[#1B3022]', 'text-white');
-                b.classList.add('bg-gray-50', 'text-gray-400');
-            });
-            const activeTabBtn = document.getElementById('tabBtn-' + tab);
-            activeTabBtn.classList.add('bg-[#1B3022]', 'text-white');
-        };
-
-        window.checkAdminPassword = () => {
-            const pass = document.getElementById('adminPassInput').value;
-            if (pass === "Mou54849393") { 
-                isAdmin = true; 
-                closePasswordModal(); 
-                toggleAdminModal();
-                showToast("Admin Authenticated");
-                applyFilters();
-                renderBlogs();
-                renderPlaces();
-                renderKnowledge();
-            } else { 
-                showToast("Access Denied");
-                closePasswordModal(); 
-            }
-        };
-
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.innerText = msg;
-            t.style.display = 'block';
-            setTimeout(() => t.style.display = 'none', 3000);
-        }
-
-        // --- INFO MODAL LOGIC ---
-        window.openInfoModal = (title, meta, content, image, id, type) => {
-            document.getElementById('blogModalImage').src = image;
-            document.getElementById('blogModalTitle').innerText = title;
-            document.getElementById('blogModalMeta').innerText = meta;
-            document.getElementById('blogModalContent').innerText = content;
-            
-            const contentArea = document.getElementById('blogModalContent');
-            const isSystem = id.startsWith('sys-') || id.startsWith('blog-');
-            
-            const existingDel = document.getElementById('modal-inline-del');
-            if (existingDel) existingDel.remove();
-
-            if (isAdmin && !isSystem) {
-                const delBtn = document.createElement('button');
-                delBtn.id = 'modal-inline-del';
-                delBtn.className = "mt-10 bg-red-50 text-red-500 px-6 py-3 rounded-xl font-bold uppercase text-[10px] tracking-widest";
-                delBtn.innerHTML = '<i class="fa-solid fa-trash mr-2"></i> Delete This Entry';
-                delBtn.onclick = () => {
-                    if (type === 'place') deletePlace(id);
-                    if (type === 'know') deleteKnow(id);
-                    if (type === 'blog') deleteBlog(id);
-                    closeBlogModal();
-                };
-                contentArea.appendChild(delBtn);
-            }
-            
-            document.getElementById('blogModal').style.display = 'flex';
-        };
-
-        // --- CART LOGIC ---
-        window.addToCart = (productId) => {
-            const p = products.find(x => x.id === productId);
-            if (!p) return;
-            const existing = cart.find(i => i.id === productId);
-            if (existing) existing.quantity += 1;
-            else cart.push({ ...p, quantity: 1 });
-            updateCartUI();
-        };
-
-        window.updateCartQuantity = (id, delta) => {
-            const item = cart.find(i => i.id === id);
-            if (!item) return;
-            item.quantity += delta;
-            if (item.quantity <= 0) cart = cart.filter(i => i.id !== id);
-            updateCartUI(); renderCart();
-        };
-
-        function updateCartUI() {
-            const count = cart.reduce((s, i) => s + i.quantity, 0);
-            const b = document.getElementById('cartCount');
-            if (count > 0) { b.innerText = count; b.classList.remove('hidden'); }
-            else b.classList.add('hidden');
-            localStorage.setItem('thesale3_cart_v8', JSON.stringify(cart));
-        }
-
-        function renderCart() {
-            const container = document.getElementById('cartItems');
-            const totalEl = document.getElementById('cartTotal');
-            if (cart.length === 0) { 
-                container.innerHTML = '<div class="text-center py-20 text-gray-400 text-xs uppercase">ກະຕ່າວ່າງເປົ່າ / Empty</div>'; 
-                totalEl.innerText = '0 LAK'; 
-                return; 
-            }
-            let total = 0;
-            container.innerHTML = cart.map(item => {
-                total += item.price * item.quantity;
-                return `<div class="flex items-center gap-4 bg-white p-4 rounded-2xl border border-gray-100">
-                    <img src="${item.image}" class="w-16 h-16 object-cover rounded-xl">
-                    <div class="flex-grow">
-                        <h4 class="font-bold text-[10px] uppercase">${item.name}</h4>
-                        <p class="text-emerald-600 font-bold text-[10px]">${item.price.toLocaleString()} LAK</p>
-                    </div>
-                    <div class="flex items-center bg-gray-50 rounded-lg p-1">
-                        <button onclick="updateCartQuantity('${item.id}', -1)" class="w-6 h-6 flex items-center justify-center"><i class="fa-solid fa-minus text-[8px]"></i></button>
-                        <span class="w-8 text-center text-xs font-black">${item.quantity}</span>
-                        <button onclick="updateCartQuantity('${item.id}', 1)" class="w-6 h-6 flex items-center justify-center"><i class="fa-solid fa-plus text-[8px]"></i></button>
-                    </div>
-                </div>`;
-            }).join('');
-            totalEl.innerText = `${total.toLocaleString()} LAK`;
-        }
-
-        window.sendOrderWhatsApp = () => {
-            if (cart.length === 0) return;
-            let msg = "Sabaidee! Ordering:\n\n";
-            cart.forEach((i, idx) => msg += `• ${i.name} (x${i.quantity})\n`);
-            msg += `\nTotal: ${document.getElementById('cartTotal').innerText}`;
-            window.open(`https://wa.me/8562054849393?text=${encodeURIComponent(msg)}`, '_blank');
-        };
-
-        // --- FILTER & RENDER ---
         window.filterBy = (cat, btn) => {
             currentCat = cat;
             document.querySelectorAll('.category-pill').forEach(b => b.classList.remove('active'));
@@ -682,114 +477,64 @@
 
         window.searchItems = () => applyFilters();
 
-        function applyFilters() {
-            const s = document.getElementById('searchInput').value.toLowerCase();
-            const f = products.filter(p => (currentCat === 'all' || p.category === currentCat) && p.name.toLowerCase().includes(s));
-            renderProducts(f);
-        }
-
-        function renderProducts(items) {
+        window.renderProducts = (items) => {
             const grid = document.getElementById('productGrid');
             if(!grid) return;
             grid.innerHTML = items.map(p => `
                 <div class="product-card flex flex-col cursor-pointer fade-in" onclick="openDetails('${p.id}')">
                     <div class="h-64 bg-gray-100 overflow-hidden relative">
-                        <img src="${p.image}" class="w-full h-full object-cover hover:scale-105 transition duration-700">
+                        <img src="${p.image}" class="w-full h-full object-cover hover:scale-105 transition duration-700" onerror="this.src='https://i.postimg.cc/qv0hwyZz/471874894-1103166361597493-1459129778683580847-n.jpg'">
                     </div>
                     <div class="p-8 flex flex-col flex-grow">
-                        <span class="text-[9px] font-bold text-emerald-600 uppercase tracking-widest mb-2">${catMap[p.category] || p.category}</span>
+                        <span class="text-[9px] font-bold text-emerald-600 uppercase mb-2">${catMap[p.category] || p.category}</span>
                         <h3 class="font-black text-lg mb-2 text-[#1B3022] leading-tight">${p.name}</h3>
                         <p class="text-base font-bold text-amber-600 mb-6">${Number(p.price).toLocaleString()} LAK</p>
                         <div class="mt-auto pt-4 border-t border-gray-50 flex justify-between items-center">
-                            <span class="text-[9px] uppercase font-bold text-gray-400">ເບິ່ງລາຍລະອຽດ / View</span>
+                            <span class="text-[9px] uppercase font-bold text-gray-400">View Details / ເບິ່ງເພີ່ມ</span>
                             <button onclick="event.stopPropagation(); addToCart('${p.id}')" class="bg-gray-100 p-2 rounded-lg hover:bg-emerald-600 hover:text-white transition"><i class="fa-solid fa-plus"></i></button>
                         </div>
                     </div>
                 </div>`).join('');
-        }
-
-        function renderBlogs() {
-            const grid = document.getElementById('blogGrid');
-            if(!grid) return;
-            grid.innerHTML = blogs.map(post => `
-                <article class="blog-card flex flex-col cursor-pointer fade-in" onclick="openBlogDetails('${post.id}')">
-                    <div class="h-60 overflow-hidden relative">
-                        <img src="${post.image}" class="w-full h-full object-cover hover:scale-105 transition duration-700">
-                        ${isAdmin && !post.id.startsWith('blog-') ? `<button onclick="event.stopPropagation(); deleteBlog('${post.id}')" class="absolute top-4 right-4 bg-white/90 text-red-500 w-10 h-10 rounded-full shadow-lg hover:bg-red-500 hover:text-white transition"><i class="fa-solid fa-trash-can"></i></button>` : ''}
-                    </div>
-                    <div class="p-8">
-                        <span class="text-[9px] font-bold text-emerald-600 uppercase mb-3 block">${post.category} • ${post.date}</span>
-                        <h3 class="font-black text-xl mb-4 leading-tight">${post.title}</h3>
-                        <p class="text-gray-400 text-sm line-clamp-3 mb-6">${post.summary}</p>
-                        <span class="text-[10px] font-bold uppercase text-emerald-600 flex items-center gap-2">ອ່ານຕໍ່ / Read Article <i class="fa-solid fa-arrow-right-long"></i></span>
-                    </div>
-                </article>`).join('');
-        }
-
-        function renderPlaces() {
-            const grid = document.getElementById('placesGrid');
-            if(!grid) return;
-            grid.innerHTML = places.map(p => `
-                <div class="place-card fade-in" onclick="openInfoModal('${p.title}', '${p.location}', '${p.content}', '${p.image}', '${p.id}', 'place')">
-                    <img src="${p.image}" class="w-full h-full object-cover transition duration-500 hover:scale-105">
-                    <div class="place-overlay">
-                        <span class="text-emerald-400 font-bold text-[9px] uppercase tracking-widest mb-1">${p.location}</span>
-                        <h3 class="text-white font-black text-2xl uppercase">${p.title}</h3>
-                        <p class="text-gray-300 text-xs mt-2 uppercase">${p.summary}</p>
-                    </div>
-                </div>`).join('');
-        }
-
-        function renderKnowledge() {
-            const grid = document.getElementById('knowledgeGrid');
-            if(!grid) return;
-            grid.innerHTML = knowledge.map(k => `
-                <div class="flex gap-6 p-6 bg-white rounded-[32px] border border-gray-50 hover:shadow-xl transition cursor-pointer fade-in" 
-                     onclick="openInfoModal('${k.title}', 'Camping Knowledge', '${k.content}', '${k.image}', '${k.id}', 'know')">
-                    <div class="w-20 h-20 bg-emerald-50 rounded-2xl flex-shrink-0 flex items-center justify-center text-[#1B3022]">
-                        <i class="fa-solid fa-${k.icon || 'book-open'} text-2xl"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-black text-base uppercase mb-2">${k.title}</h4>
-                        <p class="text-gray-400 text-xs leading-relaxed">${k.summary}</p>
-                    </div>
-                </div>`).join('');
-        }
-
-        // --- DETAILS ---
-        window.openBlogDetails = (id) => {
-            const post = blogs.find(b => b.id === id);
-            if (!post) return;
-            openInfoModal(post.title, `${post.category} • ${post.date}`, post.content, post.image, post.id, 'blog');
         };
 
-        window.closeBlogModal = () => { document.getElementById('blogModal').style.display = 'none'; };
+        window.handleManualSave = async () => {
+            if (!auth?.currentUser) { showToast("ກະລຸນາລໍຖ້າການເຊື່ອມຕໍ່..."); return; }
+            
+            const name = document.getElementById('pName').value;
+            const price = document.getElementById('pPrice').value;
+            const cat = document.getElementById('pCat').value;
+            const img = document.getElementById('pImage').value;
+            const desc = document.getElementById('pDesc').value;
 
-        // --- DELETES ---
-        window.deleteBlog = async (id) => { 
-            if (!confirm("ລົບໂພສນີ້ແທ້ບໍ່? / Delete blog?")) return;
+            if (!name || !price || !img) { showToast("ກະລຸນາປ້ອນຂໍ້ມູນໃຫ້ຄົບ!"); return; }
+
+            const btn = document.getElementById('saveProductBtn');
+            btn.disabled = true;
+            btn.innerText = "Saving / ກຳລັງບັນທຶກ...";
+
             try {
-                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blogs', id));
-                showToast("Blog Deleted");
-            } catch(e) { showToast("Error deleting blog"); }
+                await addDoc(productCol, {
+                    name, price: Number(price), category: cat,
+                    image: img, description: desc, createdAt: new Date().toISOString()
+                });
+                
+                // Clear fields manually to be safe
+                document.getElementById('pName').value = '';
+                document.getElementById('pPrice').value = '';
+                document.getElementById('pImage').value = '';
+                document.getElementById('pDesc').value = '';
+                
+                toggleAdminModal();
+                showToast("Product saved / ບັນທຶກສຳເລັດ!");
+            } catch(err) {
+                showToast("Error: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Save Product";
+            }
         };
 
-        window.deletePlace = async (id) => {
-            if (!confirm("ລົບສະຖານທີ່ນີ້ແທ້ບໍ່? / Delete place?")) return;
-            try {
-                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'places', id));
-                showToast("Place Deleted");
-            } catch(e) { showToast("Error deleting place"); }
-        };
-
-        window.deleteKnow = async (id) => {
-            if (!confirm("ລົບຄວາມຮູ້ນີ້ແທ້ບໍ່? / Delete knowledge?")) return;
-            try {
-                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'knowledge', id));
-                showToast("Knowledge Deleted");
-            } catch(e) { showToast("Error deleting knowledge"); }
-        };
-
+        // Shared Utils
         window.openDetails = (id) => {
             const p = products.find(x => x.id === id);
             if (!p) return;
@@ -800,158 +545,88 @@
             document.getElementById('modalDescription').innerText = p.description;
             
             const delBtn = document.getElementById('adminDeleteBtn');
-            const isSystem = p.id.startsWith('master-') || p.id.startsWith('shoe-') || p.id.startsWith('cloth-') || p.id.startsWith('glass-') || p.id.startsWith('powerbank-');
+            const isSystem = SYSTEM_PRODUCTS.some(sp => sp.id === p.id);
             if (isAdmin && !isSystem) {
                 delBtn.classList.remove('hidden');
                 delBtn.onclick = async () => { 
-                    if (confirm("ລົບສິນຄ້ານີ້ແທ້ບໍ່? / Delete product?")) { 
-                        try {
-                            await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'products', id)); 
-                            closeModals(); 
-                            showToast("Product Deleted");
-                        } catch(e) { showToast("Error deleting product"); }
-                    } 
+                    if (confirm("Delete / ລົບ?")) {
+                        try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'products', id)); closeModals(); showToast("Deleted"); } catch(e) { showToast("Error"); }
+                    }
                 };
-            } else { delBtn.classList.add('hidden'); }
-
-            document.getElementById('whatsappBtn').href = `https://wa.me/8562054849393?text=${encodeURIComponent("ສົນໃຈສິນຄ້າ: " + p.name)}`;
-            const addBtn = document.getElementById('addToCartBtn');
-            addBtn.onclick = () => { addToCart(p.id); addBtn.innerText = 'Added!'; setTimeout(() => addBtn.innerText = 'Add to Cart', 1500); };
+            } else delBtn.classList.add('hidden');
             document.getElementById('modal').style.display = 'flex';
         };
-        
-        window.closeModals = () => { document.getElementById('modal').style.display = 'none'; };
 
-        // --- FIREBASE INITIALIZATION ---
-        document.addEventListener('DOMContentLoaded', async () => {
-            const sc = localStorage.getItem('thesale3_cart_v8');
+        window.closeModals = () => document.getElementById('modal').style.display = 'none';
+        window.openCart = () => { renderCart(); document.getElementById('cartModal').style.display = 'flex'; };
+        window.closeCart = () => document.getElementById('cartModal').style.display = 'none';
+        window.showToast = (m) => { const t = document.getElementById('toast'); t.innerText = m; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 3000); };
+        window.addToCart = (productId) => {
+            const p = products.find(x => x.id === productId);
+            if (!p) return;
+            const existing = cart.find(i => i.id === productId);
+            if (existing) existing.quantity += 1;
+            else cart.push({ ...p, quantity: 1 });
+            updateCartUI();
+        };
+
+        function updateCartUI() {
+            const count = cart.reduce((s, i) => s + i.quantity, 0);
+            const b = document.getElementById('cartCount');
+            if (count > 0) { b.innerText = count; b.classList.remove('hidden'); }
+            else b.classList.add('hidden');
+            localStorage.setItem('thesale3_cart_v10', JSON.stringify(cart));
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cartItems');
+            const totalEl = document.getElementById('cartTotal');
+            if (cart.length === 0) { container.innerHTML = '<div class="text-center py-20 text-gray-400 text-xs">Empty</div>'; totalEl.innerText = '0 LAK'; return; }
+            let total = 0;
+            container.innerHTML = cart.map(item => {
+                total += item.price * item.quantity;
+                return `<div class="flex items-center gap-4 bg-white p-4 rounded-2xl border border-gray-100">
+                    <img src="${item.image}" class="w-16 h-16 object-cover rounded-xl" onerror="this.src='https://via.placeholder.com/64'">
+                    <div class="flex-grow"><h4 class="font-bold text-[10px] uppercase">${item.name}</h4><p class="text-emerald-600 font-bold text-[10px]">${item.price.toLocaleString()} LAK</p></div>
+                    <div class="flex items-center bg-gray-50 rounded-lg p-1">
+                        <button onclick="updateCartQuantity('${item.id}', -1)" class="w-6 h-6 flex items-center justify-center"><i class="fa-solid fa-minus text-[8px]"></i></button>
+                        <span class="w-8 text-center text-xs font-black">${item.quantity}</span>
+                        <button onclick="updateCartQuantity('${item.id}', 1)" class="w-6 h-6 flex items-center justify-center"><i class="fa-solid fa-plus text-[8px]"></i></button>
+                    </div>
+                </div>`;
+            }).join('');
+            totalEl.innerText = `${total.toLocaleString()} LAK`;
+        }
+
+        window.updateCartQuantity = (id, delta) => {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+            item.quantity += delta;
+            if (item.quantity <= 0) cart = cart.filter(i => i.id !== id);
+            updateCartUI(); renderCart();
+        };
+
+        window.sendOrderWhatsApp = () => {
+            if (cart.length === 0) return;
+            let msg = "Order:\n\n";
+            cart.forEach(i => msg += `• ${i.name} (x${i.quantity})\n`);
+            window.open(`https://wa.me/8562054849393?text=${encodeURIComponent(msg)}`, '_blank');
+        };
+
+        // Admin Access
+        window.promptAdmin = () => document.getElementById('passwordModal').style.display = 'flex';
+        window.closePasswordModal = () => document.getElementById('passwordModal').style.display = 'none';
+        window.toggleAdminModal = () => { const m = document.getElementById('adminModal'); m.style.display = m.style.display === 'none' ? 'flex' : 'none'; };
+        window.checkAdminPassword = () => {
+            if (document.getElementById('adminPassInput').value === "Mou54849393") {
+                isAdmin = true; closePasswordModal(); toggleAdminModal(); showToast("Admin Mode");
+            } else showToast("Denied");
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const sc = localStorage.getItem('thesale3_cart_v10');
             if (sc) { cart = JSON.parse(sc); updateCartUI(); }
-            
-            renderPlaces();
-            renderKnowledge();
-            applyFilters();
-            renderBlogs();
-
-            try {
-                let configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
-                const firebaseConfig = configStr ? JSON.parse(configStr) : null;
-                if (!firebaseConfig) {
-                    console.warn("Firebase config missing.");
-                    return;
-                }
-
-                appId = typeof __app_id !== 'undefined' ? __app_id : 'thesale3-camping';
-                const app = initializeApp(firebaseConfig);
-                auth = getAuth(app); 
-                db = getFirestore(app);
-
-                // Initialize collection refs immediately
-                productCol = collection(db, 'artifacts', appId, 'public', 'data', 'products');
-                blogCol = collection(db, 'artifacts', appId, 'public', 'data', 'blogs');
-                placeCol = collection(db, 'artifacts', appId, 'public', 'data', 'places');
-                knowCol = collection(db, 'artifacts', appId, 'public', 'data', 'knowledge');
-
-                // Setup Admin Form Handlers
-                document.getElementById('adminForm').onsubmit = async (e) => {
-                    e.preventDefault();
-                    if (!auth.currentUser) { showToast("Connecting to server... / ຂໍອະໄພ, ຍັງບໍ່ທັນເຊື່ອມຕໍ່ໄດ້."); return; }
-                    
-                    const btn = e.target.querySelector('.submit-btn');
-                    btn.disabled = true; 
-                    btn.innerText = "Saving... / ກຳລັງບັນທຶກ...";
-                    
-                    const fd = new FormData(e.target);
-                    const nP = { 
-                        name: fd.get('name'), 
-                        price: Number(fd.get('price')), 
-                        category: fd.get('category'), 
-                        image: fd.get('image'), 
-                        description: fd.get('description'), 
-                        createdAt: new Date().toISOString() 
-                    };
-
-                    try {
-                        await addDoc(productCol, nP); 
-                        e.target.reset(); 
-                        toggleAdminModal(); 
-                        showToast("ບັນທຶກສຳເລັດ! / Product Saved!");
-                    } catch(err) { 
-                        showToast("Error: " + err.message); 
-                    } finally {
-                        btn.disabled = false; 
-                        btn.innerText = "Save Product";
-                    }
-                };
-
-                document.getElementById('blogForm').onsubmit = async (e) => {
-                    e.preventDefault();
-                    if (!auth.currentUser) { showToast("Initializing..."); return; }
-                    const btn = e.target.querySelector('.submit-btn');
-                    btn.disabled = true;
-                    const fd = new FormData(e.target);
-                    const nB = { title: fd.get('title'), image: fd.get('image'), category: fd.get('category'), date: fd.get('date'), summary: fd.get('summary'), content: fd.get('content'), createdAt: new Date().toISOString() };
-                    try {
-                        await addDoc(blogCol, nB); 
-                        e.target.reset(); toggleAdminModal(); showView('blog'); showToast("Blog Published!");
-                    } catch(err) { showToast("Error: " + err.message); }
-                    btn.disabled = false;
-                };
-
-                document.getElementById('placeForm').onsubmit = async (e) => {
-                    e.preventDefault();
-                    if (!auth.currentUser) return;
-                    const fd = new FormData(e.target);
-                    const nPL = { title: fd.get('title'), location: fd.get('location'), image: fd.get('image'), summary: fd.get('content').substring(0, 60) + '...', content: fd.get('content'), createdAt: new Date().toISOString() };
-                    try { await addDoc(placeCol, nPL); e.target.reset(); toggleAdminModal(); showToast("Spot Added!"); } catch(err) { showToast("Error: " + err.message); }
-                };
-
-                document.getElementById('knowledgeForm').onsubmit = async (e) => {
-                    e.preventDefault();
-                    if (!auth.currentUser) return;
-                    const fd = new FormData(e.target);
-                    const nK = { title: fd.get('title'), image: fd.get('image'), summary: fd.get('summary'), content: fd.get('content'), icon: 'book-open', createdAt: new Date().toISOString() };
-                    try { await addDoc(knowCol, nK); e.target.reset(); toggleAdminModal(); showToast("Knowledge Published!"); } catch(err) { showToast("Error: " + err.message); }
-                };
-
-                // Authenticate and settle SDK
-                const initAuth = async () => {
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
-                    else await signInAnonymously(auth);
-                };
-                await initAuth();
-
-                onAuthStateChanged(auth, (u) => {
-                    if (u) {
-                        onSnapshot(productCol, snap => {
-                            const dbP = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                            const sIds = SYSTEM_PRODUCTS.map(p => p.id);
-                            products = [...SYSTEM_PRODUCTS, ...dbP.filter(p => !sIds.includes(p.id))]; 
-                            applyFilters();
-                        });
-
-                        onSnapshot(blogCol, snap => { 
-                            const dbB = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                            const sIds = SYSTEM_BLOGS.map(b => b.id);
-                            blogs = [...SYSTEM_BLOGS, ...dbB.filter(b => !sIds.includes(b.id))]; 
-                            renderBlogs(); 
-                        });
-
-                        onSnapshot(placeCol, snap => {
-                            const dbPl = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                            const sIds = SYSTEM_PLACES.map(p => p.id);
-                            places = [...SYSTEM_PLACES, ...dbPl.filter(p => !sIds.includes(p.id))]; 
-                            renderPlaces();
-                        });
-
-                        onSnapshot(knowCol, snap => {
-                            const dbK = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                            const sIds = SYSTEM_KNOWLEDGE.map(k => k.id);
-                            knowledge = [...SYSTEM_KNOWLEDGE, ...dbK.filter(k => !sIds.includes(k.id))]; 
-                            renderKnowledge();
-                        });
-                    }
-                });
-            } catch (err) { console.error("Database failed:", err); }
+            startApp();
         });
     </script>
 </body>
