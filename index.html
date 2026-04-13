@@ -236,7 +236,7 @@
         </div>
     </div>
 
-    <!-- Details/Order Modal -->
+    <!-- Details Modal -->
     <div id="productModal" style="display: none;" class="fixed inset-0 z-[500] bg-black/80 backdrop-blur-xl items-center justify-center p-4" onclick="if(event.target===this) closeDetail()">
         <div class="bg-white rounded-[48px] max-w-6xl w-full overflow-hidden shadow-2xl relative flex flex-col md:flex-row max-h-[95vh] slide-up">
             <button onclick="closeDetail()" class="absolute top-8 right-8 text-gray-400 hover:text-black z-20 bg-white/50 backdrop-blur w-12 h-12 rounded-full flex items-center justify-center"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -257,7 +257,7 @@
         </div>
     </div>
 
-    <!-- Admin Form Modals -->
+    <!-- Form Modals -->
     <div id="formModal" style="display: none;" class="fixed inset-0 z-[1100] bg-black/80 backdrop-blur-md items-center justify-center p-6">
         <div class="bg-white rounded-[40px] max-w-2xl w-full p-12 shadow-2xl slide-up">
             <h2 id="productFormTitle" class="text-3xl font-black uppercase tracking-tight mb-8">Stock Control</h2>
@@ -345,11 +345,11 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Constants
+        // Category Map
         const catMap = { 'all': 'All Equipment', 'tents': 'Tents', 'cooking': 'Cooking', 'coffee': 'Coffee', 'shoes': 'Shoes', 'cloth': 'Clothing', 'lighting': 'Lighting', 'powerbank': 'Power', 'survival': 'Survival', 'gear': 'Gear', 'backpack': 'Backpack', 'trekking_poles': 'Trekking Poles' };
         
+        // System Catalog (Fallback Data)
         const SYSTEM_PRODUCTS = [
-            // --- TENTS ---
             { id: 'master-01', name: 'ເຕັ້ນ QUECHUA MH100 Fresh & Black (2 ຄົນ)', price: 1460000, category: 'tents', image: 'https://i.postimg.cc/qv0hwyZz/471874894-1103166361597493-1459129778683580847-n.jpg', description: 'ເຕັ້ນ QUECHUA MH100 Fresh & Black ສຳລັບ 2 ຄົນ.⛺ ເເຕັ້ນ Fresh & Black: ນອນເຢັນ, ມືດ 99%, ກັນຝົນດີ, ກາງງ່າຍ (130x210x107cm), 3kg, ເກັບສະດວກ (58x16x16cm).' },
             { id: 'master-02', name: 'ເຕັ້ນ QUECHUA MH100 (ສີເທົາ)', price: 1100000, category: 'tents', image: 'https://i.postimg.cc/YCzbNjFr/156657757-198686858712119-7425055041363166372-n.jpg', description: '⛺ ເຕັ້ນ MH100: ກາງງ່າຍ, ກັນຝົນ/ລົມດີ (130x210x107cm), ໜັກເບົາ 2.6kg, UPF 30.' },
             { id: 'master-03', name: 'ເຕັ້ນກາງອັດຕະໂນມັດ Premium (3-4 ທ່ານ)', price: 885000, category: 'tents', image: 'https://i.postimg.cc/6pCRNRQF/124951381-118420500072089-6079077613874319164-n.jpg', description: 'Automatic pop-up mechanism.' },
@@ -358,7 +358,6 @@
             { id: 'master-06', name: 'ຜ້າກັ້ງກັນຝົນ Flysheet (3x3 ແມັດ)', price: 380000, category: 'tents', image: 'https://i.postimg.cc/4dqkTKK7/489751506-1424454392283349-8154752889413656228-n.jpg', description: 'Flysheet 3x3m with 2 poles.' },
             { id: 'master-07', name: 'ຜ້າຢາງຮອງເຕັ້ນ (Groundsheet)', price: 200000, category: 'tents', image: 'https://i.postimg.cc/fTzmhkdX/471871594-1103166028264193-3080110264274826660-n.jpg', description: 'Groundsheet 2.1m x 2m.' },
             { id: 'master-08', name: 'ສະໝໍບົກ (Tent Pegs 20cm)', price: 50000, category: 'tents', image: 'https://i.postimg.cc/B6PqPrzQ/472186338-1103166364930826-8197764758286830200-n.jpg', description: 'Heavy duty 20cm tent pegs.' },
-            // --- COOKING ---
             { id: 'master-09', name: 'ເຕົາແກັດພົກພາ AOTU', price: 285000, category: 'cooking', image: 'https://i.postimg.cc/HLsDXqV6/470820202-1095258122388317-6701559630283280350-n.jpg', description: 'AOTU portable gas stove.' },
             { id: 'master-10', name: 'ການ້ຳ (Outdoor Kettle 800ml)', price: 240000, category: 'cooking', image: 'https://i.postimg.cc/SxcCCPwR/124985548-118420480072091-5504697490990489685-n.jpg', description: '800ml aluminum kettle.' },
             { id: 'master-11', name: 'ເຫຼັກຢຶດຂາຕັ້ງສາມຂາ', price: 160000, category: 'cooking', image: 'https://i.postimg.cc/XqZyJ1fj/470195754-1095096232404506-5723296061682898594-n.jpg', description: 'Tripod bracket.' },
@@ -370,50 +369,39 @@
             { id: 'master-15', name: 'ເຕົາແກັດ (Picnic Stove K-202)', price: 165000, category: 'cooking', image: 'https://i.postimg.cc/3RfYqSQJ/150468425-186271443286994-1875422230249930637-n.jpg', description: 'Small Picnic Stove.' },
             { id: 'master-16', name: 'ໝໍ້ຂຽວທະຫານ', price: 300000, category: 'cooking', image: 'https://i.postimg.cc/63x4bQwN/470161529-1091427636104699-6870152323458159947-n-(1).jpg', description: 'Military Pot 1.8L.' },
             { id: 'master-16.f', name: 'ຊຸດບ່ວງ-ສ້ອມ 4-in-1 Selpa', price: 115000, category: 'cooking', image: 'https://i.postimg.cc/nh58jy7Q/Screenshot_2026_03_22_at_13_19_56.png', description: 'Multi-tool set.' },
-            { id: 'master-22b', name: 'ຄຸພັບໄດ້ອະເນກປະສົງ (Collapsible Bucket)', price: 175000, category: 'gear', image: 'https://i.postimg.cc/PrrpSfVF/Screenshot-2026-04-02-at-22-56-31.png', description: 'PVC 500D Durable Bucket.' },
-            // --- SURVIVAL ---
+            { id: 'master-22b', name: 'ຄຸພັບໄດ້ອະເນກປະສົງ', price: 175000, category: 'gear', image: 'https://i.postimg.cc/PrrpSfVF/Screenshot-2026-04-02-at-22-56-31.png', description: 'Collapsible Bucket.' },
             { id: 'master-sk', name: 'Survival Kit 18-in-1 Tactical Set', price: 475000, category: 'survival', image: 'https://i.postimg.cc/HnKKc5cP/Screenshot-2026-03-22-at-14-09-46.png', description: 'Emergency gear kit.' },
-            // --- COFFEE ---
             { id: 'master-cups', name: 'ຈອກ Cool Camp (4 ໃບ)', price: 260000, category: 'coffee', image: 'https://i.postimg.cc/L5yDLPPw/202323323-277134600867344-8457321312918561749-n.jpg', description: 'Stainless steel cups.' },
             { id: 'master-moka', name: 'Espresso Maker (300ml)', price: 210000, category: 'coffee', image: 'https://i.postimg.cc/zDbXHNr1/472106912-1101699191744210-325644103738198928-n-(1).jpg', description: 'Moka Pot.' },
             { id: 'master-frot', name: 'ໄມ້ຕີຟອງນົມໄຟຟ້າ', price: 125000, category: 'coffee', image: 'https://i.postimg.cc/J7gzfLT2/Screenshot_2026_03_27_at_21_28_56.png', description: 'Electric frother.' },
-            { id: 'master-grin', name: 'ເຄື່ອງບົດກາເຟ (Coffee Grinder)', price: 195000, category: 'coffee', image: 'https://i.postimg.cc/vZNN0NDm/138558955_160501135864025_1071256138491929297_n.jpg', description: 'Manual grinder.' },
-            // --- LIGHTING ---
+            { id: 'master-grin', name: 'ເຄື່ອງບົດກາເຟ', price: 195000, category: 'coffee', image: 'https://i.postimg.cc/vZNN0NDm/138558955_160501135864025_1071256138491929297_n.jpg', description: 'Manual grinder.' },
             { id: 'master-hom', name: 'ຕະກຽງ LED HOMFUL', price: 320000, category: 'lighting', image: 'https://i.postimg.cc/YS7Vz1V8/470138708-1091427639438032-4054288834215141234-n.jpg', description: 'Rechargeable lantern.' },
             { id: 'master-sta', name: 'ເສົາຫ້ອຍໂຄມໄຟ', price: 250000, category: 'lighting', image: 'https://i.postimg.cc/Mp0CfPHz/470580274-1094729429107853-518082534720816909-n.jpg', description: 'Adjustable stand.' },
             { id: 'master-hoo', name: 'ເຫຼັກຫ້ອຍດອກໄຟ', price: 70000, category: 'lighting', image: 'https://i.postimg.cc/FKyCB7cG/471590824-1101698975077565-9125211727583692069-n.jpg', description: 'Lantern hook.' },
-            { id: 'master-sml', name: 'ດອກໄຟນ້ອຍ (Small Lantern)', price: 200000, category: 'lighting', image: 'https://i.postimg.cc/nh0WJs5N/125376115_118420463405426_551614310193011105_n.jpg', description: 'USB small lantern.' },
-            // --- SLEEPING ---
+            { id: 'master-sml', name: 'ດອກໄຟນ້ອຍ', price: 200000, category: 'lighting', image: 'https://i.postimg.cc/nh0WJs5N/125376115_118420463405426_551614310193011105_n.jpg', description: 'USB small lantern.' },
             { id: 'master-air', name: 'ເຊື່ອນອນ Naturehike Air', price: 600000, category: 'sleeping_gear', image: 'https://i.postimg.cc/C5cQ41XF/476403930-1129881948925934-1365118939146447544-n.jpg', description: 'Ultralight mat.' },
             { id: 'master-slf', name: 'ເຊື່ອນອນເປົ່າລົມອັດຕະໂນມັດ', price: 330000, category: 'sleeping_gear', image: 'https://i.postimg.cc/1RT3kQCz/Screenshot_2026_03_27_at_21_30_41.png', description: 'Self-inflatable.' },
             { id: 'master-muz', name: 'ຖົງນອນ MUZENT (5°C)', price: 420000, category: 'sleeping_gear', image: 'https://i.postimg.cc/SQH8nqJr/470732130-1095258142388315-6675372278210325168-n.jpg', description: 'Sleeping bag.' },
             { id: 'master-nhp', name: 'ຖົງນອນ Naturehike Premium', price: 550000, category: 'sleeping_gear', image: 'https://i.postimg.cc/28xJzH5Y/483101086-1400042418057880-8967539400801900911-n-(1).jpg', description: 'Premium bag.' },
             { id: 'master-prt', name: 'ຖົງນອນ ແບບພົກພາ', price: 225000, category: 'sleeping_gear', image: 'https://i.postimg.cc/T2bjqp8S/125315138-118420533405419-8079952364573550993-n.jpg', description: 'Portable bag.' },
             { id: 'master-pil', name: 'ໝອນນອນເປົ່າລົມ', price: 50000, category: 'sleeping_gear', image: 'https://i.postimg.cc/kgj91M3M/138786732-160501152530690-3533211310814187676-n.jpg', description: 'Inflatable pillow.' },
-            // --- FURNITURE ---
             { id: 'master-tbl', name: 'ໂຕະແຄ້ມປິ້ງ Table M', price: 390000, category: 'furniture', image: 'https://i.postimg.cc/MG8JHcSH/470180269-1091456466101816-3503156836293091321-n.jpg', description: 'Aluminum Table.' },
             { id: 'master-chr', name: 'ຕັ່ງແແຄ້ມປີ້ງ ShineTrip', price: 285000, category: 'furniture', image: 'https://i.postimg.cc/0jSsW7Gc/470209749-1091969312717198-8585518212376997562-n.jpg', description: 'Folding chair.' },
-            // --- BACKPACK ---
             { id: 'master-bpk', name: 'ກະເປົ໋າເປ້ 65L Camel', price: 1350000, category: 'backpack', image: 'https://i.postimg.cc/8P7KVyMZ/471164242-1095570065690456-156288641806394470-n-(1).jpg', description: 'Hiking Backpack.' },
             { id: 'master-rcv', name: 'ຜ້າກັນຝົນ Rain Cover', price: 70000, category: 'backpack', image: 'https://i.postimg.cc/ZKkc16FY/139180898-160501215864017-905798667929076806-n.jpg', description: 'Waterproof cover.' },
             { id: 'master-wst', name: 'ກະເປົ໋າຫ້ອຍແອວ', price: 100000, category: 'backpack', image: 'https://i.postimg.cc/7PpfY6j0/476359221-1130686925512103-8223380318275171227-n.jpg', description: 'Waist Bag.' },
-            // --- POLES ---
             { id: 'master-pol', name: 'ໄມ້ເທົ້າ Naturehike', price: 335000, category: 'trekking_poles', image: 'https://i.postimg.cc/8PgDFr4N/488790917-1423518039043651-721068063865014396-n-(1).jpg', description: 'Hiking Pole.' },
             { id: 'master-std', name: 'ໄມ້ກັນເທົ້າ Standard', price: 140000, category: 'trekking_poles', image: 'https://i.postimg.cc/L65784Kh/189756927-258928419354629-5324966725450305500-n-(1).jpg', description: 'Adjustable pole.' },
-            // --- SHOES ---
             { id: 'shoe-dw', name: 'ເກີບຍ່າງປ່າ DOLWIS', price: 285000, category: 'shoes', image: 'https://i.postimg.cc/sfBG9SLs/138610223-160501245864014-7027706613102300070-n.jpg', description: 'Water Hiking Shoes.' },
             { id: 'shoe-ca', name: 'ເກີບ Camel Outdoor', price: 480000, category: 'shoes', image: 'https://i.postimg.cc/x8dRtdWr/156504538-198686892045449-5804187784067538216-n.jpg', description: 'Genuine Camel shoes.' },
             { id: 'shoe-tk', name: 'ເກີບ Tactical OKIY', price: 430000, category: 'shoes', image: 'https://i.postimg.cc/9fMZ6kLR/138641699-160501209197351-6659600786465323988-n.jpg', description: 'High cut tactical boots.' },
             { id: 'shoe-wt', name: 'ເກີບລຸຍນ້ຳ Water Shoes', price: 245000, category: 'shoes', image: 'https://i.postimg.cc/mD8zH6C3/Screenshot-2026-03-19-at-23-11-13.jpg', description: 'Breathable water shoes.' },
             { id: 'shoe-ls', name: 'ເກີບແຕະຫຸ້ມຫົວ ໜັງແທ້', price: 295000, category: 'shoes', image: 'https://i.postimg.cc/7Z9Y3q1L/image-d2bf20.png', description: 'Brown Leather sandals.' },
-            // --- CLOTH ---
             { id: 'cl-jkt', name: 'ເສື້ອກັນໜາວ Jeep Spirit', price: 360000, category: 'cloth', image: 'https://i.postimg.cc/Pf6VMy2k/Screenshot-2026-03-30-at-23-27-14.png', description: '100% Original Jeep Spirit Outdoor Jacket.' },
             { id: 'cl-pnt', name: 'ໂສ້ງຍ່າງປ່າ Jeep Spirit', price: 695000, category: 'cloth', image: 'https://i.postimg.cc/SsL6vSWt/Screenshot-2026-03-30-at-23-42-25.png', description: '100% Original Jeep Spirit Tactical Pants.' },
-            // --- GLASSES ---
             { id: 'gl-tac', name: 'ແວ່ນຕາກັນແດດ Tactical', price: 215000, category: 'Glasses', image: 'https://i.postimg.cc/fK0h3q0s/489751506-1424454392283349-8154752889413656228-n.jpg', description: 'Polarized sunglasses.' },
-            { id: 'gl-pol', name: 'ແວ່ນຕາກັນແດດ Polarized ຕັດແສງ', price: 215000, category: 'Glasses', image: 'https://i.postimg.cc/WzpgwYVF/Screenshot-2026-04-02-at-20-11-39.png', description: 'UV400 Anti-glare.' },
+            { id: 'gl-pol', name: 'ແວ່ນຕາກັນແດດ Polarized', price: 215000, category: 'Glasses', image: 'https://i.postimg.cc/WzpgwYVF/Screenshot-2026-04-02-at-20-11-39.png', description: 'UV400 Anti-glare.' },
             { id: 'gl-spo', name: 'ແວ່ນກັນແດດ Sports SP473', price: 75000, category: 'Glasses', image: 'https://i.postimg.cc/zBC4gvDn/Screenshot-2026-04-02-at-20-24-34.png', description: 'Sports Sunglasses SP473.' },
-            // --- POWER ---
             { id: 'pw-20k', name: 'Powerbank 20000mAh', price: 1750000, category: 'powerbank', image: 'https://i.postimg.cc/rmXbyyps/Screenshot-2026-04-02-at-00-52-06.png', description: 'UGREEN 20,000mAh PD 3.0.' },
             { id: 'pw-67w', name: 'UGREEN 67W 20,000mAh Power Bank', price: 1230000, category: 'powerbank', image: 'https://i.postimg.cc/ZYwbNSqK/Screenshot-2026-04-12-at-12-06-34.png', description: '⚡ UGREEN 67W: Fast charge for Laptops.' }
         ];
@@ -429,7 +417,7 @@
             { id: 'p03', name: 'Nam Ngum Peaks', province: 'VIENTIANE', image: 'https://i.postimg.cc/YCzbNjFr/156657757-198686858712119-7425055041363166372-n.jpg', description: 'Beautiful lake views and island camping.' }
         ];
 
-        // Global States
+        // Global Variables
         let products = [...SYSTEM_PRODUCTS];
         let blogs = [...SYSTEM_BLOGS];
         let places = [...SYSTEM_PLACES];
@@ -437,13 +425,23 @@
         let activeCat = 'all';
         let currentAdminTab = 'inventory';
         let editingId = null;
-        let db, auth, productCol, blogCol, placeCol, appId;
+        let db, auth, productCol, blogCol, placeCol;
         let secretClicks = 0;
+        let appId = 'thesale3-final-v14';
 
-        // Init App
+        // Core App Logic
         const startApp = async () => {
+            // Loading timeout to prevent infinite hang on Syncing Screen
+            const loaderTimeout = setTimeout(() => {
+                document.getElementById('init-loader').style.display = 'none';
+                renderStore(); renderBlogs(); renderPlaces();
+            }, 5000);
+
             const configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
-            if (!configStr) return setTimeout(startApp, 100);
+            if (!configStr) {
+                console.warn("Firebase Config not detected. Local storage mode enabled.");
+                return;
+            }
 
             try {
                 const firebaseConfig = JSON.parse(configStr);
@@ -452,54 +450,57 @@
                 auth = getAuth(app); 
                 db = getFirestore(app);
                 
+                // Set Collection References
                 productCol = collection(db, 'artifacts', appId, 'public', 'data', 'products');
                 blogCol = collection(db, 'artifacts', appId, 'public', 'data', 'blogs');
                 placeCol = collection(db, 'artifacts', appId, 'public', 'data', 'places');
 
+                // Sign In
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
                     await signInAnonymously(auth);
                 }
 
-                onAuthStateChanged(auth, (u) => {
-                    if (u) {
-                        onSnapshot(productCol, snap => {
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        // Success Callbacks
+                        const onData = (type, list, systemList, gridId, tableFn) => (snap) => {
                             const dbItems = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                            const sIds = SYSTEM_PRODUCTS.map(p => p.id);
-                            products = [...SYSTEM_PRODUCTS, ...dbItems.filter(p => !sIds.includes(p.id))]; 
-                            renderStore(); renderAdminTable(); updateCartCount();
+                            const sIds = systemList.map(item => item.id);
+                            const merged = [...systemList, ...dbItems.filter(item => !sIds.includes(item.id))];
+                            
+                            if(type === 'p') products = merged;
+                            if(type === 'b') blogs = merged;
+                            if(type === 'pl') places = merged;
+
+                            clearTimeout(loaderTimeout);
                             document.getElementById('init-loader').style.display = 'none';
-                        });
-                        onSnapshot(blogCol, snap => {
-                            const dbItems = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                            const sIds = SYSTEM_BLOGS.map(b => b.id);
-                            blogs = [...SYSTEM_BLOGS, ...dbItems.filter(b => !sIds.includes(b.id))]; 
-                            renderBlogs(); renderAdminTable();
-                        });
-                        onSnapshot(placeCol, snap => {
-                            const dbItems = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                            const sIds = SYSTEM_PLACES.map(p => p.id);
-                            places = [...SYSTEM_PLACES, ...dbItems.filter(p => !sIds.includes(p.id))]; 
-                            renderPlaces(); renderAdminTable();
-                        });
+                            
+                            if(gridId) window[gridId]();
+                            if(tableFn && currentAdminTab === type) renderAdminTable();
+                        };
+
+                        const onError = (msg) => (err) => {
+                            console.error(msg, err);
+                            document.getElementById('init-loader').style.display = 'none';
+                        };
+
+                        onSnapshot(productCol, onData('p', products, SYSTEM_PRODUCTS, 'renderStore', true), onError("Prod Error"));
+                        onSnapshot(blogCol, onData('b', blogs, SYSTEM_BLOGS, 'renderBlogs', true), onError("Blog Error"));
+                        onSnapshot(placeCol, onData('pl', places, SYSTEM_PLACES, 'renderPlaces', true), onError("Place Error"));
                     }
                 });
-            } catch (err) { console.error(err); document.getElementById('init-loader').style.display='none'; }
+            } catch (err) { 
+                console.error("Initialization failed:", err);
+                document.getElementById('init-loader').style.display = 'none';
+            }
         };
 
-        // Customer UI Logic
-        window.scrollToId = (id) => document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        window.filterBy = (cat, btn) => {
-            activeCat = cat;
-            document.querySelectorAll('.category-pill').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderStore();
-        };
-        window.runFilter = () => renderStore();
-
-        function renderStore() {
+        // Render Functions
+        window.renderStore = () => {
             const grid = document.getElementById('productGrid');
+            if(!grid) return;
             const search = document.getElementById('searchInput').value.toLowerCase();
             const filtered = products.filter(p => (activeCat === 'all' || p.category === activeCat) && p.name.toLowerCase().includes(search));
             grid.innerHTML = filtered.map(p => `
@@ -515,62 +516,39 @@
                         </div>
                     </div>
                 </div>`).join('');
-        }
+        };
 
-        function renderBlogs() {
-            document.getElementById('blogGrid').innerHTML = blogs.map(b => `
+        window.renderBlogs = () => {
+            const grid = document.getElementById('blogGrid');
+            if(!grid) return;
+            grid.innerHTML = blogs.map(b => `
                 <div class="flex flex-col group slide-up cursor-pointer">
                     <div class="h-64 rounded-[32px] overflow-hidden mb-6"><img src="${b.image}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700"></div>
                     <span class="text-emerald-600 text-[10px] font-black uppercase mb-2">${b.date}</span>
                     <h3 class="text-xl font-black text-[#1B3022] mb-3">${b.title}</h3>
                     <p class="text-gray-400 text-sm line-clamp-2">${b.excerpt}</p>
                 </div>`).join('');
-        }
+        };
 
-        function renderPlaces() {
-            document.getElementById('placesGrid').innerHTML = places.map(p => `
-                <div class="relative h-[450px] rounded-[40px] overflow-hidden group shadow-xl">
+        window.renderPlaces = () => {
+            const grid = document.getElementById('placesGrid');
+            if(!grid) return;
+            grid.innerHTML = places.map(p => `
+                <div class="relative h-[450px] rounded-[40px] overflow-hidden group shadow-xl slide-up">
                     <img src="${p.image}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent p-12 flex flex-col justify-end">
                         <span class="text-emerald-400 text-[10px] font-black uppercase mb-3">${p.province}</span>
                         <h3 class="text-white text-3xl font-black uppercase tracking-tighter">${p.name}</h3>
                     </div>
                 </div>`).join('');
-        }
-
-        window.openDetail = (id) => {
-            const p = products.find(x => x.id === id);
-            if (!p) return;
-            document.getElementById('detImg').src = p.image;
-            document.getElementById('detTitle').innerText = p.name;
-            document.getElementById('detCat').innerText = catMap[p.category] || p.category;
-            document.getElementById('detPrice').innerText = `${Number(p.price).toLocaleString()} LAK`;
-            document.getElementById('detDesc').innerText = p.description;
-            
-            // Individual WhatsApp inquiry also updated with price info
-            document.getElementById('waBtn').href = `https://wa.me/8562054849393?text=${encodeURIComponent("ສະບາຍດີ! ຂ້ອຍສົນໃຈສິນຄ້ານີ້:\n" + p.name + " (ລາຄາ: " + p.price.toLocaleString() + " LAK)")}`;
-            
-            document.getElementById('addCartBtn').onclick = () => addToCart(p.id);
-            document.getElementById('productModal').style.display = 'flex';
         };
-        window.closeDetail = () => document.getElementById('productModal').style.display = 'none';
 
-        // Auth & Admin
-        window.handleSecretClick = () => { if(++secretClicks >= 5) { secretClicks=0; document.getElementById('loginModal').style.display='flex'; } };
-        window.closeLogin = () => document.getElementById('loginModal').style.display = 'none';
-        window.login = () => {
-            if(document.getElementById('passInput').value === "Mou54849393") {
-                document.getElementById('customer-view').classList.remove('active');
-                document.getElementById('admin-view').classList.add('active');
-                closeLogin(); switchAdminTab('inventory');
-            } else showToast("Incorrect Code.");
-        };
-        window.exitAdmin = () => { document.getElementById('admin-view').classList.remove('active'); document.getElementById('customer-view').classList.add('active'); };
-
+        // Admin Table Logic
         window.switchAdminTab = (tab) => {
             currentAdminTab = tab; editingId = null;
             document.querySelectorAll('.admin-nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('tab-' + tab).classList.add('active');
+            
             const title = document.getElementById('adminTitle');
             const addBtn = document.getElementById('adminAddBtn');
             const header = document.getElementById('adminTableHeader');
@@ -596,7 +574,9 @@
 
         function renderAdminTable() {
             const body = document.getElementById('adminTableBody');
+            if(!body) return;
             body.innerHTML = '';
+
             if(currentAdminTab === 'inventory') {
                 body.innerHTML = products.map(p => {
                     const isSys = SYSTEM_PRODUCTS.some(sp => sp.id === p.id);
@@ -642,7 +622,101 @@
             }
         }
 
-        // Dashboard Forms
+        // Action Handlers
+        window.saveProduct = async () => {
+            const data = {
+                name: document.getElementById('formName').value,
+                price: Number(document.getElementById('formPrice').value),
+                category: document.getElementById('formCat').value,
+                image: document.getElementById('formImg').value,
+                description: document.getElementById('formDesc').value,
+                updatedAt: new Date().toISOString()
+            };
+            if(!data.name || !data.price) return showToast("Required data missing.");
+            if(!db) return showToast("Database offline.");
+            
+            const btn = document.getElementById('saveBtn'); 
+            btn.disabled = true;
+            try {
+                if(editingId && !SYSTEM_PRODUCTS.some(sp => sp.id === editingId)) {
+                    await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'products', editingId), data);
+                    showToast("Cloud sync complete.");
+                } else if (!editingId) {
+                    await addDoc(productCol, {...data, createdAt: new Date().toISOString()});
+                    showToast("Added to catalog.");
+                } else {
+                    showToast("System item - edit locally only.");
+                }
+                toggleProductForm();
+            } catch(e) { showToast("Sync error."); console.error(e); } finally { btn.disabled = false; }
+        };
+
+        window.saveBlog = async () => {
+            const data = {
+                title: document.getElementById('blogName').value,
+                date: document.getElementById('blogDate').value,
+                image: document.getElementById('blogImg').value,
+                excerpt: document.getElementById('blogExcerpt').value,
+                content: document.getElementById('blogDesc').value,
+                updatedAt: new Date().toISOString()
+            };
+            if(!data.title || !db) return showToast("Error saving.");
+            try {
+                if(editingId && !SYSTEM_BLOGS.some(sb => sb.id === editingId)) {
+                    await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blogs', editingId), data);
+                } else if (!editingId) {
+                    await addDoc(blogCol, {...data, createdAt: new Date().toISOString()});
+                }
+                toggleBlogForm(); showToast("Published.");
+            } catch(e) { showToast("Sync error."); }
+        };
+
+        window.savePlace = async () => {
+            const data = {
+                name: document.getElementById('placeName').value,
+                province: document.getElementById('placeProv').value,
+                image: document.getElementById('placeImg').value,
+                description: document.getElementById('placeDesc').value,
+                updatedAt: new Date().toISOString()
+            };
+            if(!data.name || !db) return showToast("Error saving.");
+            try {
+                if(editingId && !SYSTEM_PLACES.some(sp => sp.id === editingId)) {
+                    await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'places', editingId), data);
+                } else if (!editingId) {
+                    await addDoc(placeCol, {...data, createdAt: new Date().toISOString()});
+                }
+                togglePlaceForm(); showToast("Location saved.");
+            } catch(e) { showToast("Sync error."); }
+        };
+
+        window.deleteDocById = async (col, id) => {
+            if(!db) return showToast("Database offline.");
+            if(confirm(`Remove this item permanently?`)) {
+                try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', col, id)); showToast("Deleted."); } catch(e) { showToast("Error."); }
+            }
+        };
+
+        // Utility: WhatsApp Logic
+        window.checkout = () => { 
+            if(cart.length===0) return; 
+            let totalCost = 0;
+            let m = "ສະບາຍດີ! ຂ້ອຍຕ້ອງການສັ່ງຊື້ສິນຄ້າລຸ່ມນີ້:\n";
+            m += "Hello! I'd like to order the following items:\n\n";
+
+            cart.forEach(i => {
+                const subTotal = i.price * i.quantity;
+                totalCost += subTotal;
+                m += `• ${i.name}\n  ຈຳນວນ: ${i.quantity} x ${i.price.toLocaleString()} = ${subTotal.toLocaleString()} LAK\n\n`;
+            });
+
+            m += `--------------------------\n`;
+            m += `ຍອດລວມທັງໝົດ (Total Cost): ${totalCost.toLocaleString()} LAK`;
+
+            window.open(`https://wa.me/8562054849393?text=${encodeURIComponent(m)}`,'_blank'); 
+        };
+
+        // Modal Toggles
         window.toggleProductForm = () => { 
             const m = document.getElementById('formModal');
             if(m.style.display === 'none') {
@@ -677,6 +751,7 @@
             m.style.display = m.style.display === 'none' ? 'flex' : 'none'; 
         };
 
+        // Edit Loaders
         window.editProduct = (id) => {
             const p = products.find(x => x.id === id);
             if(!p) return;
@@ -710,79 +785,20 @@
             togglePlaceForm();
         };
 
-        window.saveProduct = async () => {
-            const data = {
-                name: document.getElementById('formName').value,
-                price: Number(document.getElementById('formPrice').value),
-                category: document.getElementById('formCat').value,
-                image: document.getElementById('formImg').value,
-                description: document.getElementById('formDesc').value,
-                updatedAt: new Date().toISOString()
-            };
-            if(!data.name || !data.price) return showToast("Required data missing.");
-            const btn = document.getElementById('saveBtn'); btn.disabled = true;
-            try {
-                if(editingId && !SYSTEM_PRODUCTS.some(sp => sp.id === editingId)) {
-                    await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'products', editingId), data);
-                    showToast("Cloud sync complete.");
-                } else if (editingId) {
-                    showToast("Local update only (System Item)");
-                } else {
-                    await addDoc(productCol, {...data, createdAt: new Date().toISOString()});
-                    showToast("Added to catalog.");
-                }
-                toggleProductForm();
-            } catch(e) { showToast("Sync error."); } finally { btn.disabled = false; }
+        // Other Helpers
+        window.openDetail = (id) => {
+            const p = products.find(x => x.id === id);
+            if (!p) return;
+            document.getElementById('detImg').src = p.image;
+            document.getElementById('detTitle').innerText = p.name;
+            document.getElementById('detCat').innerText = catMap[p.category] || p.category;
+            document.getElementById('detPrice').innerText = `${Number(p.price).toLocaleString()} LAK`;
+            document.getElementById('detDesc').innerText = p.description;
+            document.getElementById('waBtn').href = `https://wa.me/8562054849393?text=${encodeURIComponent("Interest: " + p.name)}`;
+            document.getElementById('addCartBtn').onclick = () => addToCart(p.id);
+            document.getElementById('productModal').style.display = 'flex';
         };
-
-        window.saveBlog = async () => {
-            const data = {
-                title: document.getElementById('blogName').value,
-                date: document.getElementById('blogDate').value,
-                image: document.getElementById('blogImg').value,
-                excerpt: document.getElementById('blogExcerpt').value,
-                content: document.getElementById('blogDesc').value,
-                updatedAt: new Date().toISOString()
-            };
-            if(!data.title) return showToast("Required title.");
-            const btn = document.getElementById('saveBlogBtn'); btn.disabled = true;
-            try {
-                if(editingId && !SYSTEM_BLOGS.some(sb => sb.id === editingId)) {
-                    await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'blogs', editingId), data);
-                } else if (!editingId) {
-                    await addDoc(blogCol, {...data, createdAt: new Date().toISOString()});
-                }
-                toggleBlogForm(); showToast("Synchronized.");
-            } catch(e) { showToast("Sync error."); } finally { btn.disabled = false; }
-        };
-
-        window.savePlace = async () => {
-            const data = {
-                name: document.getElementById('placeName').value,
-                province: document.getElementById('placeProv').value,
-                image: document.getElementById('placeImg').value,
-                description: document.getElementById('placeDesc').value,
-                updatedAt: new Date().toISOString()
-            };
-            if(!data.name) return showToast("Required name.");
-            const btn = document.getElementById('savePlaceBtn'); btn.disabled = true;
-            try {
-                if(editingId && !SYSTEM_PLACES.some(sp => sp.id === editingId)) {
-                    await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'places', editingId), data);
-                } else if (!editingId) {
-                    await addDoc(placeCol, {...data, createdAt: new Date().toISOString()});
-                }
-                togglePlaceForm(); showToast("Location updated.");
-            } catch(e) { showToast("Sync error."); } finally { btn.disabled = false; }
-        };
-
-        window.deleteDocById = async (col, id) => {
-            if(confirm(`Remove this item permanently?`)) {
-                try { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', col, id)); showToast("Deleted."); } catch(e) { showToast("Error."); }
-            }
-        };
-
-        // Cart Utility & WhatsApp Logic
+        window.closeDetail = () => document.getElementById('productModal').style.display = 'none';
         window.openCart = () => { renderCart(); document.getElementById('cartModal').style.display = 'flex'; };
         window.closeCart = () => document.getElementById('cartModal').style.display = 'none';
         window.addToCart = (id) => {
@@ -792,6 +808,7 @@
             if(ex) ex.quantity++; else cart.push({...p, quantity: 1});
             updateCartCount(); showToast("Added to basket.");
         };
+        window.updateQty = (id, d) => { const i = cart.find(x=>x.id===id); if(i){ i.quantity+=d; if(i.quantity<=0) cart=cart.filter(x=>x.id!==id); updateCartCount(); renderCart(); } };
         function updateCartCount() {
             const c = cart.reduce((s, i) => s + i.quantity, 0);
             const b = document.getElementById('cartCount');
@@ -809,27 +826,20 @@
             </div>`; }).join('');
             tl.innerText = `${sum.toLocaleString()} LAK`;
         }
-        window.updateQty = (id, d) => { const i = cart.find(x=>x.id===id); if(i){ i.quantity+=d; if(i.quantity<=0) cart=cart.filter(x=>x.id!==id); updateCartCount(); renderCart(); } };
         
-        // Detailed WhatsApp checkout with Totals
-        window.checkout = () => { 
-            if(cart.length===0) return; 
-            let totalCost = 0;
-            let m = "ສະບາຍດີ! ຂ້ອຍຕ້ອງການສັ່ງຊື້ສິນຄ້າລຸ່ມນີ້:\n";
-            m += "Hello! I'd like to order the following items:\n\n";
-
-            cart.forEach(i => {
-                const subTotal = i.price * i.quantity;
-                totalCost += subTotal;
-                m += `• ${i.name}\n  ຈຳນວນ: ${i.quantity} x ${i.price.toLocaleString()} = ${subTotal.toLocaleString()} LAK\n\n`;
-            });
-
-            m += `--------------------------\n`;
-            m += `ຍອດລວມທັງໝົດ (Total Cost): ${totalCost.toLocaleString()} LAK`;
-
-            window.open(`https://wa.me/8562054849393?text=${encodeURIComponent(m)}`,'_blank'); 
+        window.handleSecretClick = () => { if(++secretClicks >= 5) { secretClicks=0; document.getElementById('loginModal').style.display='flex'; } };
+        window.closeLogin = () => document.getElementById('loginModal').style.display = 'none';
+        window.login = () => {
+            if(document.getElementById('passInput').value === "Mou54849393") {
+                document.getElementById('customer-view').classList.remove('active');
+                document.getElementById('admin-view').classList.add('active');
+                closeLogin(); switchAdminTab('inventory');
+            } else showToast("Denied.");
         };
-
+        window.exitAdmin = () => { document.getElementById('admin-view').classList.remove('active'); document.getElementById('customer-view').classList.add('active'); };
+        window.filterBy = (cat, btn) => { activeCat=cat; document.querySelectorAll('.category-pill').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderStore(); };
+        window.runFilter = () => renderStore();
+        window.scrollToId = (id) => document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         window.showToast = (m) => { const t = document.getElementById('toast'); t.innerText = m; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 3000); };
         
         document.addEventListener('DOMContentLoaded', startApp);
